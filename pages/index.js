@@ -15,7 +15,7 @@ export default function Home() {
 
 // TODO: CRUD
 
-// C -> POST  /campgrounds       ❌
-// R -> GET   /campgrounds       ❌
+// C -> POST  /campgrounds       ✅
+// R -> GET   /campgrounds       ✅
 // U -> PATCH /campgrounds/[id]  ❌
 // D -> DELETE /campgrounds/[id] ❌

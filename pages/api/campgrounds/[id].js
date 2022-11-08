@@ -14,4 +14,13 @@ export default async function handler(req, res) {
     // Return data with status 200
     return res.status(200).json(campground)
   }
+  // For DELETE req
+  if (req.method === 'DELETE') {
+    // Get the campground id
+    const { id } = req.query
+    // Delete the campground
+    const deletedCampground = await Campground.findByIdAndDelete(id)
+    // Return the deleted campground with status 200
+    return res.status(200).json(deletedCampground)
+  }
 }

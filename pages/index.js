@@ -18,4 +18,4 @@ export default function Home() {
 // C -> POST  /campgrounds       ✅
 // R -> GET   /campgrounds       ✅
 // U -> PATCH /campgrounds/[id]  ✅
-// D -> DELETE /campgrounds/[id] ❌
+// D -> DELETE /campgrounds/[id] ✅

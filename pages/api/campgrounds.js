@@ -11,6 +11,6 @@ export default async function handler(req, res) {
     // Create a new Campground
     const campground = await Campground.create(req.body)
     // Send the data back with status 200
-    res.status(200).json(campground)
+    return res.status(200).json(campground)
   }
 }

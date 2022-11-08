@@ -1,5 +1,5 @@
-import connectDB from '../../util/mongo'
-import Campground from '../../models/Campground'
+import connectDB from '../../../util/mongo'
+import Campground from '../../../models/Campground'
 
 export default async function handler(req, res) {
   // Connect to databse

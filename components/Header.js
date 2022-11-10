@@ -3,6 +3,7 @@ import Link from 'next/link'
 import logo from '../public/logo.png'
 import { IoMenu, IoClose } from 'react-icons/io5'
 import { useState } from 'react'
+import LinkButton from './LinkButton'
 
 const Header = () => {
   const [isNavOpen, setIsNavOpen] = useState(false)
@@ -50,12 +51,7 @@ const Header = () => {
           <Link href={'#'} className='w-max'>
             Login
           </Link>
-          <Link
-            href={'#'}
-            className='w-max bg-brand text-secondaryBg py-3 px-7 rounded-lg hover:bg-transparent hover:text-secondaryBg border-2 border-transparent hover:border-secondaryBg transition-colors'
-          >
-            Sign Up
-          </Link>
+          <LinkButton text='Sign Up' linkTo={'#'} />
         </div>
       </nav>
     </header>

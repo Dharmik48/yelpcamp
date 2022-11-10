@@ -38,13 +38,19 @@ const Header = () => {
         />
         <ul className='flex flex-col gap-8 px-10 w-full md:flex-row md:px-0 md:w-auto lg:gap-12'>
           <li className='transition-colors border-b-2 border-transparent hover:border-b-secondaryBg hover:border-b-2'>
-            <Link href={'/'}>Home</Link>
+            <Link href={'/'} onClick={() => setIsNavOpen(false)}>
+              Home
+            </Link>
           </li>
           <li className='transition-colors border-b-2 border-transparent hover:border-b-secondaryBg hover:border-b-2'>
-            <Link href={'/campgrounds'}>Campgrounds</Link>
+            <Link href={'/campgrounds'} onClick={() => setIsNavOpen(false)}>
+              Campgrounds
+            </Link>
           </li>
           <li className='transition-colors border-b-2 border-transparent hover:border-b-secondaryBg hover:border-b-2'>
-            <Link href={'/campgrounds/new'}>Add Campground</Link>
+            <Link href={'/campgrounds/new'} onClick={() => setIsNavOpen(false)}>
+              Add Campground
+            </Link>
           </li>
         </ul>
         <div className='flex flex-col gap-8 px-10 w-full md:w-auto text-secondaryBg md:text-brand text font-medium md:flex-row md:items-center'>

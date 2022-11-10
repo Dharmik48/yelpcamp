@@ -6,6 +6,8 @@ import { getCampground, getCampgrounds } from '../../../util/campgrounds'
 const EditCampground = ({ campground }) => {
   const router = useRouter()
 
+  if (router.isFallback) return <h1>Loading...</h1>
+
   const handleSubmit = async data => {
     await axios.patch(`/api/campgrounds/${campground._id}`, data)
     router.push('/campgrounds')

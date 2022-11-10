@@ -7,6 +7,8 @@ import { getCampgrounds, getCampground } from '../../../util/campgrounds'
 const CampgroundDetail = ({ campground }) => {
   const router = useRouter()
 
+  if (router.isFallback) return <h1>Loading...</h1>
+
   const deleteCampground = async () => {
     await axios.delete(`/api/campgrounds/${campground._id}`)
     router.push('/campgrounds')

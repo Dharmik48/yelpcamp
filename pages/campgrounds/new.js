@@ -1,15 +1,9 @@
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { useRef } from 'react'
-import Button from '../../components/Button'
 import Form from '../../components/Form'
 
 const NewCampground = () => {
   const router = useRouter()
-
-  const nameRef = useRef()
-  const descRef = useRef()
-  const priceRef = useRef()
 
   const addCampground = async data => {
     await axios.post('/api/campgrounds', data)

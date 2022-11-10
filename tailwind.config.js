@@ -15,10 +15,11 @@ module.exports = {
       text: '#444444',
       primaryBg: '#FEFCFB',
       secondaryBg: '#F7F8FC',
+      transparent: 'transparent',
     },
     fontFamily: {
       volkhov: ['Volkhov', 'Poppins', 'serif'],
-      poppins: ['Volkhov', 'serif'],
+      poppins: ['Poppins', 'serif'],
     },
   },
   plugins: [],

@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import Button from '../../../components/Button'
@@ -15,13 +16,20 @@ const CampgroundDetail = ({ campground }) => {
   }
 
   return (
+    <>
+    <Head>
+      <title>YelpCamp | {campground.name}</title>
+    </Head>
     <section className='px-10 md:px-20 mt-10'>
       <h2 className='font-volkhov text-3xl mb-10'>{campground.name}</h2>
       <p>{campground.desc}</p>
-      <p>${campground.price}</p>
-      <LinkButton text='Edit' linkTo={`/campgrounds/${campground._id}/edit`} />
-      <Button text='Delete' danger='true' handleClick={deleteCampground} />
+      <p className='mb-4'>${campground.price}</p>
+      <div className='flex gap-4'>
+        <LinkButton text='Edit' linkTo={`/campgrounds/${campground._id}/edit`} />
+        <Button text='Delete' danger='true' handleClick={deleteCampground} />
+      </div>
     </section>
+    </>
   )
 }
 

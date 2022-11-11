@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import Link from 'next/link'
 import { getCampgrounds } from '../../util/campgrounds'
 
@@ -14,10 +15,15 @@ const Campgrounds = ({ campgrounds }) => {
   ))
 
   return (
+    <>
+    <Head>
+      <title>YelpCamp | All Campgrounds</title>
+    </Head>
     <section className='px-10 md:px-20 mt-10'>
       <h2 className='font-volkhov text-3xl mb-10'>All Campgrounds</h2>
       <ul className='grid gap-4'>{renderCampgrounds}</ul>
     </section>
+    </>
   )
 }
 

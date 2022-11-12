@@ -15,7 +15,19 @@ module.exports = {
       text: '#444444',
       primaryBg: '#FEFCFB',
       secondaryBg: '#F7F8FC',
+      lightBlue: '#eff0f6',
       transparent: 'transparent',
+    },
+    extend: {
+      width: {
+        sm: '24rem',
+        md: '28rem',
+        lg: '32rem',
+        xl: '36rem',
+        '2xl': '48rem',
+        '3xl': '56rem',
+        '4xl': '64rem'
+      },
     },
     fontFamily: {
       volkhov: ['Volkhov', 'Poppins', 'serif'],

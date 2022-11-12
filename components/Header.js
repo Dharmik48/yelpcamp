@@ -72,7 +72,7 @@ const Header = () => {
   }
 
   return (
-    <header className='bg-white sticky top-0 z-10 pb-6 lg:pb-0'>
+    <header className='sticky top-0 z-10 bg-primaryBg lg:pb-0'>
       {/* <!-- lg+ --> */}
       <nav className='flex h-16 items-center justify-between lg:h-24'>
         <div className='flex-shrink-0'>

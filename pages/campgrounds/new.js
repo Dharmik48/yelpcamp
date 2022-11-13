@@ -31,7 +31,7 @@ const NewCampground = () => {
         </div>
         <Image
           src={illustration}
-          className='hidden max-w-[50%] flex-1 self-end lg:block'
+          className='hidden max-w-[50%] flex-1 self-center lg:block'
           alt='man campging'
         />
       </section>

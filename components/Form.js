@@ -45,7 +45,7 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
         ref={descRef}
       />
       <div className='flex max-w-full items-center rounded-xl bg-lightBlue pl-5 focus-within:outline focus-within:outline-2 focus-within:outline-brand'>
-        <FaDollarSign className=' text-dark' />
+        <FaDollarSign className='text-dark' />
         <input
           type='number'
           name='price'

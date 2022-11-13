@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import Form from '../../components/Form'
 import Image from 'next/image'
 import illustration from '../../public/camping.svg'
+import { FaCampground } from 'react-icons/fa'
 
 const NewCampground = () => {
   const router = useRouter()
@@ -20,7 +21,8 @@ const NewCampground = () => {
       </Head>
       <section className='flex items-center gap-16 py-12'>
         <div className='mx-auto max-w-full lg:mx-0 lg:flex-1'>
-          <h3 className='mb-8 text-left font-volkhov text-2xl font-bold md:text-3xl lg:text-4xl'>
+          <h3 className='mb-8 flex items-center gap-2 text-left font-volkhov text-2xl font-bold md:gap-4 md:text-3xl lg:text-4xl'>
+            <FaCampground />
             Add a Campground
           </h3>
           <Form

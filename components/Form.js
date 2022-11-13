@@ -11,7 +11,7 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
 
   const [previewImgs, setPreviewImgs] = useState([])
   const [isImageDragged, setIsImageDragged] = useState(false)
-  console.log(previewImgs)
+
   useEffect(() => {
     if (!data) return
     nameRef.current.value = data.name
@@ -35,7 +35,6 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
 
     const images = Array.from(e.target.files)
 
-    console.log(images)
     const imgUrls = images.map(img => ({
       url: URL.createObjectURL(img),
       name: img.name,

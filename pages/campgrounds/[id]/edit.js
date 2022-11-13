@@ -16,15 +16,15 @@ const EditCampground = ({ campground }) => {
 
   return (
     <>
-    <Head>
-      <title>YelpCamp | Edit {campground.name}</title>
-    </Head>
-    <section className='text-dark px-10 mt-5 md:mt-10 lg:px-20 flex flex-col gap-8 items-center'>
-      <h3 className='font-volkhov max-w-max text-xl md:text-2xl'>
-        Edit {campground.name}
-      </h3>
-      <Form btnText='Done' data={campground} submitForm={handleSubmit} />
-    </section>
+      <Head>
+        <title>YelpCamp | Edit {campground.name}</title>
+      </Head>
+      <section className='mt-5 flex flex-col items-center gap-8 px-10 text-dark md:mt-10 lg:px-20'>
+        <h3 className='max-w-max font-volkhov text-xl md:text-2xl'>
+          Edit {campground.name}
+        </h3>
+        <Form btnText='Done' data={campground} submitForm={handleSubmit} />
+      </section>
     </>
   )
 }

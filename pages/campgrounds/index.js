@@ -16,13 +16,13 @@ const Campgrounds = ({ campgrounds }) => {
 
   return (
     <>
-    <Head>
-      <title>YelpCamp | All Campgrounds</title>
-    </Head>
-    <section className='px-10 md:px-20 mt-10'>
-      <h2 className='font-volkhov text-3xl mb-10'>All Campgrounds</h2>
-      <ul className='grid gap-4'>{renderCampgrounds}</ul>
-    </section>
+      <Head>
+        <title>YelpCamp | All Campgrounds</title>
+      </Head>
+      <section className=''>
+        <h2 className='mb-10 font-volkhov text-3xl'>All Campgrounds</h2>
+        <ul className='grid gap-4'>{renderCampgrounds}</ul>
+      </section>
     </>
   )
 }

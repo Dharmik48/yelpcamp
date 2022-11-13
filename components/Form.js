@@ -11,7 +11,7 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
 
   const [previewImgs, setPreviewImgs] = useState([])
   const [isImageDragged, setIsImageDragged] = useState(false)
-
+  console.log(previewImgs)
   useEffect(() => {
     if (!data) return
     nameRef.current.value = data.name
@@ -30,7 +30,7 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
     submitForm(data)
   }
 
-  async function showImgPreview(e) {
+  const showImgPreview = async e => {
     if (!e.target.files[0]) return
 
     const images = Array.from(e.target.files)
@@ -43,19 +43,34 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
     setPreviewImgs(imgUrls)
   }
 
-  const renderPreviewImgs = previewImgs.map(previewImg => (
-    <div className='group relative w-full rounded-xl pb-5'>
-      <Image
+  const removePreviewImage = img => {
+    setPreviewImgs(currPreviewImgs =>
+      currPreviewImgs.filter(previewImg => previewImg.name != img.name)
+    )
+  }
+
+  const renderPreviewImgs =
+    previewImgs.length > 0 &&
+    previewImgs.map(previewImg => (
+      <div
+        className='group relative w-full rounded-xl pb-5'
         key={previewImg.name}
-        src={previewImg.url}
-        width='100'
-        height='100'
-        className='w-full rounded-xl'
-        alt={previewImg.name}
-      ></Image>
-      <IoClose className='absolute top-5 right-5 cursor-pointer rounded-full bg-lightBlue p-[2px] text-2xl transition-transform lg:scale-0 lg:group-hover:scale-100' />
-    </div>
-  ))
+      >
+        <Image
+          src={previewImg.url}
+          width='100'
+          height='100'
+          className='w-full rounded-xl'
+          alt={previewImg.name}
+        ></Image>
+        <IoClose
+          role='button'
+          title='Remove Image'
+          className='absolute top-5 right-5 cursor-pointer rounded-full bg-lightBlue p-[2px] text-2xl transition-transform lg:scale-0 lg:group-hover:scale-100'
+          onClick={() => removePreviewImage(previewImg)}
+        />
+      </div>
+    ))
 
   return (
     <form

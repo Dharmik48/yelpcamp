@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Button from './Button'
 import { FaDollarSign } from 'react-icons/fa'
+import { IoClose } from 'react-icons/io5'
 import Image from 'next/image'
 
 const Form = ({ submitForm, btnText, data, className = '' }) => {
@@ -33,29 +34,27 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
     if (!e.target.files[0]) return
 
     const images = Array.from(e.target.files)
-    // const compressedImageFile = await compressImage(img)
 
-    // setImgFile(compressedImageFile)
     console.log(images)
     const imgUrls = images.map(img => ({
       url: URL.createObjectURL(img),
       name: img.name,
     }))
     setPreviewImgs(imgUrls)
-    // const url = URL.createObjectURL(compressedImageFile)
-    // setPreviewImgUrl(url)
-    // console.log(e.target)
   }
 
   const renderPreviewImgs = previewImgs.map(previewImg => (
-    <Image
-      key={previewImg.name}
-      src={previewImg.url}
-      width='100'
-      height='100'
-      className='mb-5 w-full rounded-xl'
-      alt={previewImg.name}
-    ></Image>
+    <div className='group relative w-full rounded-xl pb-5'>
+      <Image
+        key={previewImg.name}
+        src={previewImg.url}
+        width='100'
+        height='100'
+        className='w-full rounded-xl'
+        alt={previewImg.name}
+      ></Image>
+      <IoClose className='absolute top-5 right-5 cursor-pointer rounded-full bg-lightBlue p-[2px] text-2xl transition-transform lg:scale-0 lg:group-hover:scale-100' />
+    </div>
   ))
 
   return (
@@ -115,7 +114,7 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
         </label>
         <div
           className={`${
-            !!(previewImgs.length > 0) && 'p-5'
+            !!(previewImgs.length > 0) && 'px-5 pt-5'
           } gap-5 md:columns-2`}
         >
           {renderPreviewImgs}

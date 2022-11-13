@@ -1,11 +1,15 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Button from './Button'
 import { FaDollarSign } from 'react-icons/fa'
+import Image from 'next/image'
 
 const Form = ({ submitForm, btnText, data, className = '' }) => {
   const nameRef = useRef()
   const descRef = useRef()
   const priceRef = useRef()
+
+  const [previewImgs, setPreviewImgs] = useState([])
+  const [isImageDragged, setIsImageDragged] = useState(false)
 
   useEffect(() => {
     if (!data) return
@@ -25,6 +29,35 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
     submitForm(data)
   }
 
+  async function showImgPreview(e) {
+    if (!e.target.files[0]) return
+
+    const images = Array.from(e.target.files)
+    // const compressedImageFile = await compressImage(img)
+
+    // setImgFile(compressedImageFile)
+    console.log(images)
+    const imgUrls = images.map(img => ({
+      url: URL.createObjectURL(img),
+      name: img.name,
+    }))
+    setPreviewImgs(imgUrls)
+    // const url = URL.createObjectURL(compressedImageFile)
+    // setPreviewImgUrl(url)
+    // console.log(e.target)
+  }
+
+  const renderPreviewImgs = previewImgs.map(previewImg => (
+    <Image
+      key={previewImg.name}
+      src={previewImg.url}
+      width='100'
+      height='100'
+      className='mb-5 w-full rounded-xl'
+      alt={previewImg.name}
+    ></Image>
+  ))
+
   return (
     <form
       className={`${className} flex flex-col gap-4`}
@@ -37,40 +70,58 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
         className='rounded-xl bg-lightBlue p-5 focus:outline focus:outline-2 focus:outline-brand'
         ref={nameRef}
       />
-      <label
-        htmlFor='image'
-        className='flex cursor-pointer justify-between rounded-xl bg-lightBlue p-5 text-dark focus:outline focus:outline-2 focus:outline-brand'
-      >
-        Upload an image
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          className='icon icon-tabler icon-tabler-photo-plus text-dark'
-          width='24'
-          height='24'
-          viewBox='0 0 24 24'
-          stroke-width='2'
-          stroke='currentColor'
-          fill='none'
-          stroke-linecap='round'
-          stroke-linejoin='round'
+      <div className='rounded-xl bg-lightBlue'>
+        <label
+          htmlFor='image'
+          className={`relative flex w-full cursor-pointer justify-between rounded-xl bg-lightBlue p-5 text-dark outline-2 focus-within:outline focus-within:outline-brand ${
+            !!isImageDragged && 'italic outline-dashed outline-brand'
+          }`}
+          onDragEnter={() => setIsImageDragged(true)}
+          onDragExit={() => setIsImageDragged(false)}
+          onDrop={() => setIsImageDragged(false)}
         >
-          <path stroke='none' d='M0 0h24v24H0z' fill='none'></path>
-          <path d='M15 8h.01'></path>
-          <path d='M12 20h-5a3 3 0 0 1 -3 -3v-10a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v5'></path>
-          <path d='M4 15l4 -4c.928 -.893 2.072 -.893 3 0l4 4'></path>
-          <path d='M14 14l1 -1c.617 -.593 1.328 -.793 2.009 -.598'></path>
-          <path d='M16 19h6'></path>
-          <path d='M19 16v6'></path>
-        </svg>
-      </label>
-      <input
-        id='image'
-        type='file'
-        name='name'
-        placeholder='Enter the name'
-        className='hidden'
-        ref={nameRef}
-      />
+          {isImageDragged ? 'Drop here' : 'Choose or Drag images'}
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            className='icon icon-tabler icon-tabler-photo-plus text-dark'
+            width='24'
+            height='24'
+            viewBox='0 0 24 24'
+            strokeWidth='2'
+            stroke='currentColor'
+            fill='none'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+          >
+            <path stroke='none' d='M0 0h24v24H0z' fill='none'></path>
+            <path d='M15 8h.01'></path>
+            <path d='M12 20h-5a3 3 0 0 1 -3 -3v-10a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v5'></path>
+            <path d='M4 15l4 -4c.928 -.893 2.072 -.893 3 0l4 4'></path>
+            <path d='M14 14l1 -1c.617 -.593 1.328 -.793 2.009 -.598'></path>
+            <path d='M16 19h6'></path>
+            <path d='M19 16v6'></path>
+          </svg>
+          <input
+            id='image'
+            type='file'
+            name='name'
+            placeholder='Upload an image'
+            className='absolute top-0 left-0 h-full w-full rounded-xl opacity-0'
+            accept='image/*'
+            multiple
+            ref={nameRef}
+            onChange={showImgPreview}
+          />
+        </label>
+        <div
+          className={`${
+            !!(previewImgs.length > 0) && 'p-5'
+          } gap-5 md:columns-2`}
+        >
+          {renderPreviewImgs}
+        </div>
+      </div>
+
       <textarea
         name='desc'
         rows='10'

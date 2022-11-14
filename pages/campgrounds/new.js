@@ -5,12 +5,28 @@ import Form from '../../components/Form'
 import Image from 'next/image'
 import illustration from '../../public/camping.svg'
 import { FaCampground } from 'react-icons/fa'
+import { storage } from '../../util/firebase'
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import { v4 } from 'uuid'
 
 const NewCampground = () => {
   const router = useRouter()
 
-  const addCampground = async data => {
-    await axios.post('/api/campgrounds', data)
+  const uploadAndGetImgUrls = async images => {
+    return await Promise.all(
+      images.map(async img => {
+        const imageId = v4()
+        const imgRef = ref(storage, `images/${imageId}`)
+        await uploadBytes(imgRef, img)
+
+        return await getDownloadURL(imgRef)
+      })
+    )
+  }
+
+  const addCampground = async (data, images) => {
+    const imgUrls = await uploadAndGetImgUrls(images)
+    await axios.post('/api/campgrounds', { ...data })
     router.push('/campgrounds')
   }
 

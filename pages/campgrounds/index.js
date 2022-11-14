@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import Image from 'next/image'
 import { getCampgrounds } from '../../util/campgrounds'
 
 const Campgrounds = ({ campgrounds }) => {
@@ -7,6 +8,12 @@ const Campgrounds = ({ campgrounds }) => {
   const renderCampgrounds = campgrounds.map(campground => (
     <li key={campground._id}>
       <h2 className='text-2xl'>{campground.name}</h2>
+      <Image
+        src={campground.images[0]}
+        width='150'
+        height='150'
+        className='h-auto'
+      />
       <p>$ {campground.price}</p>
       <Link href={`/campgrounds/${campground._id}`} className='text-blue'>
         View More

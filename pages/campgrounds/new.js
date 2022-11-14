@@ -17,7 +17,7 @@ const NewCampground = () => {
       images.map(async img => {
         const imageId = v4()
         const imgRef = ref(storage, `images/${imageId}`)
-        await uploadBytes(imgRef, img)
+        await uploadBytes(imgRef, img.file)
 
         return await getDownloadURL(imgRef)
       })
@@ -26,7 +26,8 @@ const NewCampground = () => {
 
   const addCampground = async (data, images) => {
     const imgUrls = await uploadAndGetImgUrls(images)
-    await axios.post('/api/campgrounds', { ...data })
+    console.log(imgUrls)
+    await axios.post('/api/campgrounds', { ...data, images: imgUrls })
     router.push('/campgrounds')
   }
 

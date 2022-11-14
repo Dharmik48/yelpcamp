@@ -11,7 +11,7 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
 
   const [imageFiles, setImageFiles] = useState([])
   const [isImageDragged, setIsImageDragged] = useState(false)
-
+  console.log(imageFiles)
   useEffect(() => {
     if (!data) return
     nameRef.current.value = data.name
@@ -37,9 +37,7 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
     const files = Array.from(e.target.files)
 
     const imgs = files.map(file => ({
-      name: file.name,
-      size: file.size,
-      type: file.type,
+      file,
       previewUrl: URL.createObjectURL(file),
     }))
 
@@ -48,7 +46,7 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
 
   const removePreviewImage = img => {
     setImageFiles(currImageFiles =>
-      currImageFiles.filter(imgFile => imgFile.name != img.name)
+      currImageFiles.filter(imgFile => imgFile.file.name != img.file.name)
     )
   }
 
@@ -56,13 +54,16 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
     if (imageFiles.length <= 0) return
 
     return imageFiles.map(img => (
-      <div className='group relative w-full rounded-xl pb-5' key={img.name}>
+      <div
+        className='group relative w-full rounded-xl pb-5'
+        key={img.file.name}
+      >
         <Image
           src={img.previewUrl}
           width='100'
           height='100'
           className='w-full rounded-xl'
-          alt={img.name}
+          alt={img.file.name}
         ></Image>
         <IoClose
           role='button'

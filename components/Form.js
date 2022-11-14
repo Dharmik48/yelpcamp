@@ -9,7 +9,7 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
   const descRef = useRef()
   const priceRef = useRef()
 
-  const [previewImgs, setPreviewImgs] = useState([])
+  const [imageFiles, setImageFiles] = useState([])
   const [isImageDragged, setIsImageDragged] = useState(false)
 
   useEffect(() => {
@@ -27,49 +27,52 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
       desc: descRef.current.value,
       price: priceRef.current.value,
     }
-    submitForm(data)
+    console.log(data)
+    submitForm(data, imageFiles)
   }
 
   const showImgPreview = async e => {
     if (!e.target.files[0]) return
 
-    const images = Array.from(e.target.files)
+    const files = Array.from(e.target.files)
 
-    const imgUrls = images.map(img => ({
-      url: URL.createObjectURL(img),
-      name: img.name,
+    const imgs = files.map(file => ({
+      name: file.name,
+      size: file.size,
+      type: file.type,
+      previewUrl: URL.createObjectURL(file),
     }))
-    setPreviewImgs(imgUrls)
+
+    setImageFiles(imgs)
   }
 
   const removePreviewImage = img => {
-    setPreviewImgs(currPreviewImgs =>
-      currPreviewImgs.filter(previewImg => previewImg.name != img.name)
+    setImageFiles(currImageFiles =>
+      currImageFiles.filter(imgFile => imgFile.name != img.name)
     )
   }
 
-  const renderPreviewImgs =
-    previewImgs.length > 0 &&
-    previewImgs.map(previewImg => (
-      <div
-        className='group relative w-full rounded-xl pb-5'
-        key={previewImg.name}
-      >
+  const renderPreviewImgs = () => {
+    if (imageFiles.length <= 0) return
+
+    return imageFiles.map(img => (
+      <div className='group relative w-full rounded-xl pb-5' key={img.name}>
         <Image
-          src={previewImg.url}
+          src={img.previewUrl}
           width='100'
           height='100'
           className='w-full rounded-xl'
-          alt={previewImg.name}
+          alt={img.name}
         ></Image>
         <IoClose
           role='button'
           title='Remove Image'
           className='absolute top-5 right-5 cursor-pointer rounded-full bg-lightBlue p-[2px] text-2xl transition-transform lg:scale-0 lg:group-hover:scale-100'
-          onClick={() => removePreviewImage(previewImg)}
+          onClick={() => removePreviewImage(img)}
         />
       </div>
     ))
+  }
 
   return (
     <form
@@ -119,19 +122,18 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
             type='file'
             name='name'
             placeholder='Upload an image'
-            className='absolute top-0 left-0 h-full w-full rounded-xl opacity-0'
+            className='absolute top-0 left-0 h-full w-full cursor-pointer rounded-xl opacity-0'
             accept='image/*'
             multiple
-            ref={nameRef}
             onChange={showImgPreview}
           />
         </label>
         <div
           className={`${
-            !!(previewImgs.length > 0) && 'px-5 pt-5'
+            !!(imageFiles.length > 0) && 'px-5 pt-5'
           } gap-5 md:columns-2`}
         >
-          {renderPreviewImgs}
+          {renderPreviewImgs()}
         </div>
       </div>
 

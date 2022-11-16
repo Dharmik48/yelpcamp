@@ -1,35 +1,25 @@
-import { useEffect, useRef, useState } from 'react'
-import Button from './Button'
+import Image from 'next/image'
+import { useState } from 'react'
 import { FaDollarSign } from 'react-icons/fa'
 import { IoClose } from 'react-icons/io5'
-import Image from 'next/image'
+import Button from './Button'
+import Input from './Input'
+import { useFormik } from 'formik'
 
 const Form = ({ submitForm, btnText, data, className = '' }) => {
-  const nameRef = useRef()
-  const descRef = useRef()
-  const priceRef = useRef()
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      desc: '',
+      price: '',
+    },
+    onSubmit: values => {
+      submitForm(values, imageFiles)
+    },
+  })
 
   const [imageFiles, setImageFiles] = useState([])
   const [isImageDragged, setIsImageDragged] = useState(false)
-  console.log(imageFiles)
-  useEffect(() => {
-    if (!data) return
-    nameRef.current.value = data.name
-    descRef.current.value = data.desc
-    priceRef.current.value = data.price
-  }, [])
-
-  const handleSubmit = e => {
-    e.preventDefault()
-
-    const data = {
-      name: nameRef.current.value,
-      desc: descRef.current.value,
-      price: priceRef.current.value,
-    }
-    console.log(data)
-    submitForm(data, imageFiles)
-  }
 
   const showImgPreview = async e => {
     if (!e.target.files[0]) return
@@ -78,14 +68,14 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
   return (
     <form
       className={`${className} flex flex-col gap-4`}
-      onSubmit={handleSubmit}
+      onSubmit={formik.handleSubmit}
     >
-      <input
+      <Input
         type='text'
         name='name'
         placeholder='Enter the name'
-        className='rounded-xl bg-lightBlue p-5 focus:outline focus:outline-2 focus:outline-brand'
-        ref={nameRef}
+        handleChange={formik.handleChange}
+        value={formik.values.name}
       />
       <div className='rounded-xl bg-lightBlue'>
         <label
@@ -124,7 +114,6 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
             name='name'
             placeholder='Upload an image'
             className='absolute top-0 left-0 h-full w-full cursor-pointer rounded-xl opacity-0'
-            accept='image/*'
             multiple
             onChange={showImgPreview}
           />
@@ -138,21 +127,23 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
         </div>
       </div>
 
-      <textarea
+      <Input
+        type='textarea'
         name='desc'
         rows='10'
         placeholder='Enter the description'
-        className='rounded-xl bg-lightBlue p-5 focus:outline focus:outline-2 focus:outline-brand'
-        ref={descRef}
+        handleChange={formik.handleChange}
+        value={formik.values.desc}
       />
       <div className='flex max-w-full items-center rounded-xl bg-lightBlue pl-5 focus-within:outline focus-within:outline-2 focus-within:outline-brand'>
         <FaDollarSign className='text-dark' />
-        <input
+        <Input
           type='number'
           name='price'
           placeholder='Enter the price'
-          className='w-full rounded-r-xl bg-lightBlue p-5 focus:outline-none'
-          ref={priceRef}
+          className='w-full focus:outline-transparent'
+          handleChange={formik.handleChange}
+          value={formik.values.price}
         />
       </div>
       <Button text={btnText} title='Add Campground' />

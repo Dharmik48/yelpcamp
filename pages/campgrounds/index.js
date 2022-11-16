@@ -14,9 +14,10 @@ const Campgrounds = ({ campgrounds }) => {
       <div className='relative'>
         <Image
           src={campground.images[0]}
-          width='150'
-          height='150'
+          width='450'
+          height='450'
           className='h-80 w-full rounded-xl object-cover'
+          alt={campground.name}
         />
         <LinkButton
           text='View More'

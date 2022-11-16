@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import Form from '../../components/Form'
+import NewForm from '../../components/NewForm'
 import Image from 'next/image'
 import illustration from '../../public/camping.svg'
 import { FaCampground } from 'react-icons/fa'
@@ -24,8 +24,8 @@ const NewCampground = () => {
     )
   }
 
-  const addCampground = async (data, images) => {
-    const imgUrls = await uploadAndGetImgUrls(images)
+  const addCampground = async data => {
+    const imgUrls = await uploadAndGetImgUrls(data.images)
 
     await axios.post('/api/campgrounds', { ...data, images: imgUrls })
     router.push('/campgrounds')
@@ -42,11 +42,7 @@ const NewCampground = () => {
             <FaCampground />
             Add a Campground
           </h3>
-          <Form
-            btnText={'Submit'}
-            submitForm={addCampground}
-            className='mx-auto w-full lg:mx-0'
-          />
+          <NewForm submitForm={addCampground} />
         </div>
         <Image
           src={illustration}

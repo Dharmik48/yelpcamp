@@ -16,6 +16,7 @@ module.exports = {
       primaryBg: '#FEFCFB',
       secondaryBg: '#F7F8FC',
       lightBlue: '#eff0f6',
+      red: '#ef476f',
       transparent: 'transparent',
     },
     extend: {

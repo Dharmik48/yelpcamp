@@ -1,27 +1,38 @@
 import Image from 'next/image'
 import { useState } from 'react'
-import { FaDollarSign } from 'react-icons/fa'
+import { FaDollarSign, FaExclamationCircle } from 'react-icons/fa'
 import { IoClose } from 'react-icons/io5'
 import Button from './Button'
 import Input from './Input'
 import { useFormik } from 'formik'
+import * as Yup from 'yup'
 
-const Form = ({ submitForm, btnText, data, className = '' }) => {
+const NewForm = ({ submitForm }) => {
   const formik = useFormik({
     initialValues: {
       name: '',
       desc: '',
       price: '',
+      images: [],
     },
+    validationSchema: Yup.object({
+      name: Yup.string().required('Please enter a name!'),
+      desc: Yup.string()
+        .max(350, 'Description cannot be more than 350')
+        .required('Please enter a description!'),
+      images: Yup.array().min(1, 'Please select atleast 1 image!').required(),
+      price: Yup.number()
+        .min(0, 'Price cannot be less than 0!')
+        .required('Please enter a price!'),
+    }),
     onSubmit: values => {
-      submitForm(values, imageFiles)
+      submitForm(values)
     },
   })
 
-  const [imageFiles, setImageFiles] = useState([])
   const [isImageDragged, setIsImageDragged] = useState(false)
 
-  const showImgPreview = async e => {
+  const handleImageUpload = async e => {
     if (!e.target.files[0]) return
 
     const files = Array.from(e.target.files)
@@ -31,19 +42,20 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
       previewUrl: URL.createObjectURL(file),
     }))
 
-    setImageFiles(imgs)
+    formik.setFieldValue('images', imgs)
   }
 
   const removePreviewImage = img => {
-    setImageFiles(currImageFiles =>
-      currImageFiles.filter(imgFile => imgFile.file.name != img.file.name)
+    formik.setFieldValue(
+      'images',
+      formik.values.images.filter(imgFile => imgFile.file.name != img.file.name)
     )
   }
 
   const renderPreviewImgs = () => {
-    if (imageFiles.length <= 0) return
+    if (formik.values.images.length <= 0) return
 
-    return imageFiles.map(img => (
+    return formik.values.images.map(img => (
       <div
         className='group relative w-full rounded-xl pb-5'
         key={img.file.name}
@@ -67,7 +79,7 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
 
   return (
     <form
-      className={`${className} flex flex-col gap-4`}
+      className='x-auto flex w-full flex-col gap-4 lg:mx-0'
       onSubmit={formik.handleSubmit}
     >
       <Input
@@ -76,12 +88,27 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
         placeholder='Enter the name'
         handleChange={formik.handleChange}
         value={formik.values.name}
+        className={`${
+          !!formik.touched.name &&
+          !!formik.errors.name &&
+          'outline outline-2 outline-red'
+        }`}
       />
+      {!!formik.touched.name && !!formik.errors.name && (
+        <span className='inline-flex items-center gap-2 text-sm text-red'>
+          <FaExclamationCircle />
+          {formik.errors.name}
+        </span>
+      )}
       <div className='rounded-xl bg-lightBlue'>
         <label
           htmlFor='image'
           className={`relative flex w-full cursor-pointer justify-between rounded-xl bg-lightBlue p-5 text-dark outline-2 focus-within:outline focus-within:outline-brand ${
             !!isImageDragged && 'italic outline-dashed outline-brand'
+          } ${
+            !!formik.touched.images &&
+            !!formik.errors.images &&
+            'outline outline-2 outline-red'
           }`}
           onDragEnter={() => setIsImageDragged(true)}
           onDragExit={() => setIsImageDragged(false)}
@@ -115,17 +142,23 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
             placeholder='Upload an image'
             className='absolute top-0 left-0 h-full w-full cursor-pointer rounded-xl opacity-0'
             multiple
-            onChange={showImgPreview}
+            onChange={handleImageUpload}
           />
         </label>
         <div
           className={`${
-            !!(imageFiles.length > 0) && 'px-5 pt-5'
+            !!(formik.values.images.length > 0) && 'px-5 pt-5'
           } gap-5 md:columns-2`}
         >
           {renderPreviewImgs()}
         </div>
       </div>
+      {formik.touched.images && !!formik.errors.images && (
+        <span className='inline-flex items-center gap-2 text-sm text-red'>
+          <FaExclamationCircle />
+          {formik.errors.images}
+        </span>
+      )}
 
       <Input
         type='textarea'
@@ -134,8 +167,25 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
         placeholder='Enter the description'
         handleChange={formik.handleChange}
         value={formik.values.desc}
+        className={`${
+          !!formik.touched.desc &&
+          !!formik.errors.desc &&
+          'outline outline-2 outline-red'
+        }`}
       />
-      <div className='flex max-w-full items-center rounded-xl bg-lightBlue pl-5 focus-within:outline focus-within:outline-2 focus-within:outline-brand'>
+      {!!formik.touched.desc && !!formik.errors.desc && (
+        <span className='inline-flex items-center gap-2 text-sm text-red'>
+          <FaExclamationCircle />
+          {formik.errors.desc}
+        </span>
+      )}
+      <div
+        className={`flex max-w-full items-center rounded-xl bg-lightBlue pl-5 focus-within:outline focus-within:outline-2 focus-within:outline-brand ${
+          !!formik.touched.price &&
+          !!formik.errors.price &&
+          'outline outline-2 outline-red'
+        }`}
+      >
         <FaDollarSign className='text-dark' />
         <Input
           type='number'
@@ -146,9 +196,15 @@ const Form = ({ submitForm, btnText, data, className = '' }) => {
           value={formik.values.price}
         />
       </div>
-      <Button text={btnText} title='Add Campground' />
+      {!!formik.touched.price && !!formik.errors.price && (
+        <span className='inline-flex items-center gap-2 text-sm text-red'>
+          <FaExclamationCircle />
+          {formik.errors.price}
+        </span>
+      )}
+      <Button text='Submit' title='Add Campground' />
     </form>
   )
 }
 
-export default Form
+export default NewForm

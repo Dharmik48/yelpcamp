@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import axios from 'axios'
-import Form from '../../../components/Form'
+import NewForm from '../../../components/NewForm'
 import { getCampground, getCampgrounds } from '../../../util/campgrounds'
 
 const EditCampground = ({ campground }) => {
@@ -23,7 +23,7 @@ const EditCampground = ({ campground }) => {
         <h3 className='max-w-max font-volkhov text-xl md:text-2xl'>
           Edit {campground.name}
         </h3>
-        <Form btnText='Done' data={campground} submitForm={handleSubmit} />
+        <NewForm btnText='Done' data={campground} submitForm={handleSubmit} />
       </section>
     </>
   )

@@ -18,7 +18,13 @@ const CampgroundDetail = ({ campground }) => {
 
   const renderImages = () =>
     campground.images.map(img => (
-      <Image width={'300'} height={'300'} src={img} className='rounded-xl' />
+      <Image
+        width={'300'}
+        height={'300'}
+        src={img}
+        key={img}
+        className='rounded-xl'
+      />
     ))
   return (
     <>

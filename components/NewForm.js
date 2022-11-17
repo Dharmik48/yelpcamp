@@ -7,7 +7,7 @@ import Input from './Input'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
-const NewForm = ({ submitForm }) => {
+const NewForm = ({ submitForm, disabled }) => {
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -93,6 +93,7 @@ const NewForm = ({ submitForm }) => {
           !!formik.errors.name &&
           'outline outline-2 outline-red'
         }`}
+        onBlur={formik.handleBlur}
       />
       {!!formik.touched.name && !!formik.errors.name && (
         <span className='inline-flex items-center gap-2 text-sm text-red'>
@@ -172,6 +173,7 @@ const NewForm = ({ submitForm }) => {
           !!formik.errors.desc &&
           'outline outline-2 outline-red'
         }`}
+        onBlur={formik.handleBlur}
       />
       {!!formik.touched.desc && !!formik.errors.desc && (
         <span className='inline-flex items-center gap-2 text-sm text-red'>
@@ -194,6 +196,7 @@ const NewForm = ({ submitForm }) => {
           className='w-full focus:outline-transparent'
           handleChange={formik.handleChange}
           value={formik.values.price}
+          onBlur={formik.handleBlur}
         />
       </div>
       {!!formik.touched.price && !!formik.errors.price && (
@@ -202,7 +205,7 @@ const NewForm = ({ submitForm }) => {
           {formik.errors.price}
         </span>
       )}
-      <Button text='Submit' title='Add Campground' />
+      {<Button text='Submit' title='Add Campground' disabled={disabled} />}
     </form>
   )
 }

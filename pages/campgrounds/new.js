@@ -8,9 +8,11 @@ import { FaCampground } from 'react-icons/fa'
 import { storage } from '../../util/firebase'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { v4 } from 'uuid'
+import { useState } from 'react'
 
 const NewCampground = () => {
   const router = useRouter()
+  const [isSubmiting, setIsSubmiting] = useState(false)
 
   const uploadAndGetImgUrls = async images => {
     return await Promise.all(
@@ -25,9 +27,11 @@ const NewCampground = () => {
   }
 
   const addCampground = async data => {
+    setIsSubmiting(true)
     const imgUrls = await uploadAndGetImgUrls(data.images)
 
     await axios.post('/api/campgrounds', { ...data, images: imgUrls })
+    setIsSubmiting(false)
     router.push('/campgrounds')
   }
 
@@ -42,7 +46,7 @@ const NewCampground = () => {
             <FaCampground />
             Add a Campground
           </h3>
-          <NewForm submitForm={addCampground} />
+          <NewForm submitForm={addCampground} disabled={isSubmiting} />
         </div>
         <Image
           src={illustration}

@@ -5,6 +5,8 @@ const Input = ({
   className: styles,
   handleChange,
   value,
+
+  onBlur = { onBlur },
 }) => {
   const css = `rounded-xl bg-lightBlue p-5 focus:outline focus:outline-2 focus:outline-brand ${styles}`
 
@@ -16,6 +18,7 @@ const Input = ({
       className={css}
       onChange={handleChange}
       value={value}
+      onBlur={onBlur}
     />
   ) : (
     <input
@@ -25,6 +28,7 @@ const Input = ({
       className={css}
       onChange={handleChange}
       value={value}
+      onBlur={onBlur}
     />
   )
 }

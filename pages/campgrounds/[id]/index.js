@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import Button from '../../../components/Button'
 import LinkButton from '../../../components/LinkButton'
 import { getCampgrounds, getCampground } from '../../../util/campgrounds'
+import Image from 'next/image'
 
 const CampgroundDetail = ({ campground }) => {
   const router = useRouter()
@@ -15,6 +16,10 @@ const CampgroundDetail = ({ campground }) => {
     router.push('/campgrounds')
   }
 
+  const renderImages = () =>
+    campground.images.map(img => (
+      <Image width={'300'} height={'300'} src={img} className='rounded-xl' />
+    ))
   return (
     <>
       <Head>
@@ -23,6 +28,7 @@ const CampgroundDetail = ({ campground }) => {
       <section>
         <h2 className='font-volkhov text-3xl'>{campground.name}</h2>
         <p>{campground.desc}</p>
+        <ul className='flex items-center gap-4'>{renderImages()}</ul>
         <p className=''>${campground.price}</p>
         <div className='flex gap-4'>
           <LinkButton

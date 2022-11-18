@@ -1,4 +1,6 @@
 import mongoose from 'mongoose'
+import { deleteObject, ref } from 'firebase/storage'
+import { db, storage } from '../util/firebase'
 
 const campgroundSchema = new mongoose.Schema(
   {
@@ -23,6 +25,12 @@ const campgroundSchema = new mongoose.Schema(
   },
   { timestamps: true }
 )
+
+campgroundSchema.post('findOneAndDelete', async doc => {
+  doc.images.forEach(async image => {
+    await deleteObject(ref(storage, `images/${image.id}`))
+  })
+})
 
 export default mongoose.models.Campground ||
   mongoose.model('Campground', campgroundSchema)

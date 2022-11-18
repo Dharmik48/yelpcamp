@@ -5,26 +5,12 @@ import NewForm from '../../components/NewForm'
 import Image from 'next/image'
 import illustration from '../../public/camping.svg'
 import { FaCampground } from 'react-icons/fa'
-import { storage } from '../../util/firebase'
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
-import { v4 } from 'uuid'
+import { uploadAndGetImgUrls } from '../../util/uploadImage'
 import { useState } from 'react'
 
 const NewCampground = () => {
   const router = useRouter()
   const [isSubmiting, setIsSubmiting] = useState(false)
-
-  const uploadAndGetImgUrls = async images => {
-    return await Promise.all(
-      images.map(async img => {
-        const imgRef = ref(storage, `images/${img.id}`)
-        await uploadBytes(imgRef, img.file)
-
-        const url = await getDownloadURL(imgRef)
-        return { id: img.id, url: url }
-      })
-    )
-  }
 
   const addCampground = async data => {
     setIsSubmiting(true)

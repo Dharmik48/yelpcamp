@@ -3,14 +3,23 @@ import { useRouter } from 'next/router'
 import axios from 'axios'
 import NewForm from '../../../components/NewForm'
 import { getCampground, getCampgrounds } from '../../../util/campgrounds'
+import { uploadAndGetImgUrls } from '../../../util/uploadImage'
+import { useState } from 'react'
+import illustration from '../../../public/camping.svg'
+import { FaCampground } from 'react-icons/fa'
+import Image from 'next/image'
 
 const EditCampground = ({ campground }) => {
+  const [isSubmiting, setIsSubmiting] = useState(false)
   const router = useRouter()
 
   if (router.isFallback) return <h1>Loading...</h1>
 
   const handleSubmit = async data => {
-    await axios.patch(`/api/campgrounds/${campground._id}`, data)
+    setIsSubmiting(true)
+    const images = await uploadAndGetImgUrls(data.images)
+    await axios.patch(`/api/campgrounds/${campground._id}`, { ...data, images })
+    setIsSubmiting(false)
     router.push('/campgrounds')
   }
 
@@ -19,11 +28,23 @@ const EditCampground = ({ campground }) => {
       <Head>
         <title>YelpCamp | Edit {campground.name}</title>
       </Head>
-      <section className='mt-5 flex flex-col items-center gap-8 px-10 text-dark md:mt-10 lg:px-20'>
-        <h3 className='max-w-max font-volkhov text-xl md:text-2xl'>
-          Edit {campground.name}
-        </h3>
-        <NewForm btnText='Done' data={campground} submitForm={handleSubmit} />
+      <section className='flex items-center gap-16 py-12'>
+        <div className='mx-auto max-w-full lg:mx-0 lg:flex-1'>
+          <h3 className='mb-8 flex items-center gap-2 text-left font-volkhov text-2xl font-bold md:gap-4 md:text-3xl lg:text-4xl'>
+            <FaCampground />
+            Edit {campground.name}
+          </h3>
+          <NewForm
+            submitForm={handleSubmit}
+            data={campground}
+            disabled={isSubmiting}
+          />
+        </div>
+        <Image
+          src={illustration}
+          className='hidden max-w-[50%] flex-1 self-center lg:block'
+          alt='man campging'
+        />
       </section>
     </>
   )

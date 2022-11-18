@@ -8,13 +8,13 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { v4 } from 'uuid'
 
-const NewForm = ({ submitForm, disabled }) => {
+const NewForm = ({ submitForm, data, disabled }) => {
   const formik = useFormik({
     initialValues: {
-      name: '',
-      desc: '',
-      price: '',
-      images: [],
+      name: data?.name || '',
+      desc: data?.desc || '',
+      price: data?.price || '',
+      images: data?.images || [],
     },
     validationSchema: Yup.object({
       name: Yup.string().required('Please enter a name!'),
@@ -60,11 +60,11 @@ const NewForm = ({ submitForm, disabled }) => {
     return formik.values.images.map(img => (
       <div className='group relative w-full rounded-xl pb-5' key={img.id}>
         <Image
-          src={img.previewUrl}
+          src={img.url || img.previewUrl}
           width='100'
           height='100'
           className='w-full rounded-xl'
-          alt={img.file.name}
+          alt={img.file?.name}
         ></Image>
         <IoClose
           role='button'

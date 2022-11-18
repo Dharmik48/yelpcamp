@@ -21,8 +21,8 @@ const CampgroundDetail = ({ campground }) => {
       <Image
         width={'300'}
         height={'300'}
-        src={img}
-        key={img}
+        src={img.url}
+        key={img.id}
         className='rounded-xl'
       />
     ))

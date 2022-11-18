@@ -13,7 +13,7 @@ const Campgrounds = ({ campgrounds }) => {
     >
       <div className='relative'>
         <Image
-          src={campground.images[0]}
+          src={campground.images[0].url}
           width='450'
           height='450'
           className='h-80 w-full rounded-xl object-cover'

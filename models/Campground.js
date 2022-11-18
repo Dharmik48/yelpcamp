@@ -32,5 +32,19 @@ campgroundSchema.post('findOneAndDelete', async doc => {
   })
 })
 
+campgroundSchema.post('findOneAndUpdate', async function (doc) {
+  // get the new data
+  const updatedData = await this.model.findById(this._conditions._id, 'images')
+  // loop through old data images
+  doc.images.forEach(async image => {
+    // search the new data to see if the image is there or not
+    const result = updatedData.images.find(img => img.id === image.id)
+    // return if new data has the same image
+    if (result) return
+    // delete the image from storage if it not in the new data
+    await deleteObject(ref(storage, `images/${image.id}`))
+  })
+})
+
 export default mongoose.models.Campground ||
   mongoose.model('Campground', campgroundSchema)

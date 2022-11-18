@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import axios from 'axios'
-import NewForm from '../../../components/NewForm'
+import Form from '../../../components/Form'
 import { getCampground, getCampgrounds } from '../../../util/campgrounds'
 import { uploadAndGetImgUrls } from '../../../util/uploadImage'
 import { useState } from 'react'
@@ -34,7 +34,7 @@ const EditCampground = ({ campground }) => {
             <FaCampground />
             Edit {campground.name}
           </h3>
-          <NewForm
+          <Form
             submitForm={handleSubmit}
             data={campground}
             disabled={isSubmiting}

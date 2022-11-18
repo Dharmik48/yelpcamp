@@ -6,6 +6,7 @@ import Button from './Button'
 import Input from './Input'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { v4 } from 'uuid'
 
 const NewForm = ({ submitForm, disabled }) => {
   const formik = useFormik({
@@ -38,17 +39,18 @@ const NewForm = ({ submitForm, disabled }) => {
     const files = Array.from(e.target.files)
 
     const imgs = files.map(file => ({
+      id: v4(),
       file,
       previewUrl: URL.createObjectURL(file),
     }))
 
-    formik.setFieldValue('images', imgs)
+    formik.setFieldValue('images', [...formik.values.images, ...imgs])
   }
 
   const removePreviewImage = img => {
     formik.setFieldValue(
       'images',
-      formik.values.images.filter(imgFile => imgFile.file.name != img.file.name)
+      formik.values.images.filter(imgFile => imgFile.id != img.id)
     )
   }
 
@@ -56,10 +58,7 @@ const NewForm = ({ submitForm, disabled }) => {
     if (formik.values.images.length <= 0) return
 
     return formik.values.images.map(img => (
-      <div
-        className='group relative w-full rounded-xl pb-5'
-        key={img.file.name}
-      >
+      <div className='group relative w-full rounded-xl pb-5' key={img.id}>
         <Image
           src={img.previewUrl}
           width='100'

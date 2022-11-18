@@ -26,10 +26,11 @@ const CampgroundDetail = ({ campground }) => {
         className='rounded-xl'
       />
     ))
+
   return (
     <>
       <Head>
-        <title>YelpCamp | {campground.name}</title>
+        <title>{`YelpCamp | ${campground.name}`}</title>
       </Head>
       <section>
         <h2 className='font-volkhov text-3xl'>{campground.name}</h2>

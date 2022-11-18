@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import NewForm from '../../components/NewForm'
+import Form from '../../components/Form'
 import Image from 'next/image'
 import illustration from '../../public/camping.svg'
 import { FaCampground } from 'react-icons/fa'
@@ -32,7 +32,7 @@ const NewCampground = () => {
             <FaCampground />
             Add a Campground
           </h3>
-          <NewForm submitForm={addCampground} disabled={isSubmiting} />
+          <Form submitForm={addCampground} disabled={isSubmiting} />
         </div>
         <Image
           src={illustration}

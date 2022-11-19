@@ -5,6 +5,8 @@ import Button from '../../../components/Button'
 import LinkButton from '../../../components/LinkButton'
 import { getCampgrounds, getCampground } from '../../../util/campgrounds'
 import Image from 'next/image'
+import { toast } from 'react-toastify'
+import { FaCheck } from 'react-icons/fa'
 
 const CampgroundDetail = ({ campground }) => {
   const router = useRouter()
@@ -12,7 +14,20 @@ const CampgroundDetail = ({ campground }) => {
   if (router.isFallback) return <h1>Loading...</h1>
 
   const deleteCampground = async () => {
-    await axios.delete(`/api/campgrounds/${campground._id}`)
+    const { data: deletedCampground } = await axios.delete(
+      `/api/campgrounds/${campground._id}`
+    )
+    toast.success(
+      () => (
+        <>
+          Successfully deleted{' '}
+          <span className='font-semibold'>{deletedCampground.name}</span>
+        </>
+      ),
+      {
+        icon: FaCheck,
+      }
+    )
     router.push('/campgrounds')
   }
 

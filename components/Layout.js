@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { ToastContainer } from 'react-toastify'
 import Header from './Header'
 
 const Layout = ({ children }) => {
@@ -8,6 +9,7 @@ const Layout = ({ children }) => {
         <title>YelpCamp</title>
       </Head>
       <Header />
+      <ToastContainer />
       {children}
     </div>
   )

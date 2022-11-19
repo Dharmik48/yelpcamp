@@ -9,7 +9,7 @@ const Campgrounds = ({ campgrounds }) => {
   const renderCampgrounds = campgrounds.map(campground => (
     <li
       key={campground._id}
-      className='group flex flex-col gap-3 rounded-xl border border-lightBlue'
+      className='group flex flex-col gap-3 rounded-xl border border-lightBlue shadow-lg shadow-lightBlue hover:shadow-lg hover:shadow-lightRed'
     >
       <div className='relative'>
         <Image
@@ -22,7 +22,7 @@ const Campgrounds = ({ campgrounds }) => {
         <LinkButton
           text='View More'
           linkTo={`/campgrounds/${campground._id}`}
-          className='absolute right-1/2 bottom-4 w-fit translate-x-1/2 px-4 opacity-0 hover:border-primaryBg hover:bg-primaryBg lg:group-hover:opacity-100'
+          className='absolute right-1/2 bottom-4 w-fit translate-x-1/2 px-4 opacity-0 shadow-md lg:hover:border-primaryBg lg:hover:bg-primaryBg lg:group-hover:opacity-100'
         />
       </div>
       <div className='py-5 px-3'>
@@ -49,7 +49,7 @@ const Campgrounds = ({ campgrounds }) => {
       </Head>
       <section className='py-12'>
         <h2 className='mb-10 font-volkhov text-3xl'>All Campgrounds</h2>
-        <ul className='grid w-full gap-6 sm:grid-cols-2 md:grid-cols-3'>
+        <ul className='grid w-full gap-6 md:grid-cols-2 lg:grid-cols-3'>
           {renderCampgrounds}
         </ul>
       </section>

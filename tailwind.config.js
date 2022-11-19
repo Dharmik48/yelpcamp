@@ -17,6 +17,7 @@ module.exports = {
       secondaryBg: '#F7F8FC',
       lightBlue: '#eff0f6',
       red: '#ef476f',
+      lightRed: '#FFE7DB',
       transparent: 'transparent',
     },
     extend: {

@@ -4,9 +4,11 @@ import { useRouter } from 'next/router'
 import Form from '../../components/Form'
 import Image from 'next/image'
 import illustration from '../../public/camping.svg'
-import { FaCampground } from 'react-icons/fa'
+import { FaCampground, FaCheck } from 'react-icons/fa'
 import { uploadAndGetImgUrls } from '../../util/uploadImage'
 import { useState } from 'react'
+import { toast } from 'react-toastify'
+import Link from 'next/link'
 
 const NewCampground = () => {
   const router = useRouter()
@@ -16,7 +18,22 @@ const NewCampground = () => {
     setIsSubmiting(true)
     const images = await uploadAndGetImgUrls(data.images)
 
-    await axios.post('/api/campgrounds', { ...data, images })
+    const { data: campground } = await axios.post('/api/campgrounds', {
+      ...data,
+      images,
+    })
+
+    toast.success(
+      () => (
+        <>
+          Campground added success fully!{' '}
+          <Link href={`/campgrounds/${campground._id}`}>
+            <span className='font-semibold'>Click here</span> to view
+          </Link>
+        </>
+      ),
+      { icon: FaCheck }
+    )
     setIsSubmiting(false)
     router.push('/campgrounds')
   }

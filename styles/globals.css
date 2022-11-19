@@ -10,11 +10,13 @@
   --toastify-color-warning: #f1c40f;
   --toastify-color-error: #ef476f;
   --toastify-font-family: 'Poppins', 'serif';
+  --toastify-toast-width: fit-content;
 }
 
 .Toastify__toast {
   padding-inline: 1rem;
   border-radius: 0.75rem;
+  gap: 1.5rem;
 }
 
 .Toastify__toast-container {

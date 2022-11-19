@@ -6,8 +6,10 @@ import { getCampground, getCampgrounds } from '../../../util/campgrounds'
 import { uploadAndGetImgUrls } from '../../../util/uploadImage'
 import { useState } from 'react'
 import illustration from '../../../public/camping.svg'
-import { FaCampground } from 'react-icons/fa'
+import { FaCampground, FaCheck } from 'react-icons/fa'
 import Image from 'next/image'
+import { toast } from 'react-toastify'
+import Link from 'next/link'
 
 const EditCampground = ({ campground }) => {
   const [isSubmiting, setIsSubmiting] = useState(false)
@@ -18,7 +20,21 @@ const EditCampground = ({ campground }) => {
   const handleSubmit = async data => {
     setIsSubmiting(true)
     const images = await uploadAndGetImgUrls(data.images)
-    await axios.patch(`/api/campgrounds/${campground._id}`, { ...data, images })
+    const { data: updatedCampground } = await axios.patch(
+      `/api/campgrounds/${campground._id}`,
+      { ...data, images }
+    )
+    toast.success(
+      () => (
+        <>
+          {updatedCampground.name} is saved successfully.{' '}
+          <Link href={`/campgrounds/${updatedCampground._id}`}>
+            <span className='font-semibold'>Click here</span> to view
+          </Link>
+        </>
+      ),
+      { icon: FaCheck }
+    )
     setIsSubmiting(false)
     router.push('/campgrounds')
   }

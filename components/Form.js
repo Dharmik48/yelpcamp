@@ -8,7 +8,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { v4 } from 'uuid'
 
-const NewForm = ({ submitForm, data, disabled }) => {
+const Form = ({ submitForm, data, disabled }) => {
   const formik = useFormik({
     initialValues: {
       name: data?.name || '',
@@ -61,10 +61,10 @@ const NewForm = ({ submitForm, data, disabled }) => {
       <div className='group relative w-full rounded-xl pb-5' key={img.id}>
         <Image
           src={img.url || img.previewUrl}
-          width='100'
-          height='100'
+          width='350'
+          height='350'
           className='w-full rounded-xl'
-          alt={img.file?.name}
+          alt={img.file?.name || ''}
         ></Image>
         <IoClose
           role='button'
@@ -209,4 +209,4 @@ const NewForm = ({ submitForm, data, disabled }) => {
   )
 }
 
-export default NewForm
+export default Form

@@ -2,6 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --toastify-color-light: #f7f8fc;
+  --toastify-color-dark: #444444;
+  --toastify-color-info: #3498db;
+  --toastify-color-success: #00b25a;
+  --toastify-color-warning: #f1c40f;
+  --toastify-color-error: #ef476f;
+  --toastify-font-family: 'Poppins', 'serif';
+}
+
+.Toastify__toast {
+  padding-inline: 1rem;
+  border-radius: 0.75rem;
+}
+
+.Toastify__toast-container {
+  top: 10vh;
+}
+
+.Toastify__close-button {
+  font-size: 25rem;
+  align-self: center;
+}
+
 html,
 body {
   padding: 0;

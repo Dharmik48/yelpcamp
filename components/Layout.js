@@ -7,7 +7,7 @@ import { IoClose } from 'react-icons/io5'
 const Layout = ({ children }) => {
   const ToastCloseBtn = ({ closeToast }) => (
     <IoClose
-      className='self-center text-2xl opacity-80 hover:opacity-100'
+      className='ml-4 flex-shrink-0 self-center text-2xl opacity-80 hover:opacity-100'
       onClick={closeToast}
     />
   )
@@ -23,6 +23,7 @@ const Layout = ({ children }) => {
         hideProgressBar
         theme='colored'
         closeButton={ToastCloseBtn}
+        className='w-full max-w-7xl px-8 sm:px-10 md:px-12 lg:px-14'
       />
       {children}
     </div>

@@ -3,68 +3,10 @@ import Link from 'next/link'
 import logo from '../public/logo.png'
 import { IoMenu, IoClose } from 'react-icons/io5'
 import { useState } from 'react'
-import LinkButton from './LinkButton'
-
-// const Header = () => {
-//   const [isNavOpen, setIsNavOpen] = useState(false)
-
-//   const toggleNavMenu = () => {
-//     setIsNavOpen(currIsNavOpen => !currIsNavOpen)
-//   }
-
-//   const navStyles = `${
-//     isNavOpen ? 'circle(75%)' : 'circle(0% at 87.06% 4.68%)'
-//   }`
-
-//   return (
-//     <header className='flex h-20 items-center justify-between bg-blue lg:h-24'>
-//       <div className='flex items-center gap-2'>
-//         <h1 className='font-volkhov font-bold sm:text-lg lg:text-2xl'>
-//           <Link href={'/'}>YelpCamp</Link>
-//         </h1>
-//         <Image src={logo} alt='YelpCamp' />
-//       </div>
-//       <IoMenu
-//         className='cursor-pointer text-3xl lg:hidden'
-//         onClick={toggleNavMenu}
-//       />
-//       <nav
-//         className='fixed top-0 left-0 flex h-full w-full flex-col items-center justify-center gap-20 bg-dark text-left text-2xl text-secondaryBg transition-all duration-300 lg:static lg:w-auto lg:flex-row lg:gap-8 lg:bg-transparent lg:text-sm lg:text-dark xl:gap-16 xl:text-base 2xl:gap-24 2xl:text-lg'
-//         style={{ clipPath: navStyles }}
-//       >
-//         <IoClose
-//           className='absolute top-6 right-10 cursor-pointer text-3xl lg:hidden'
-//           onClick={toggleNavMenu}
-//         />
-//         <ul className='flex w-full flex-col gap-8 px-10 lg:w-auto lg:flex-row lg:gap-12 lg:px-0'>
-//           <li className='border-b-2 border-transparent transition-colors hover:border-b-2 hover:border-b-secondaryBg'>
-//             <Link href={'/'} onClick={() => setIsNavOpen(false)}>
-//               Home
-//             </Link>
-//           </li>
-//           <li className='border-b-2 border-transparent transition-colors hover:border-b-2 hover:border-b-secondaryBg'>
-//             <Link href={'/campgrounds'} onClick={() => setIsNavOpen(false)}>
-//               Campgrounds
-//             </Link>
-//           </li>
-//           <li className='border-b-2 border-transparent transition-colors hover:border-b-2 hover:border-b-secondaryBg'>
-//             <Link href={'/campgrounds/new'} onClick={() => setIsNavOpen(false)}>
-//               Add Campground
-//             </Link>
-//           </li>
-//         </ul>
-//         <div className='text flex w-full flex-col gap-8 px-10 font-normal text-secondaryBg lg:w-auto lg:flex-row lg:items-center lg:text-brand'>
-//           <Link href={'#'} className='w-max'>
-//             Login
-//           </Link>
-//           <LinkButton text='Sign Up' linkTo={'#'} />
-//         </div>
-//       </nav>
-//     </header>
-//   )
-// }
+import { useSession, signIn, signOut } from 'next-auth/react'
 
 const Header = () => {
+  const { data: session, status } = useSession()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const toggleMenu = () => {

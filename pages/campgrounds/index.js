@@ -25,7 +25,7 @@ const Campgrounds = ({ campgrounds }) => {
           className='absolute right-1/2 bottom-4 w-fit translate-x-1/2 px-4 opacity-0 shadow-md lg:hover:border-primaryBg lg:hover:bg-primaryBg lg:group-hover:opacity-100'
         />
       </div>
-      <div className='py-5 px-3'>
+      <div className='p-5'>
         <div className='flex items-center justify-between'>
           <h2 className='mb-2 text-2xl'>{campground.name}</h2>
           <p className='w-fit rounded-md bg-[#FFE7DB] py-1 px-2 font-medium text-brand'>

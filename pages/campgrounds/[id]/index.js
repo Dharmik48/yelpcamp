@@ -38,7 +38,7 @@ const CampgroundDetail = ({ campground }) => {
         height={'300'}
         src={img.url}
         key={img.id}
-        className='rounded-xl'
+        className='mb-5 w-full rounded-xl'
       />
     ))
 
@@ -50,8 +50,10 @@ const CampgroundDetail = ({ campground }) => {
       <section>
         <h2 className='font-volkhov text-3xl'>{campground.name}</h2>
         <p>{campground.desc}</p>
-        <ul className='flex items-center gap-4'>{renderImages()}</ul>
-        <p className=''>${campground.price}</p>
+        <ul className='columns-1 gap-4 sm:columns-2 lg:columns-3'>
+          {renderImages()}
+        </ul>
+        <p>${campground.price}</p>
         <div className='flex gap-4'>
           <LinkButton
             text='Edit'

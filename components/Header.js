@@ -3,10 +3,8 @@ import Link from 'next/link'
 import logo from '../public/logo.png'
 import { IoMenu, IoClose } from 'react-icons/io5'
 import { useState } from 'react'
-import { useSession, signIn, signOut } from 'next-auth/react'
 
 const Header = () => {
-  const { data: session, status } = useSession()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const toggleMenu = () => {

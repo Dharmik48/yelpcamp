@@ -6,9 +6,9 @@ const Button = ({
   danger = false,
   handleClick,
   disabled,
+  className: styles,
 }) => {
-  const css =
-    'rounded-md border-2 border-transparent bg-brand px-8 py-3 text-base font-semibold text-secondaryBg transition-all duration-200'
+  const css = `rounded-md border-2 border-transparent bg-brand px-8 py-3 text-base font-semibold text-secondaryBg transition-all duration-200 ${styles}`
 
   return (
     <>

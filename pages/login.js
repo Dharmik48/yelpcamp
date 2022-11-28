@@ -1,5 +1,6 @@
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { signIn } from 'next-auth/react'
 import { FaGoogle, FaFacebook } from 'react-icons/fa'
 import Input from '../components/Input'
 import Button from '../components/Button'
@@ -64,7 +65,10 @@ const Login = () => {
           <hr className='flex-1' />
         </div>
         <div className='justify-betwee flex flex-col items-center gap-4 sm:flex-row'>
-          <button className='flex w-full flex-1 items-center justify-center gap-2 rounded-md border-2 border-blue bg-blue px-4 py-3 text-primaryBg transition-colors hover:bg-transparent hover:text-blue'>
+          <button
+            className='flex w-full flex-1 items-center justify-center gap-2 rounded-md border-2 border-blue bg-blue px-4 py-3 text-primaryBg transition-colors hover:bg-transparent hover:text-blue'
+            onClick={() => signIn('google', { callbackUrl: '/' })}
+          >
             <FaGoogle />
             Google
           </button>

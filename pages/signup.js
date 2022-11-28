@@ -3,7 +3,7 @@ import Input from '../components/Input'
 import * as Yup from 'yup'
 import Button from '../components/Button'
 import Image from 'next/image'
-import illustration from '/public/illustrations/male_solo_traveling.png'
+import illustration from '/public/illustrations/signup.svg'
 import { FaFacebook, FaGoogle } from 'react-icons/fa'
 import Link from 'next/link'
 
@@ -24,12 +24,12 @@ const SignUp = () => {
   })
 
   return (
-    <main className='flex items-center gap-16 py-12'>
+    <main className='flex flex-1 items-center gap-16'>
       <div className='mx-auto flex max-w-full flex-col gap-8 lg:mx-0 lg:flex-1'>
-        <h2 className='text-center font-volkhov text-2xl font-bold md:gap-4 md:text-3xl lg:text-4xl'>
+        <h2 className='text-center font-volkhov text-3xl font-bold md:gap-4 lg:text-4xl'>
           Sign Up
         </h2>
-        <form className='flex flex-col gap-4'>
+        <form className='flex flex-col gap-8'>
           <Input
             type='email'
             name='email'
@@ -80,14 +80,14 @@ const SignUp = () => {
           or
           <hr className='flex-1' />
         </div>
-        <div className='flex items-center justify-between gap-8'>
-          <button className='flex w-fit flex-1 items-center justify-center gap-2 rounded-md border border-dark py-3 px-4'>
+        <div className='justify-betwee flex flex-col items-center gap-4 sm:flex-row'>
+          <button className='flex w-full flex-1 items-center justify-center gap-2 rounded-md border-2 border-blue bg-blue px-4 py-3 text-primaryBg transition-colors hover:bg-transparent hover:text-blue'>
             <FaGoogle />
-            Continue with Google
+            Google
           </button>
-          <button className='flex w-fit flex-1 items-center justify-center gap-2 rounded-md border border-dark py-3 px-4'>
+          <button className='flex w-full flex-1 items-center justify-center gap-2 rounded-md border-2 border-blue bg-blue px-4 py-3 text-primaryBg transition-colors hover:bg-transparent hover:text-blue'>
             <FaFacebook />
-            Continue with Google
+            Facebook
           </button>
         </div>
         <p className='mx-auto'>
@@ -103,6 +103,7 @@ const SignUp = () => {
       <Image
         src={illustration}
         className='hidden max-w-[50%] flex-1 self-center lg:block'
+        alt='illustration'
       />
     </main>
   )

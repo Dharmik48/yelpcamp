@@ -74,7 +74,7 @@ const Login = () => {
           </button>
         </div>
         <p className='mx-auto'>
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link
             href='/signup'
             className='text-brand hover:border-b hover:border-brand'

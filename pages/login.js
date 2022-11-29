@@ -7,8 +7,12 @@ import Button from '../components/Button'
 import Link from 'next/link'
 import Image from 'next/image'
 import illustration from '/public/illustrations/login.png'
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/router'
 
 const Login = () => {
+  const router = useRouter()
+
   const formik = useFormik({
     initialValues: { email: '', password: '' },
     validationSchema: Yup.object({
@@ -19,6 +23,19 @@ const Login = () => {
         .min(8, 'Password length must be atleast 8')
         .required('Please enter the password'),
     }),
+    onSubmit: async values => {
+      const status = await signIn('credentials', {
+        redirect: false,
+        email: values.email,
+        password: values.password,
+        callbackUrl: '/',
+      })
+
+      if (!status.ok) return toast.error(status.error)
+
+      toast.success('Login successfull!')
+      router.push('/')
+    },
   })
 
   return (
@@ -32,7 +49,7 @@ const Login = () => {
         <h2 className='text-center font-volkhov text-3xl font-bold md:gap-4 lg:text-4xl'>
           Login
         </h2>
-        <form className='flex flex-col gap-4'>
+        <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
           <Input
             type='email'
             name='email'

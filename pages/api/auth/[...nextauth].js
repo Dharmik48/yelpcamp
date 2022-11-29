@@ -21,6 +21,9 @@ export default NextAuth({
         const user = await User.findOne({ email: credentials.email })
         // If does not exists then throw error
         if (!user) throw new Error('Invalid email or password!')
+        // If user exists then check the auth_type
+        if (user.auth_type !== 'credentials')
+          throw new Error('Invalid email or password!')
         // If user exists then check password
         const isPasswordCorrect = await compare(
           credentials.password,
@@ -33,4 +36,24 @@ export default NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async signIn({ user, account: { provider } }) {
+      await connectDB()
+      // Check if user with email exists
+      const userInDB = await User.findOne({ email: user.email })
+      // if exista and the provider is same then return
+      if (userInDB && userInDB.auth_type === provider) return true
+      // If exists and the provider is different then don't allow to sign in
+      if (userInDB && userInDB.auth_type !== provider)
+        throw new Error('A user with this email already exists!')
+      // Otherwise add the user to DB
+      const userToCreate = {
+        username: user.name,
+        email: user.email,
+        auth_type: provider,
+      }
+      await User.create(userToCreate)
+      return true
+    },
+  },
 })

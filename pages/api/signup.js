@@ -23,6 +23,7 @@ export default async function handler(req, res) {
       username,
       email,
       password: await hash(password, 14),
+      auth_type: 'credentials',
     })
 
     return res.status(200).json(user)

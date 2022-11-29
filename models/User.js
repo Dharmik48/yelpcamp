@@ -11,8 +11,12 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    required: true,
     min: [8, 'Password must be atleast 8 characters'],
+  },
+  auth_type: {
+    type: String,
+    enum: ['credentials', 'google', 'facebook'],
+    required: true,
   },
 })
 

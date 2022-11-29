@@ -7,8 +7,23 @@ import Image from 'next/image'
 import illustration from '/public/illustrations/signup.svg'
 import { FaFacebook, FaGoogle } from 'react-icons/fa'
 import Link from 'next/link'
+import axios from 'axios'
+import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
 
 const SignUp = () => {
+  const router = useRouter()
+
+  const submitForm = async values => {
+    try {
+      const user = await axios.post('/api/signup', values)
+      toast.success('Registration successfull')
+      router.push('/login')
+    } catch (e) {
+      toast.error(e.response.data.message || 'Something went wrong')
+    }
+  }
+
   const formik = useFormik({
     initialValues: { email: '', password: '', confirmPassword: '' },
     validationSchema: Yup.object({
@@ -23,6 +38,7 @@ const SignUp = () => {
         .oneOf([Yup.ref('password')], 'Passwords do not match!')
         .required('Please enter the confirm password'),
     }),
+    onSubmit: values => submitForm(values),
   })
 
   return (
@@ -31,9 +47,9 @@ const SignUp = () => {
         <h2 className='text-center font-volkhov text-3xl font-bold md:gap-4 lg:text-4xl'>
           Sign Up
         </h2>
-        <form className='flex flex-col gap-4'>
+        <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
           <Input
-            type='email'
+            type='text'
             name='username'
             placeholder='Username'
             onBlur={formik.handleBlur}

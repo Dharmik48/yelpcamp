@@ -12,6 +12,7 @@ const SignUp = () => {
   const formik = useFormik({
     initialValues: { email: '', password: '', confirmPassword: '' },
     validationSchema: Yup.object({
+      username: Yup.string().required('Please enter a username'),
       email: Yup.string()
         .email('Please enter a valid email')
         .required('Please enter an email'),
@@ -30,7 +31,19 @@ const SignUp = () => {
         <h2 className='text-center font-volkhov text-3xl font-bold md:gap-4 lg:text-4xl'>
           Sign Up
         </h2>
-        <form className='flex flex-col gap-8'>
+        <form className='flex flex-col gap-4'>
+          <Input
+            type='email'
+            name='username'
+            placeholder='Username'
+            onBlur={formik.handleBlur}
+            handleChange={formik.handleChange}
+            value={formik.values.username}
+            error={
+              formik.touched.username &&
+              formik.errors.username && [true, formik.errors.username]
+            }
+          />
           <Input
             type='email'
             name='email'

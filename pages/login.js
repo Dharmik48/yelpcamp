@@ -32,7 +32,7 @@ const Login = () => {
         <h2 className='text-center font-volkhov text-3xl font-bold md:gap-4 lg:text-4xl'>
           Login
         </h2>
-        <form className='flex flex-col gap-8'>
+        <form className='flex flex-col gap-4'>
           <Input
             type='email'
             name='email'

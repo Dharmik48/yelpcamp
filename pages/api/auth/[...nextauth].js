@@ -52,6 +52,7 @@ export default NextAuth({
       // Otherwise add the user to DB
       const userToCreate = {
         name: user.name,
+        image: user.image,
         email: user.email,
         auth_type: provider,
       }

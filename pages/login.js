@@ -89,7 +89,10 @@ const Login = () => {
             <FaGoogle />
             Google
           </button>
-          <button className='flex w-full flex-1 items-center justify-center gap-2 rounded-md border-2 border-blue bg-blue px-4 py-3 text-primaryBg transition-colors hover:bg-transparent hover:text-blue'>
+          <button
+            className='flex w-full flex-1 items-center justify-center gap-2 rounded-md border-2 border-blue bg-blue px-4 py-3 text-primaryBg transition-colors hover:bg-transparent hover:text-blue'
+            onClick={() => signIn('facebook', { callbackUrl: '/' })}
+          >
             <FaFacebook />
             Facebook
           </button>

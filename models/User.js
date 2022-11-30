@@ -14,6 +14,11 @@ const userSchema = new Schema({
     required: true,
     min: [8, 'Password must be atleast 8 characters'],
   },
+  auth_type: {
+    type: String,
+    required: true,
+    enum: ['credentials', 'google', 'facebook'],
+  },
 })
 
 export default models.User || model('User', userSchema)

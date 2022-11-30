@@ -51,7 +51,7 @@ export default NextAuth({
         throw new Error('A user with this email already exists!')
       // Otherwise add the user to DB
       const userToCreate = {
-        username: user.name,
+        name: user.name,
         email: user.email,
         auth_type: provider,
       }

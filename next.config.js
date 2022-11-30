@@ -7,6 +7,12 @@ const nextConfig = {
       {
         hostname: 'firebasestorage.googleapis.com',
       },
+      {
+        hostname: 'avatars.dicebear.com',
+      },
+      {
+        hostname: 'lh3.googleusercontent.com',
+      },
     ],
   },
 }

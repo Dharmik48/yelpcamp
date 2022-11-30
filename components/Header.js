@@ -81,13 +81,22 @@ const Header = () => {
         </div>
         <div className='hidden items-center justify-center lg:inline-flex lg:space-x-10'>
           {session ? (
-            <button
-              title='Log out'
-              className='border-b-2 border-transparent text-base font-semibold text-brand transition-colors duration-200 hover:border-brand focus:border-brand'
-              onClick={() => signOut({ callbackUrl: '/' })}
-            >
-              Sign out
-            </button>
+            <>
+              <button
+                title='Log out'
+                className='border-b-2 border-transparent text-base font-semibold text-brand transition-colors duration-200 hover:border-brand focus:border-brand'
+                onClick={() => signOut({ callbackUrl: '/' })}
+              >
+                Sign out
+              </button>
+              <Image
+                src={session.user.image}
+                alt={session.user.name}
+                width='45'
+                height='45'
+                className='rounded-full border-2 border-brand'
+              />
+            </>
           ) : (
             <>
               <Link

@@ -3,8 +3,10 @@ import Link from 'next/link'
 import logo from '../public/logo.png'
 import { IoMenu, IoClose } from 'react-icons/io5'
 import { useState } from 'react'
+import { signOut, useSession } from 'next-auth/react'
 
 const Header = () => {
+  const { data: session } = useSession()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const toggleMenu = () => {
@@ -78,23 +80,44 @@ const Header = () => {
           </Link>
         </div>
         <div className='hidden items-center justify-center lg:inline-flex lg:space-x-10'>
-          <Link
-            href='/login'
-            title='Login'
-            className='border-b-2 border-transparent text-base font-semibold text-brand transition-colors duration-200 hover:border-brand focus:border-brand'
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Login
-          </Link>
-          <Link
-            href='/signup'
-            title='Sign Up'
-            className='rounded-md border-2 border-transparent bg-brand px-8 py-3 text-base font-semibold text-secondaryBg transition-all duration-200 hover:border-brand hover:bg-transparent hover:text-brand focus:border-brand focus:bg-transparent focus:text-brand'
-            role='button'
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Sign Up
-          </Link>
+          {session ? (
+            <>
+              <button
+                title='Log out'
+                className='border-b-2 border-transparent text-base font-semibold text-brand transition-colors duration-200 hover:border-brand focus:border-brand'
+                onClick={() => signOut({ callbackUrl: '/' })}
+              >
+                Sign out
+              </button>
+              <Image
+                src={session.user.image}
+                alt={session.user.name}
+                width='45'
+                height='45'
+                className='rounded-full border-2 border-brand'
+              />
+            </>
+          ) : (
+            <>
+              <Link
+                href='/login'
+                title='Login'
+                className='border-b-2 border-transparent text-base font-semibold text-brand transition-colors duration-200 hover:border-brand focus:border-brand'
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Login
+              </Link>
+              <Link
+                href='/signup'
+                title='Sign Up'
+                className='rounded-md border-2 border-transparent bg-brand px-8 py-3 text-base font-semibold text-secondaryBg transition-all duration-200 hover:border-brand hover:bg-transparent hover:text-brand focus:border-brand focus:bg-transparent focus:text-brand'
+                role='button'
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       </nav>
 
@@ -133,24 +156,45 @@ const Header = () => {
           </Link>
         </div>
 
-        <div className='mt-8'>
-          <Link
-            href='/login'
-            title='Add Campground'
-            className='mr-6 border-b-2 border-transparent text-base font-semibold text-brand transition-all duration-200 hover:border-brand focus:border-brand'
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Login
-          </Link>
-          <Link
-            href='/signup'
-            title=''
-            className='inline-flex items-center justify-center rounded-md border-2 border-transparent bg-brand px-8 py-3 text-base font-semibold text-secondaryBg transition-all duration-200 hover:border-brand hover:bg-transparent hover:text-brand focus:border-brand focus:bg-transparent focus:text-brand'
-            role='button'
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Sign Up
-          </Link>
+        <div className='mt-8 flex items-center gap-6'>
+          {session ? (
+            <>
+              <button
+                title='Log out'
+                className='border-b-2 border-transparent text-base font-semibold text-brand transition-all duration-200 hover:border-brand focus:border-brand'
+                onClick={() => signOut({ callbackUrl: '/' })}
+              >
+                Sign out
+              </button>
+              <Image
+                src={session.user.image}
+                alt={session.user.name}
+                width='45'
+                height='45'
+                className='rounded-full border-2 border-brand'
+              />
+            </>
+          ) : (
+            <>
+              <Link
+                href='/login'
+                title='Add Campground'
+                className='border-b-2 border-transparent text-base font-semibold text-brand transition-all duration-200 hover:border-brand focus:border-brand'
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Login
+              </Link>
+              <Link
+                href='/signup'
+                title=''
+                className='rounded-md border-2 border-transparent bg-brand px-8 py-3 text-base font-semibold text-secondaryBg transition-all duration-200 hover:border-brand hover:bg-transparent hover:text-brand focus:border-brand focus:bg-transparent focus:text-brand'
+                role='button'
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
       </nav>
     </header>

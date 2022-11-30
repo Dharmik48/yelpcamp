@@ -1,7 +1,7 @@
 import { Schema, model, models } from 'mongoose'
 
 const userSchema = new Schema({
-  username: {
+  name: {
     type: String,
     required: true,
   },
@@ -12,6 +12,10 @@ const userSchema = new Schema({
   password: {
     type: String,
     min: [8, 'Password must be atleast 8 characters'],
+  },
+  image: {
+    type: String,
+    required: true,
   },
   auth_type: {
     type: String,

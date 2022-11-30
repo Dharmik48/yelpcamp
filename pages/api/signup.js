@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
   if (req.method === 'POST') {
     // Extract the required data from the body
-    const { username, email, password } = req.body
+    const { username: name, email, password } = req.body
 
     // check if user already exists
     const userExists = await User.exists({ email })
@@ -15,14 +15,15 @@ export default async function handler(req, res) {
       return res.status(422).send({ message: 'User with email already exists' })
 
     // check if username is already taken already exists
-    const duplicateUsername = await User.exists({ username })
+    const duplicateUsername = await User.exists({ name })
     if (duplicateUsername)
       return res.status(422).send({ message: 'Username already in use' })
 
     const user = await User.create({
-      username,
+      name,
       email,
       password: await hash(password, 14),
+      image: `https://avatars.dicebear.com/api/initials/${name}.svg`,
       auth_type: 'credentials',
     })
 

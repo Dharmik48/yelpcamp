@@ -18,7 +18,7 @@ const userSchema = new Schema({
     required: true,
   },
   auth_type: {
-    type: String,
+    type: [String],
     enum: ['credentials', 'google', 'facebook'],
     required: true,
   },

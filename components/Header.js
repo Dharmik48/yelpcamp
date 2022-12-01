@@ -100,7 +100,7 @@ const Header = () => {
           ) : (
             <>
               <Link
-                href='/login'
+                href='/auth/login'
                 title='Login'
                 className='border-b-2 border-transparent text-base font-semibold text-brand transition-colors duration-200 hover:border-brand focus:border-brand'
                 onClick={() => setIsMenuOpen(false)}
@@ -108,7 +108,7 @@ const Header = () => {
                 Login
               </Link>
               <Link
-                href='/signup'
+                href='/auth/signup'
                 title='Sign Up'
                 className='rounded-md border-2 border-transparent bg-brand px-8 py-3 text-base font-semibold text-secondaryBg transition-all duration-200 hover:border-brand hover:bg-transparent hover:text-brand focus:border-brand focus:bg-transparent focus:text-brand'
                 role='button'
@@ -177,7 +177,7 @@ const Header = () => {
           ) : (
             <>
               <Link
-                href='/login'
+                href='/auth/login'
                 title='Add Campground'
                 className='border-b-2 border-transparent text-base font-semibold text-brand transition-all duration-200 hover:border-brand focus:border-brand'
                 onClick={() => setIsMenuOpen(false)}
@@ -185,7 +185,7 @@ const Header = () => {
                 Login
               </Link>
               <Link
-                href='/signup'
+                href='/auth/signup'
                 title=''
                 className='rounded-md border-2 border-transparent bg-brand px-8 py-3 text-base font-semibold text-secondaryBg transition-all duration-200 hover:border-brand hover:bg-transparent hover:text-brand focus:border-brand focus:bg-transparent focus:text-brand'
                 role='button'

@@ -60,5 +60,9 @@ export default NextAuth({
       return true
     },
   },
+  pages: {
+    signIn: '/auth/signin',
+    signOut: '/auth/signout',
+  },
   secret: process.env.NEXTAUTH_SECRET,
 })

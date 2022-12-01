@@ -18,14 +18,16 @@ export default NextAuth({
     }),
     CredentialsProvider({
       name: 'Credentials',
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         await connectDB()
 
         // Check if the user exists
         const user = await User.findOne({ email: credentials.email })
 
-        // If does not exists or exists but the auth type is not email/pass then throw error
-        if (!user || (user && user.auth_type !== 'credentials'))
+        // If does not exists then throw error
+        if (!user) throw new Error('Invalid email or password!')
+        // Check auth type, if it does not include 'credentials' then throw error
+        if (user.auth_type.indexOf('credentials') < 0)
           throw new Error('Invalid email or password!')
         // If user exists then check password
         const isPasswordCorrect = await compare(
@@ -44,17 +46,20 @@ export default NextAuth({
       await connectDB()
       // Check if user with email exists
       const userInDB = await User.findOne({ email: user.email })
-      // if exista and the provider is same then return
-      if (userInDB && userInDB.auth_type === provider) return true
-      // If exists and the provider is different then don't allow to sign in
-      if (userInDB && userInDB.auth_type !== provider)
-        throw new Error('A user with this email already exists!')
+      // if exists and the auth type already has provider then return
+      if (userInDB && userInDB.auth_type.indexOf(provider) >= 0) return true
+      // If exists and the provider is not in auth_type then add it
+      if (userInDB && userInDB.auth_type.indexOf(provider) < 0) {
+        userInDB.auth_type.push(provider)
+        await userInDB.save()
+        return true
+      }
       // Otherwise add the user to DB
       const userToCreate = {
         name: user.name,
         image: user.image,
         email: user.email,
-        auth_type: provider,
+        auth_type: [provider],
       }
       await User.create(userToCreate)
       return true

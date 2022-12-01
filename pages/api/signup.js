@@ -24,7 +24,7 @@ export default async function handler(req, res) {
       email,
       password: await hash(password, 14),
       image: `https://avatars.dicebear.com/api/initials/${name}.svg`,
-      auth_type: 'credentials',
+      auth_type: ['credentials'],
     })
 
     return res.status(200).json(user)

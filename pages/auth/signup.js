@@ -1,55 +1,70 @@
 import { useFormik } from 'formik'
+import Input from '../../components/Input'
 import * as Yup from 'yup'
 import { signIn } from 'next-auth/react'
-import { FaGoogle, FaFacebook } from 'react-icons/fa'
-import Input from '../components/Input'
-import Button from '../components/Button'
-import Link from 'next/link'
+import Button from '../../components/Button'
 import Image from 'next/image'
-import illustration from '/public/illustrations/login.png'
-import { toast } from 'react-toastify'
+import illustration from '/public/illustrations/signup.svg'
+import { FaFacebook, FaGoogle } from 'react-icons/fa'
+import Link from 'next/link'
+import axios from 'axios'
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
 
-const Login = () => {
+const SignUp = () => {
   const router = useRouter()
 
+  const submitForm = async values => {
+    try {
+      const user = await axios.post('/api/signup', values)
+      toast.success('Registration successfull')
+      router.push('/auth/login')
+    } catch (e) {
+      toast.error(e.response.data.message || 'Something went wrong')
+    }
+  }
+
   const formik = useFormik({
-    initialValues: { email: '', password: '' },
+    initialValues: {
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
     validationSchema: Yup.object({
+      username: Yup.string().required('Please enter a username'),
       email: Yup.string()
         .email('Please enter a valid email')
         .required('Please enter an email'),
       password: Yup.string()
         .min(8, 'Password length must be atleast 8')
         .required('Please enter the password'),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref('password')], 'Passwords do not match!')
+        .required('Please enter the confirm password'),
     }),
-    onSubmit: async values => {
-      const status = await signIn('credentials', {
-        redirect: false,
-        email: values.email,
-        password: values.password,
-        callbackUrl: '/',
-      })
-
-      if (!status.ok) return toast.error(status.error)
-
-      toast.success('Login successfull!')
-      router.push('/')
-    },
+    onSubmit: values => submitForm(values),
   })
 
   return (
     <main className='flex flex-1 items-center gap-16'>
-      <Image
-        src={illustration}
-        className='hidden max-w-[50%] flex-1 self-center lg:block'
-        alt='illustration'
-      />
       <div className='mx-auto flex max-w-full flex-col gap-8 lg:mx-0 lg:flex-1'>
         <h2 className='text-center font-volkhov text-3xl font-bold md:gap-4 lg:text-4xl'>
-          Login
+          Sign Up
         </h2>
         <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
+          <Input
+            type='text'
+            name='username'
+            placeholder='Username'
+            onBlur={formik.handleBlur}
+            handleChange={formik.handleChange}
+            value={formik.values.username}
+            error={
+              formik.touched.username &&
+              formik.errors.username && [true, formik.errors.username]
+            }
+          />
           <Input
             type='email'
             name='email'
@@ -74,7 +89,26 @@ const Login = () => {
               formik.errors.password && [true, formik.errors.password]
             }
           />
-          <Button text='Login' title='Login' className='mx-auto mt-4 w-fit' />
+          <Input
+            type='password'
+            name='confirmPassword'
+            placeholder='Enter Confirm Password'
+            onBlur={formik.handleBlur}
+            handleChange={formik.handleChange}
+            value={formik.values.confirmPassword}
+            error={
+              formik.touched.confirmPassword &&
+              formik.errors.confirmPassword && [
+                true,
+                formik.errors.confirmPassword,
+              ]
+            }
+          />
+          <Button
+            text='Sign Up'
+            title='sign up'
+            className='mx-auto mt-4 w-fit'
+          />
         </form>
         <div className='flex items-center justify-between gap-4'>
           <hr className='flex-1' />
@@ -98,17 +132,22 @@ const Login = () => {
           </button>
         </div>
         <p className='mx-auto'>
-          Don&apos;t have an account?{' '}
+          Already have an account?{' '}
           <Link
-            href='/signup'
+            href='/auth/login'
             className='text-brand hover:border-b hover:border-brand'
           >
-            Create one
+            Log In
           </Link>
         </p>
       </div>
+      <Image
+        src={illustration}
+        className='hidden max-w-[50%] flex-1 self-center lg:block'
+        alt='illustration'
+      />
     </main>
   )
 }
 
-export default Login
+export default SignUp

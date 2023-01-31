@@ -38,58 +38,61 @@ export default function Home() {
           <div className='flex flex-col items-start'>
             <div className='flex items-center gap-1'>
               <select
+                defaultValue={'null'}
                 name='location'
                 id='location'
                 className='cursor-pointer appearance-none bg-transparent'
               >
-                <option value='null' disabled selected>
+                <option value='null' disabled>
                   Location
                 </option>
                 <option value='Hello'>Hello</option>
               </select>
-              <FaChevronDown className='text-xs text-brand' />
+              <label htmlFor='location'>
+                <FaChevronDown className='text-xs text-brand' />
+              </label>
             </div>
-            <label htmlFor='location' className='text-sm text-paragraph'>
-              Where are you going
-            </label>
+            <p className='text-sm text-paragraph'>Where are you going</p>
           </div>
           <div className='flex flex-col items-start'>
             <div className='flex items-center gap-1'>
               <select
+                defaultValue={'null'}
                 name='date'
                 id='date'
                 className='cursor-pointer appearance-none bg-transparent'
               >
-                <option value='null' disabled className='bg-brand' selected>
+                <option value='null' disabled className='bg-brand'>
                   Date
                 </option>
                 <option value='Hello' className='bg-brand'>
                   Hello
                 </option>
               </select>
-              <FaChevronDown className='text-xs text-brand' />
+              <label htmlFor='date'>
+                <FaChevronDown className='text-xs text-brand' />
+              </label>
             </div>
-            <label htmlFor='date' className='text-sm text-paragraph'>
-              When will you go
-            </label>
+            <p className='text-sm text-paragraph'>When will you go</p>
           </div>
           <div className='flex flex-col items-start'>
             <div className='flex items-center gap-1'>
               <select
+                defaultValue={'null'}
                 name='guests'
                 id='guests'
                 className='cursor-pointer appearance-none bg-transparent'
               >
-                <option value='null' disabled selected>
+                <option value='null' disabled>
                   Guest
                 </option>
                 <option value='Hello'>Hello</option>
               </select>
-              <FaChevronDown className='text-xs text-brand' />
+              <label htmlFor='guests'>
+                <FaChevronDown className='text-xs text-brand' />
+              </label>
             </div>
-            <label htmlFor='guests' className='text-sm text-paragraph'>
-              Number of guests
-            </label>
+            <p className='text-sm text-paragraph'>Number of guests</p>
           </div>
           <Button text='Explore Now' />
         </form>

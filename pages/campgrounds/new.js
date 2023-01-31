@@ -9,8 +9,11 @@ import { uploadAndGetImgUrls } from '../../util/uploadImage'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import Link from 'next/link'
+import { useSession } from 'next-auth/react'
 
 const NewCampground = () => {
+  const { data: session } = useSession()
+
   const router = useRouter()
   const [isSubmiting, setIsSubmiting] = useState(false)
 
@@ -21,6 +24,7 @@ const NewCampground = () => {
     const { data: campground } = await axios.post('/api/campgrounds', {
       ...data,
       images,
+      owner: session.user.email,
     })
 
     toast.success(

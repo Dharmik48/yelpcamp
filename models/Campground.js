@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import { deleteObject, ref } from 'firebase/storage'
 import { db, storage } from '../util/firebase'
+import User from './User'
 
 const campgroundSchema = new mongoose.Schema(
   {
@@ -20,6 +21,11 @@ const campgroundSchema = new mongoose.Schema(
     },
     images: {
       type: [{ url: String, id: String }],
+      required: true,
+    },
+    owner: {
+      type: String,
+      ref: 'User',
       required: true,
     },
   },

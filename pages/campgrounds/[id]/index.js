@@ -7,8 +7,10 @@ import { getCampgrounds, getCampground } from '../../../util/campgrounds'
 import Image from 'next/image'
 import { toast } from 'react-toastify'
 import { FaCheck } from 'react-icons/fa'
+import { useSession } from 'next-auth/react'
 
 const CampgroundDetail = ({ campground }) => {
+  const { data: session } = useSession()
   const router = useRouter()
 
   if (router.isFallback) return <h1>Loading...</h1>
@@ -54,13 +56,19 @@ const CampgroundDetail = ({ campground }) => {
           {renderImages()}
         </ul>
         <p>${campground.price}</p>
-        <div className='flex gap-4'>
-          <LinkButton
-            text='Edit'
-            linkTo={`/campgrounds/${campground._id}/edit`}
-          />
-          <Button text='Delete' danger='true' handleClick={deleteCampground} />
-        </div>
+        {session?.user?.email === campground.owner && (
+          <div className='flex gap-4'>
+            <LinkButton
+              text='Edit'
+              linkTo={`/campgrounds/${campground._id}/edit`}
+            />
+            <Button
+              text='Delete'
+              danger='true'
+              handleClick={deleteCampground}
+            />
+          </div>
+        )}
       </section>
     </>
   )

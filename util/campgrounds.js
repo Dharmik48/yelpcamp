@@ -12,11 +12,12 @@ export async function getCampgrounds(fields) {
 }
 
 // Function to fetch a single campground
-export async function getCampground(id) {
+export async function getCampground(id, populateOwner) {
   // Connect to DB
   await connectDb()
   // Fetch the camgpround
   const campground = await Campground.findById(id)
+  populateOwner && (await campground.populate('owner'))
   // Parse the data and return the data
   return JSON.parse(JSON.stringify(campground))
 }

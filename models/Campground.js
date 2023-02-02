@@ -12,7 +12,7 @@ const campgroundSchema = new mongoose.Schema(
     desc: {
       type: String,
       required: true,
-      max: 250,
+      max: 750,
     },
     price: {
       type: Number,

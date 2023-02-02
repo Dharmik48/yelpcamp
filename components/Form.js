@@ -19,7 +19,7 @@ const Form = ({ submitForm, data, disabled }) => {
     validationSchema: Yup.object({
       name: Yup.string().required('Please enter a name!'),
       desc: Yup.string()
-        .max(350, 'Description cannot be more than 350')
+        .max(750, 'Description cannot be more than 750')
         .required('Please enter a description!'),
       images: Yup.array().min(1, 'Please select atleast 1 image!').required(),
       price: Yup.number()

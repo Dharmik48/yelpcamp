@@ -64,6 +64,16 @@ export default NextAuth({
       await User.create(userToCreate)
       return true
     },
+    async session({ session }) {
+      await connectDB()
+
+      const email = session.user.email
+      const { _id } = await User.findOne({ email }, { _id: true })
+
+      session.user.id = _id
+
+      return session
+    },
   },
   pages: {
     signIn: '/auth/login',

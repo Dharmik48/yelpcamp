@@ -40,7 +40,7 @@ const CampgroundDetail = ({ campground }) => {
         height={'300'}
         src={img.url}
         key={img.id}
-        className='mb-5 w-full rounded-xl'
+        className='mb-5 flex-1 rounded-xl'
       />
     ))
 
@@ -49,14 +49,28 @@ const CampgroundDetail = ({ campground }) => {
       <Head>
         <title>{`YelpCamp | ${campground.name}`}</title>
       </Head>
-      <section>
-        <h2 className='font-volkhov text-3xl'>{campground.name}</h2>
-        <p>{campground.desc}</p>
-        <ul className='columns-1 gap-4 sm:columns-2 lg:columns-3'>
-          {renderImages()}
-        </ul>
-        <p>${campground.price}</p>
-        {session?.user?.email === campground.owner && (
+      <section className='flex flex-col gap-4 py-10 lg:gap-6 lg:py-16'>
+        <div>
+          <h1 className='mb-2 font-volkhov text-3xl text-brand lg:mb-4 lg:text-4xl 2xl:text-5xl'>
+            {campground.name}
+          </h1>
+          <p className='text-sm'>
+            Posted by{' '}
+            <span className='font-volkhov'>{campground.owner.name}</span>
+          </p>
+        </div>
+        <ul className='flex gap-2 overflow-scroll'>{renderImages()}</ul>
+        <p className='md:text-xl'>
+          <span className='text-xl font-bold md:text-2xl lg:text-3xl'>
+            ${campground.price}
+          </span>
+          /night
+        </p>
+        <div>
+          <h3 className='mb-2 font-volkhov text-2xl lg:text-3xl'>About</h3>
+          <p className='lg:text-lg'>{campground.desc}</p>
+        </div>
+        {session?.user?.email === campground.owner.email && (
           <div className='flex gap-4'>
             <LinkButton
               text='Edit'
@@ -87,7 +101,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   // Fetch campground data
-  const campground = await getCampground(params.id)
+  const campground = await getCampground(params.id, true)
   // Send the data as prop
   return {
     props: { campground },

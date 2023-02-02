@@ -24,7 +24,7 @@ const NewCampground = () => {
     const { data: campground } = await axios.post('/api/campgrounds', {
       ...data,
       images,
-      owner: session.user.email,
+      owner: session.user.id,
     })
 
     toast.success(

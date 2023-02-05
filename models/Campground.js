@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import { deleteObject, ref } from 'firebase/storage'
 import { db, storage } from '../util/firebase'
 import User from './User'
+import Review from './Review'
 
 const campgroundSchema = new mongoose.Schema(
   {
@@ -27,6 +28,10 @@ const campgroundSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: User,
       required: true,
+    },
+    reviews: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: Review,
     },
   },
   { timestamps: true }

@@ -8,6 +8,7 @@ import Image from 'next/image'
 import { toast } from 'react-toastify'
 import { FaCheck } from 'react-icons/fa'
 import { useSession } from 'next-auth/react'
+import Reviews from '../../../components/Reviews'
 
 const CampgroundDetail = ({ campground }) => {
   const { data: session } = useSession()
@@ -67,7 +68,7 @@ const CampgroundDetail = ({ campground }) => {
           /night
         </p>
         <div>
-          <h3 className='mb-2 font-volkhov text-2xl lg:text-3xl'>About</h3>
+          <h3 className='mb-3 font-volkhov text-2xl lg:text-3xl'>About</h3>
           <p className='lg:text-lg'>{campground.desc}</p>
         </div>
         {session?.user?.email === campground.owner.email && (
@@ -84,6 +85,8 @@ const CampgroundDetail = ({ campground }) => {
           </div>
         )}
       </section>
+      <hr className='text-paragraph' />
+      <Reviews />
     </>
   )
 }

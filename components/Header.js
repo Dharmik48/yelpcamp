@@ -8,13 +8,19 @@ import { signOut, useSession } from 'next-auth/react'
 const Header = () => {
   const { data: session } = useSession()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isProfileDropDownOpen, setIsProfileDropDownOpen] = useState(false)
 
   const toggleMenu = () => {
     setIsMenuOpen(currIsMenuOpen => !currIsMenuOpen)
   }
 
+  const toggleProfileDropDown = () => {
+    setIsProfileDropDownOpen(
+      currIsProfileDropDownOpen => !currIsProfileDropDownOpen
+    )
+  }
+
   return (
-    // <div className='sticky top-0 z-10'>
     <header className='sticky top-0 z-50 mx-auto max-w-7xl bg-primaryBg px-8 font-poppins text-dark sm:px-10 md:px-12 lg:px-14 lg:pb-0'>
       {/* <!-- lg+ --> */}
       <nav className='flex h-16 items-center justify-between lg:h-24'>
@@ -85,20 +91,35 @@ const Header = () => {
         <div className='hidden items-center justify-center lg:inline-flex lg:space-x-10'>
           {session ? (
             <>
-              <button
-                title='Log out'
-                className='border-b-2 border-transparent text-base font-semibold text-brand transition-colors duration-200 hover:border-brand focus:border-brand'
-                onClick={() => signOut({ callbackUrl: '/' })}
-              >
-                Sign out
-              </button>
-              <Image
-                src={session.user.image}
-                alt={session.user.name}
-                width='45'
-                height='45'
-                className='rounded-full border-2 border-brand'
-              />
+              <div className='relative flex items-center justify-center'>
+                <Image
+                  src={session.user.image}
+                  alt={session.user.name}
+                  width='45'
+                  height='45'
+                  className='cursor-pointer rounded-full border-2 border-brand'
+                  onClick={toggleProfileDropDown}
+                />
+
+                <ul
+                  className={`${
+                    isProfileDropDownOpen ? 'scale-100' : 'scale-0'
+                  } border-gray-200 absolute top-full mt-5 flex w-max origin-top flex-col gap-5 rounded-lg border bg-secondaryBg p-5 text-dark shadow-md transition-transform`}
+                >
+                  <li>
+                    <Link href={`/user/${session.user.id}`}>Your Profile</Link>
+                  </li>
+                  <li>
+                    <button
+                      title='Log out'
+                      className='border-b-2 border-transparent text-base font-semibold text-brand transition-colors duration-200 hover:border-brand focus:border-brand'
+                      onClick={() => signOut({ callbackUrl: '/' })}
+                    >
+                      Sign out
+                    </button>
+                  </li>
+                </ul>
+              </div>
             </>
           ) : (
             <>
@@ -150,14 +171,24 @@ const Header = () => {
           </Link>
 
           {session && (
-            <Link
-              href='/campgrounds/new'
-              title='Add Campground'
-              className='inline-flex py-3 text-base font-normal text-dark transition-all duration-200 hover:text-brand focus:text-brand'
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Add Campground
-            </Link>
+            <>
+              <Link
+                href='/campgrounds/new'
+                title='Add Campground'
+                className='inline-flex py-3 text-base font-normal text-dark transition-all duration-200 hover:text-brand focus:text-brand'
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Add Campground
+              </Link>
+              <Link
+                href={`/users/${session?.user?.id}`}
+                title='Campgrounds'
+                className='inline-flex py-3 text-base font-normal text-dark transition-all duration-200 hover:text-brand focus:text-brand'
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Profile
+              </Link>
+            </>
           )}
         </div>
 
@@ -203,7 +234,6 @@ const Header = () => {
         </div>
       </nav>
     </header>
-    // </div>
   )
 }
 

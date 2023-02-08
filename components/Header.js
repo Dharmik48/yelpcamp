@@ -92,14 +92,15 @@ const Header = () => {
           {session ? (
             <>
               <div className='relative flex items-center justify-center'>
-                <Image
-                  src={session.user.image}
-                  alt={session.user.name}
-                  width='45'
-                  height='45'
-                  className='cursor-pointer rounded-full border-2 border-brand'
-                  onClick={toggleProfileDropDown}
-                />
+                <button onClick={toggleProfileDropDown}>
+                  <Image
+                    src={session.user.image}
+                    alt={session.user.name}
+                    width='45'
+                    height='45'
+                    className='cursor-pointer rounded-full border-2 border-brand'
+                  />
+                </button>
 
                 <ul
                   className={`${

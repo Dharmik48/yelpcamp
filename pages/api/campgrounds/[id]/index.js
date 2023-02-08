@@ -1,5 +1,5 @@
-import Campground from '../../../models/Campground'
-import connectDb from '../../../util/mongo'
+import Campground from '../../../../models/Campground'
+import connectDb from '../../../../util/mongo'
 
 export default async function handler(req, res) {
   await connectDb()

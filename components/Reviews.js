@@ -47,8 +47,8 @@ const Review = () => {
       <p>
         Camp Happy Trails is a great option for campers looking for a fun and
         scenic outdoor experience. With well-maintained facilities and a variety
-        of activities, it offers something for everyone. Whether you're seeking
-        relaxation or adventure, you're sure to have a memorable time at Camp
+        of activities, it offers something for everyone. Whether you are seeking
+        relaxation or adventure, you are sure to have a memorable time at Camp
         Happy Trails.
       </p>
     </div>

@@ -108,7 +108,7 @@ const Header = () => {
                   } border-gray-200 absolute top-full mt-5 flex w-max origin-top flex-col gap-5 rounded-lg border bg-secondaryBg p-5 text-dark shadow-md transition-transform`}
                 >
                   <li>
-                    <Link href={`/user/${session.user.id}`}>Your Profile</Link>
+                    <Link href={`/users/${session.user.id}`}>Your Profile</Link>
                   </li>
                   <li>
                     <button

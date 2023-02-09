@@ -1,5 +1,4 @@
-import mongoose, { Schema, models, model } from 'mongoose'
-import User from './User'
+import { Schema, models, model } from 'mongoose'
 
 const reviewSchema = new Schema(
   {
@@ -10,15 +9,15 @@ const reviewSchema = new Schema(
     },
     user: {
       type: Schema.Types.ObjectId,
-      ref: User,
+      ref: 'User',
       required: true,
     },
     likes: {
       type: [Schema.Types.ObjectId],
-      ref: User,
+      ref: 'User',
     },
   },
   { timestamps: true }
 )
 
-export default models.Review || mongoose.model('Review', reviewSchema)
+export default models.Review || model('Review', reviewSchema)

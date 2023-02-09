@@ -9,10 +9,11 @@ export async function getUsers(fields) {
   return JSON.parse(JSON.stringify(users))
 }
 
-export async function getUser(id) {
+export async function getUser(id, populateCampgrounds = false) {
   await connectDb()
   // find user with id
   const user = await User.findById(id)
+  populateCampgrounds && (await user.populate('campgrounds'))
   // convert user to JS object and return
   return JSON.parse(JSON.stringify(user))
 }

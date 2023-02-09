@@ -1,10 +1,8 @@
-import mongoose from 'mongoose'
+import { Schema, models, model } from 'mongoose'
 import { deleteObject, ref } from 'firebase/storage'
 import { db, storage } from '../util/firebase'
-import User from './User'
-import Review from './Review'
 
-const campgroundSchema = new mongoose.Schema(
+const campgroundSchema = new Schema(
   {
     name: {
       type: String,
@@ -25,12 +23,12 @@ const campgroundSchema = new mongoose.Schema(
       required: true,
     },
     owner: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
     reviews: {
-      type: [mongoose.Schema.Types.ObjectId],
+      type: [Schema.Types.ObjectId],
       ref: 'Review',
     },
   },
@@ -57,5 +55,4 @@ campgroundSchema.post('findOneAndUpdate', async function (doc) {
   })
 })
 
-export default mongoose.models.Campground ||
-  mongoose.model('Campground', campgroundSchema)
+export default models.Campground || model('Campground', campgroundSchema)

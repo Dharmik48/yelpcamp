@@ -4,9 +4,10 @@ import { getUser, getUsers } from '../../../util/user'
 import CampgroundCard from '../../../components/CampgroundCard'
 
 const Profile = ({ user }) => {
+  console.log(user, '😪')
   const renderCamps = () =>
     user.campgrounds.map(campground => (
-      <li>
+      <li key={campground._id}>
         <CampgroundCard campground={campground} />
       </li>
     ))
@@ -14,7 +15,7 @@ const Profile = ({ user }) => {
   return (
     <>
       <Head>
-        <title>{user.name}'s Profile</title>
+        <title>{user.name}&apos;s Profile</title>
       </Head>
       <section className='flex flex-col gap-6 py-10 lg:gap-16 lg:py-16'>
         <div className='flex items-center gap-4'>
@@ -32,7 +33,7 @@ const Profile = ({ user }) => {
         </div>
         {/* <p>Joined in {user.createdAt}</p> */}
         <section>
-          <h3>{user.name}'s Camps</h3>
+          <h3>{user.name}&apos;s Camps</h3>
           <ul className='mt-2 grid w-full gap-6 md:grid-cols-2 lg:grid-cols-3'>
             {renderCamps()}
           </ul>

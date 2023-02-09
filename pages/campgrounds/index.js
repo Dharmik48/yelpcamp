@@ -5,7 +5,7 @@ import CampgroundCard from '../../components/CampgroundCard'
 const Campgrounds = ({ campgrounds }) => {
   // Map over the campgrounds to create JSX
   const renderCampgrounds = campgrounds.map(campground => (
-    <li>
+    <li key={campground._id}>
       <CampgroundCard campground={campground} />
     </li>
   ))

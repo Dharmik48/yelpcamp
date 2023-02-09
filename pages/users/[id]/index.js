@@ -1,10 +1,14 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { getUser, getUsers } from '../../../util/user'
 import CampgroundCard from '../../../components/CampgroundCard'
 
 const Profile = ({ user }) => {
-  console.log(user, '😪')
+  const router = useRouter()
+  if (router.isFallback) {
+    return <div>Loading...</div>
+  }
   const renderCamps = () =>
     user.campgrounds.map(campground => (
       <li key={campground._id}>

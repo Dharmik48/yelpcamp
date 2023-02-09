@@ -23,6 +23,10 @@ const userSchema = new Schema(
       enum: ['credentials', 'google', 'facebook'],
       required: true,
     },
+    campgrounds: {
+      type: [Schema.Types.ObjectId],
+      ref: 'Campground',
+    },
   },
   { timestamps: true }
 )

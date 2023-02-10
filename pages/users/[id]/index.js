@@ -6,9 +6,11 @@ import CampgroundCard from '../../../components/CampgroundCard'
 
 const Profile = ({ user }) => {
   const router = useRouter()
+
   if (router.isFallback) {
     return <div>Loading...</div>
   }
+
   const renderCamps = () =>
     user.campgrounds.map(campground => (
       <li key={campground._id}>

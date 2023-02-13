@@ -19,6 +19,7 @@ module.exports = {
       red: '#ef476f',
       lightRed: '#FFE7DB',
       transparent: 'transparent',
+      white: '#ffffff',
     },
     extend: {
       width: {
@@ -28,7 +29,7 @@ module.exports = {
         xl: '36rem',
         '2xl': '48rem',
         '3xl': '56rem',
-        '4xl': '64rem'
+        '4xl': '64rem',
       },
     },
     fontFamily: {

@@ -4,6 +4,9 @@ import ButtonOutline from '../components/ButtonOutline'
 import Button from '../components/Button'
 import ladingIllustrastion from '/public/illustrations/landing.svg'
 import { FaChevronDown } from 'react-icons/fa'
+import signupicon from '/public/icons/things_to_do_signup.svg'
+import moneyicon from '/public/icons/things_to_do_money.svg'
+import travelicon from '/public/icons/things_to_do_travel.svg'
 
 export default function Home() {
   return (
@@ -89,6 +92,38 @@ export default function Home() {
           </div>
           <Button text='Explore Now' />
         </form>
+      </section>
+      <section className='bg-secondaryBg p-7'>
+        <h3 className='mb-2 text-center font-volkhov text-2xl font-extrabold'>
+          Things you need <span className='text-brand'>to do</span>
+        </h3>
+        <p className='mb-5 text-center text-base text-paragraph'>
+          We ensure that you&apos;ll embark on a perfectly planned, safe
+          vacation at a price you can afford.
+        </p>
+        <div className='flex flex-wrap gap-5'>
+          <div className='max-w-xs rounded-lg bg-white p-6 shadow-lg'>
+            <Image src={signupicon} alt='sign up icon' className='mb-4' />
+            <h5 className='mb-2 text-lg font-bold'>Sign Up</h5>
+            <p className='text-sm text-paragraph'>
+              Completes all the work associated with planning and processing
+            </p>
+          </div>
+          <div className='max-w-xs rounded-lg bg-white p-6 shadow-lg '>
+            <Image src={moneyicon} alt='sign up icon' className='mb-4' />
+            <h5 className='mb-2 text-lg font-bold'>Worth of Money</h5>
+            <p className='text-sm text-paragraph'>
+              After successful access then book from exclusive deals & pricing
+            </p>
+          </div>
+          <div className='max-w-xs rounded-lg bg-white p-6 shadow-lg '>
+            <Image src={travelicon} alt='sign up icon' className='mb-4' />
+            <h5 className='mb-2 text-lg font-bold'>Exciting Travel</h5>
+            <p className='text-sm text-paragraph'>
+              Start and explore a wide range of exciting travel experience.
+            </p>
+          </div>
+        </div>
       </section>
     </>
   )

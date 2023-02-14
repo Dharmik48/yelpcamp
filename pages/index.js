@@ -93,30 +93,30 @@ export default function Home() {
           <Button text='Explore Now' />
         </form>
       </section>
-      <section className='bg-secondaryBg p-7'>
-        <h3 className='mb-2 text-center font-volkhov text-2xl font-extrabold'>
+      <section className='bg-bleed bg-secondaryBg p-7 md:p-12 lg:p-16'>
+        <h3 className='mb-2 text-center font-volkhov text-2xl font-extrabold md:mb-4 md:text-3xl lg:mb-6 lg:text-4xl'>
           Things you need <span className='text-brand'>to do</span>
         </h3>
-        <p className='mb-5 text-center text-base text-paragraph'>
+        <p className='mx-auto mb-5 text-center text-base text-paragraph md:mb-10 md:max-w-lg lg:mb-14'>
           We ensure that you&apos;ll embark on a perfectly planned, safe
           vacation at a price you can afford.
         </p>
-        <div className='flex flex-wrap gap-5'>
-          <div className='max-w-xs rounded-lg bg-white p-6 shadow-lg'>
+        <div className='flex flex-wrap justify-center gap-5'>
+          <div className='max-w-xs rounded-lg bg-white bg-[url("/illustrations/signup_wave.svg")] bg-cover px-8 py-10 shadow-lg'>
             <Image src={signupicon} alt='sign up icon' className='mb-4' />
             <h5 className='mb-2 text-lg font-bold'>Sign Up</h5>
             <p className='text-sm text-paragraph'>
               Completes all the work associated with planning and processing
             </p>
           </div>
-          <div className='max-w-xs rounded-lg bg-white p-6 shadow-lg '>
+          <div className='max-w-xs rounded-lg bg-white bg-[url("/illustrations/money_wave.svg")] bg-cover px-8 py-10 shadow-lg'>
             <Image src={moneyicon} alt='sign up icon' className='mb-4' />
             <h5 className='mb-2 text-lg font-bold'>Worth of Money</h5>
             <p className='text-sm text-paragraph'>
               After successful access then book from exclusive deals & pricing
             </p>
           </div>
-          <div className='max-w-xs rounded-lg bg-white p-6 shadow-lg '>
+          <div className='max-w-xs rounded-lg bg-white bg-[url("/illustrations/travel_wave.svg")] bg-cover px-8 py-10 shadow-lg'>
             <Image src={travelicon} alt='sign up icon' className='mb-4' />
             <h5 className='mb-2 text-lg font-bold'>Exciting Travel</h5>
             <p className='text-sm text-paragraph'>

@@ -12,6 +12,11 @@
   --toastify-font-family: 'Poppins', 'serif';
 }
 
+.bg-bleed {
+  box-shadow: 0 0 0 100vmax #f7f8fc;
+  clip-path: inset(0 -100vmax);
+}
+
 .Toastify__toast {
   padding-inline: 1rem;
   border-radius: 0.75rem;

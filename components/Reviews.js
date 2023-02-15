@@ -17,7 +17,9 @@ const Reviews = ({ data, onProfilePage = false }) => {
     )
   }
   const renderReviews = () =>
-    data.map(review => <Review data={review} onProfilePage={onProfilePage} />)
+    data.map(review => (
+      <Review key={review._id} data={review} onProfilePage={onProfilePage} />
+    ))
 
   return (
     <ul className='grid gap-10 py-3 lg:grid-cols-2 lg:gap-20'>

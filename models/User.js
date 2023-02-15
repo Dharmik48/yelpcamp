@@ -27,6 +27,10 @@ const userSchema = new Schema(
       type: [Schema.Types.ObjectId],
       ref: 'Campground',
     },
+    reviews: {
+      type: [Schema.Types.ObjectId],
+      ref: 'Review',
+    },
   },
   { timestamps: true }
 )

@@ -1,4 +1,5 @@
 import Campground from '../models/Campground'
+import User from '../models/User'
 import connectDb from './mongo'
 
 // Function to fetch campgrounds
@@ -15,6 +16,7 @@ export async function getCampgrounds(fields) {
 export async function getCampground(id, populateOwner) {
   // Connect to DB
   await connectDb()
+  await User.findOne({})
   // Fetch the camgpround
   const campground = await Campground.findById(id)
   populateOwner && (await campground.populate('owner'))

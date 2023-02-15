@@ -1,4 +1,6 @@
+import Campground from '../models/Campground'
 import User from '../models/User'
+import Review from '../models/Review'
 import connectDb from './mongo'
 
 export async function getUsers(fields) {
@@ -9,11 +11,20 @@ export async function getUsers(fields) {
   return JSON.parse(JSON.stringify(users))
 }
 
-export async function getUser(id, populateCampgrounds = false) {
+export async function getUser(
+  id,
+  populateCampgrounds = false,
+  populateReviews = true
+) {
   await connectDb()
+  await Campground.findOne({})
+  await Review.findOne({})
   // find user with id
   const user = await User.findById(id)
   populateCampgrounds && (await user.populate('campgrounds'))
+  populateReviews &&
+    (await user.populate('reviews')) &&
+    (await user.populate('reviews.campground'))
   // convert user to JS object and return
   return JSON.parse(JSON.stringify(user))
 }

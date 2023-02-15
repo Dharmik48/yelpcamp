@@ -8,7 +8,7 @@ import Image from 'next/image'
 import { toast } from 'react-toastify'
 import { FaCheck } from 'react-icons/fa'
 import { useSession } from 'next-auth/react'
-import Reviews from '../../../components/Reviews'
+// import Reviews from '../../../components/Reviews'
 
 const CampgroundDetail = ({ campground }) => {
   const { data: session } = useSession()
@@ -86,7 +86,7 @@ const CampgroundDetail = ({ campground }) => {
         )}
       </section>
       <hr className='text-paragraph' />
-      <Reviews />
+      {/* <Reviews /> */}
     </>
   )
 }

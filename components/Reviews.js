@@ -3,19 +3,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 const Reviews = ({ data, onProfilePage = false }) => {
-  const handleSubmit = async e => {
-    e.preventDefault()
-    const data = {
-      text: e.target.text.value,
-      user: '63888a592161a9ddc9e49667',
-      campground: '63e52d8f811977d64e7b4c1b',
-    }
-
-    const res = await axios.post(
-      '/api/campgrounds/63dbeeb8ffafac77f6cda9ab/review',
-      data
-    )
+  if (!data.length) {
+    return <p>This campground has no reviews yet.</p>
   }
+
   const renderReviews = () =>
     data.map(review => (
       <Review key={review._id} data={review} onProfilePage={onProfilePage} />

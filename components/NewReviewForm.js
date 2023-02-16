@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import { FaChevronDown } from 'react-icons/fa'
 
-const NewReviewForm = ({ setShowNewReviewForm, camps }) => {
+const NewReviewForm = ({ setShowNewReviewForm, camps, handleSubmit }) => {
   const [showMenu, setShowMenu] = useState(false)
   const [selectedOption, setSelectedOption] = useState(0)
 
@@ -34,7 +33,10 @@ const NewReviewForm = ({ setShowNewReviewForm, camps }) => {
     ))
 
   return (
-    <form className='flex max-w-xl flex-col gap-5 rounded-lg py-5'>
+    <form
+      className='flex max-w-xl flex-col gap-5 rounded-lg py-5'
+      onSubmit={e => handleSubmit(e, camps[selectedOption]._id)}
+    >
       <div>
         <label
           id='listbox-label'
@@ -96,7 +98,10 @@ const NewReviewForm = ({ setShowNewReviewForm, camps }) => {
         />
       </div>
       <div>
-        <button className='mr-3 rounded-lg bg-brand p-3 text-white'>
+        <button
+          className='mr-3 rounded-lg bg-brand p-3 text-white'
+          type='submit'
+        >
           Submit
         </button>
         <button

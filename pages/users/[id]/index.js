@@ -7,8 +7,13 @@ import CampgroundCard from '../../../components/CampgroundCard'
 import { useState } from 'react'
 import Reviews from '../../../components/Reviews'
 import NewReviewForm from '../../../components/NewReviewForm'
+import axios from 'axios'
+import { useSession } from 'next-auth/react'
+import { toast } from 'react-toastify'
+import { FaCheck } from 'react-icons/fa'
 
 const Profile = ({ user, camps }) => {
+  const { data: session } = useSession()
   const tabOptions = ['camps', 'reviews']
 
   const [showNewReviewForm, setShowNewReviewForm] = useState(false)
@@ -17,6 +22,21 @@ const Profile = ({ user, camps }) => {
 
   if (router.isFallback) {
     return <div>Loading...</div>
+  }
+
+  const handleSubmit = async (e, id) => {
+    e.preventDefault()
+    const data = {
+      text: e.target.text.value,
+      user: session.user.id,
+      campground: id,
+    }
+
+    const res = await axios.post(
+      `/api/campgrounds/${id.toString()}/review`,
+      data
+    )
+    toast.success('Review Added!', { icon: FaCheck })
   }
 
   const renderCamps = () =>
@@ -81,6 +101,7 @@ const Profile = ({ user, camps }) => {
                   <NewReviewForm
                     setShowNewReviewForm={setShowNewReviewForm}
                     camps={camps}
+                    handleSubmit={handleSubmit}
                   />
                 ) : (
                   <button

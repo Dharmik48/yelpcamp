@@ -4,7 +4,11 @@ import Link from 'next/link'
 
 const Reviews = ({ data, onProfilePage = false }) => {
   if (!data.length) {
-    return <p>This campground has no reviews yet.</p>
+    return onProfilePage ? (
+      <p>User has not reviewed any campground yet.</p>
+    ) : (
+      <p>This campground has no reviews yet.</p>
+    )
   }
 
   const renderReviews = () =>

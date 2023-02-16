@@ -8,7 +8,8 @@ import Image from 'next/image'
 import { toast } from 'react-toastify'
 import { FaCheck } from 'react-icons/fa'
 import { useSession } from 'next-auth/react'
-// import Reviews from '../../../components/Reviews'
+import Link from 'next/link'
+import Reviews from '../../../components/Reviews'
 
 const CampgroundDetail = ({ campground }) => {
   const { data: session } = useSession()
@@ -57,7 +58,12 @@ const CampgroundDetail = ({ campground }) => {
           </h1>
           <p className='text-sm'>
             Posted by{' '}
-            <span className='font-volkhov'>{campground.owner.name}</span>
+            <Link
+              href={`/users/${campground.owner._id}`}
+              className='font-volkhov'
+            >
+              {campground.owner.name}
+            </Link>
           </p>
         </div>
         <ul className='flex gap-2 overflow-scroll'>{renderImages()}</ul>
@@ -86,7 +92,7 @@ const CampgroundDetail = ({ campground }) => {
         )}
       </section>
       <hr className='text-paragraph' />
-      {/* <Reviews /> */}
+      <Reviews data={campground.reviews} />
     </>
   )
 }
@@ -104,7 +110,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   // Fetch campground data
-  const campground = await getCampground(params.id, true)
+  const campground = await getCampground(params.id, true, true)
   // Send the data as prop
   return {
     props: { campground },

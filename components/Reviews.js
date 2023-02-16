@@ -48,7 +48,7 @@ const Review = ({ onProfilePage, data }) => {
                 {data.campground.name}
               </Link>
             ) : (
-              'Dharmik Hingu'
+              <Link href={`/users/${data.user}`}>Dharmik Hingu</Link>
             )}
           </h5>
           <p className='text-sm'>{data.createdAt.slice(0, 10)}</p>

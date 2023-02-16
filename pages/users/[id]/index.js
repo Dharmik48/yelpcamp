@@ -2,12 +2,13 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { getUser, getUsers } from '../../../util/user'
+import { getCampgrounds } from '../../../util/campgrounds'
 import CampgroundCard from '../../../components/CampgroundCard'
 import { useState } from 'react'
 import Reviews from '../../../components/Reviews'
 import NewReviewForm from '../../../components/NewReviewForm'
 
-const Profile = ({ user }) => {
+const Profile = ({ user, camps }) => {
   const tabOptions = ['camps', 'reviews']
 
   const [showNewReviewForm, setShowNewReviewForm] = useState(false)
@@ -77,7 +78,10 @@ const Profile = ({ user }) => {
                   New Review
                 </h5>
                 {showNewReviewForm ? (
-                  <NewReviewForm setShowNewReviewForm={setShowNewReviewForm} />
+                  <NewReviewForm
+                    setShowNewReviewForm={setShowNewReviewForm}
+                    camps={camps}
+                  />
                 ) : (
                   <button
                     onClick={() => setShowNewReviewForm(true)}
@@ -118,8 +122,11 @@ export async function getStaticProps({ params }) {
 
   const user = await getUser(userId, true, true)
 
+  // ⚠️ TEMPORARY CODE
+  const camps = await getCampgrounds('_id name')
+
   return {
-    props: { user },
+    props: { user, camps },
   }
 }
 

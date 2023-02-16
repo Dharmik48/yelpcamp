@@ -92,7 +92,10 @@ const CampgroundDetail = ({ campground }) => {
         )}
       </section>
       <hr className='text-paragraph' />
-      <Reviews data={campground.reviews} />
+      <div className='my-10 lg:my-16'>
+        <h4 className='mb-3 font-volkhov text-2xl lg:text-3xl'>Reviews</h4>
+        <Reviews data={campground.reviews} />
+      </div>
     </>
   )
 }

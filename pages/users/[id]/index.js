@@ -5,10 +5,12 @@ import { getUser, getUsers } from '../../../util/user'
 import CampgroundCard from '../../../components/CampgroundCard'
 import { useState } from 'react'
 import Reviews from '../../../components/Reviews'
+import NewReviewForm from '../../../components/NewReviewForm'
 
 const Profile = ({ user }) => {
   const tabOptions = ['camps', 'reviews']
 
+  const [showNewReviewForm, setShowNewReviewForm] = useState(false)
   const [tab, setTab] = useState(tabOptions[0])
   const router = useRouter()
 
@@ -24,7 +26,7 @@ const Profile = ({ user }) => {
     ))
 
   return (
-    <>
+    <section className='relative'>
       <Head>
         <title>{user.name}&apos;s Profile</title>
       </Head>
@@ -64,17 +66,38 @@ const Profile = ({ user }) => {
               Reviews
             </button>
           </div>
-          {/* <hr className='h-1 w-full' /> */}
           {tab === tabOptions[0] ? (
             <ul className='grid w-full gap-6 md:grid-cols-2 lg:grid-cols-3'>
               {renderCamps()}
             </ul>
           ) : (
-            <Reviews onProfilePage={true} data={user.reviews} />
+            <div className='flex flex-col gap-5'>
+              <div>
+                <h5 className='mb-3 font-volkhov text-xl lg:text-2xl'>
+                  New Review
+                </h5>
+                {showNewReviewForm ? (
+                  <NewReviewForm setShowNewReviewForm={setShowNewReviewForm} />
+                ) : (
+                  <button
+                    onClick={() => setShowNewReviewForm(true)}
+                    className='text-blue'
+                  >
+                    Click to write a new Review
+                  </button>
+                )}
+              </div>
+              <div>
+                <h5 className='font-volkhov text-xl lg:text-2xl'>
+                  Past Reviews
+                </h5>
+                <Reviews onProfilePage={true} data={user.reviews} />
+              </div>
+            </div>
           )}
         </section>
       </section>
-    </>
+    </section>
   )
 }
 

@@ -9,7 +9,7 @@ import Reviews from '../../../components/Reviews'
 const Profile = ({ user }) => {
   const tabOptions = ['camps', 'reviews']
 
-  const [tab, setTab] = useState(tabOptions[1])
+  const [tab, setTab] = useState(tabOptions[0])
   const router = useRouter()
 
   if (router.isFallback) {

@@ -29,10 +29,11 @@ const Review = ({ onProfilePage, data }) => {
       <div className='mb-3 flex gap-3'>
         {!onProfilePage && (
           <Image
-            src='https://api.dicebear.com/5.x/lorelei/svg?seed=Sasha'
+            src={data.user.image}
             width={'50'}
             height={'50'}
             className='rounded-full'
+            alt={data.user.name}
           />
         )}
         <div className='flex flex-col'>
@@ -43,7 +44,7 @@ const Review = ({ onProfilePage, data }) => {
                 {data.campground.name}
               </Link>
             ) : (
-              <Link href={`/users/${data.user}`}>Dharmik Hingu</Link>
+              <Link href={`/users/${data.user}`}>{data.user.name}</Link>
             )}
           </h5>
           <p className='text-sm'>{data.createdAt.slice(0, 10)}</p>

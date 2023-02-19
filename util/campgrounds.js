@@ -20,7 +20,9 @@ export async function getCampground(id, populateOwner, populateReviews) {
   // Fetch the camgpround
   const campground = await Campground.findById(id)
   populateOwner && (await campground.populate('owner'))
-  populateReviews && (await campground.populate('reviews'))
+  populateReviews &&
+    (await campground.populate('reviews')) &&
+    (await campground.populate('reviews.user'))
   // Parse the data and return the data
   return JSON.parse(JSON.stringify(campground))
 }

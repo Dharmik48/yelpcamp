@@ -55,11 +55,11 @@ const NewCampground = () => {
           </h3>
           <Form submitForm={addCampground} disabled={isSubmiting} />
         </div>
-        <Image
+        {/* <Image
           src={illustration}
           className='hidden max-w-[50%] flex-1 self-center lg:block'
           alt='man campging'
-        />
+        /> */}
       </section>
     </>
   )

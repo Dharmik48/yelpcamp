@@ -31,6 +31,10 @@ const campgroundSchema = new Schema(
       type: [Schema.Types.ObjectId],
       ref: 'Review',
     },
+    location: {
+      type: { lat: Number, long: Number },
+      required: true,
+    },
   },
   { timestamps: true }
 )

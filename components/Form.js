@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaDollarSign, FaExclamationCircle } from 'react-icons/fa'
 import { IoClose } from 'react-icons/io5'
 import Button from './Button'
@@ -7,6 +7,9 @@ import Input from './Input'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { v4 } from 'uuid'
+import ReactMapGl, { GeolocateControl, Marker } from 'react-map-gl'
+import 'mapbox-gl/dist/mapbox-gl.css'
+import Geocoder from './Geocoder'
 
 const Form = ({ submitForm, data, disabled }) => {
   const formik = useFormik({
@@ -27,11 +30,40 @@ const Form = ({ submitForm, data, disabled }) => {
         .required('Please enter a price!'),
     }),
     onSubmit: values => {
-      submitForm(values)
+      submitForm({ ...values, location })
     },
   })
 
   const [isImageDragged, setIsImageDragged] = useState(false)
+  const [location, setLocation] = useState({})
+
+  useEffect(() => {
+    getLocation()
+  }, [])
+
+  const getLocation = () => {
+    // if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      // Success function
+      showPosition,
+      // Error function
+      null,
+      // Options.
+      {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0,
+      }
+    )
+    // }
+  }
+
+  const showPosition = pos => {
+    setLocation({
+      lat: pos.coords.latitude,
+      long: pos.coords.longitude,
+    })
+  }
 
   const handleImageUpload = async e => {
     if (!e.target.files[0]) return
@@ -75,7 +107,6 @@ const Form = ({ submitForm, data, disabled }) => {
       </div>
     ))
   }
-
   return (
     <form
       className='x-auto flex w-full flex-col gap-4 lg:mx-0'
@@ -100,6 +131,54 @@ const Form = ({ submitForm, data, disabled }) => {
           {formik.errors.name}
         </span>
       )}
+      <Input
+        type='textarea'
+        name='desc'
+        rows='10'
+        placeholder='Enter the description'
+        handleChange={formik.handleChange}
+        value={formik.values.desc}
+        className={`${
+          !!formik.touched.desc &&
+          !!formik.errors.desc &&
+          'outline outline-2 outline-red'
+        }`}
+        onBlur={formik.handleBlur}
+      />
+      {!!formik.touched.desc && !!formik.errors.desc && (
+        <span className='inline-flex items-center gap-2 text-sm text-red'>
+          <FaExclamationCircle />
+          {formik.errors.desc}
+        </span>
+      )}
+      <div className='h-72 overflow-hidden rounded-xl lg:h-96'>
+        {!(Object.keys(location).length === 0) && (
+          <ReactMapGl
+            mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_KEY}
+            initialViewState={{
+              latitude: location.lat,
+              longitude: location.long,
+              zoom: 8,
+            }}
+            mapStyle='mapbox://styles/dharmik403/cleh3wthw003g01qgpq5gxlk7'
+            attributionControl={false}
+            onClick={e =>
+              setLocation({ lat: e.lngLat.lat, long: e.lngLat.lng })
+            }
+          >
+            <Marker
+              latitude={location.lat}
+              longitude={location.long}
+              draggable
+              onDragEnd={e =>
+                setLocation({ lat: e.lngLat.lat, long: e.lngLat.lng })
+              }
+            />
+            <GeolocateControl position='top-left' trackUserLocation />
+            <Geocoder setLocation={setLocation} />
+          </ReactMapGl>
+        )}
+      </div>
       <div className='rounded-xl bg-lightBlue'>
         <label
           htmlFor='image'
@@ -157,27 +236,6 @@ const Form = ({ submitForm, data, disabled }) => {
         <span className='inline-flex items-center gap-2 text-sm text-red'>
           <FaExclamationCircle />
           {formik.errors.images}
-        </span>
-      )}
-
-      <Input
-        type='textarea'
-        name='desc'
-        rows='10'
-        placeholder='Enter the description'
-        handleChange={formik.handleChange}
-        value={formik.values.desc}
-        className={`${
-          !!formik.touched.desc &&
-          !!formik.errors.desc &&
-          'outline outline-2 outline-red'
-        }`}
-        onBlur={formik.handleBlur}
-      />
-      {!!formik.touched.desc && !!formik.errors.desc && (
-        <span className='inline-flex items-center gap-2 text-sm text-red'>
-          <FaExclamationCircle />
-          {formik.errors.desc}
         </span>
       )}
       <div

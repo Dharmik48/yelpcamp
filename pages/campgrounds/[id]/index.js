@@ -70,12 +70,18 @@ const CampgroundDetail = ({ campground }) => {
           </p>
         </div>
         <ul className='flex gap-2 overflow-scroll'>{renderImages()}</ul>
-        <p className='md:text-xl'>
-          <span className='text-xl font-bold md:text-2xl lg:text-3xl'>
-            ${campground.price}
-          </span>
-          /night
-        </p>
+        <div className='flex items-center justify-between w-full'>
+          <p className='md:text-xl'>
+            <span className='text-xl font-bold md:text-2xl lg:text-3xl'>
+              ${campground.price}
+            </span>
+            /night
+          </p>
+          <LinkButton
+                text='Book'
+                linkTo={`/api/campgrounds/${campground._id}/checkout`}
+              />
+        </div>
         <div>
           <h3 className='mb-3 font-volkhov text-2xl lg:text-3xl'>About</h3>
           <p className='lg:text-lg'>{campground.desc}</p>

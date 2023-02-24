@@ -250,7 +250,7 @@ const Form = ({ submitForm, data, disabled }) => {
           type='number'
           name='price'
           placeholder='Enter the price'
-          className='w-full focus:outline-0'
+          className='w-full focus:!outline-0'
           handleChange={formik.handleChange}
           value={formik.values.price}
           onBlur={formik.handleBlur}

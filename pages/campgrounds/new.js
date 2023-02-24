@@ -49,7 +49,7 @@ const NewCampground = () => {
       </Head>
       <section className='flex items-center gap-16 py-12'>
         <div className='mx-auto max-w-full lg:mx-0 lg:flex-1'>
-          <h3 className='mb-8 flex items-center gap-2 text-left font-volkhov text-2xl font-bold md:gap-4 md:text-3xl lg:text-4xl'>
+          <h3 className='text-brand mb-10 flex items-center gap-2 text-left font-volkhov text-2xl font-bold md:gap-4 md:text-3xl lg:text-4xl'>
             <FaCampground />
             Add a Campground
           </h3>

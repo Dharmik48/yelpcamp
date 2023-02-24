@@ -109,9 +109,12 @@ const Form = ({ submitForm, data, disabled }) => {
   }
   return (
     <form
-      className='x-auto flex w-full flex-col gap-4 lg:mx-0'
+      className='x-auto flex w-full flex-col gap-8 lg:mx-0'
       onSubmit={formik.handleSubmit}
     >
+      <div className='flex flex-col gap-4'>
+
+      <h3 className='font-volkhov text-2xl lg:text-3xl'>Write Name and Description</h3>
       <Input
         type='text'
         name='name'
@@ -124,7 +127,7 @@ const Form = ({ submitForm, data, disabled }) => {
           'outline outline-2 outline-red'
         }`}
         onBlur={formik.handleBlur}
-      />
+        />
       {!!formik.touched.name && !!formik.errors.name && (
         <span className='inline-flex items-center gap-2 text-sm text-red'>
           <FaExclamationCircle />
@@ -144,19 +147,23 @@ const Form = ({ submitForm, data, disabled }) => {
           'outline outline-2 outline-red'
         }`}
         onBlur={formik.handleBlur}
-      />
+        />
       {!!formik.touched.desc && !!formik.errors.desc && (
         <span className='inline-flex items-center gap-2 text-sm text-red'>
           <FaExclamationCircle />
           {formik.errors.desc}
         </span>
       )}
+      </div>
+      <div className='flex flex-col gap-4'>
+
+      <h3 className='font-volkhov text-2xl lg:text-3xl'>Select the location</h3>
       <div className='h-72 overflow-hidden rounded-xl lg:h-96'>
         {!(Object.keys(location).length === 0) && (
           <ReactMapGl
-            mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_KEY}
-            initialViewState={{
-              latitude: location.lat,
+          mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_KEY}
+          initialViewState={{
+            latitude: location.lat,
               longitude: location.long,
               zoom: 8,
             }}
@@ -165,7 +172,7 @@ const Form = ({ submitForm, data, disabled }) => {
             onClick={e =>
               setLocation({ lat: e.lngLat.lat, long: e.lngLat.lng })
             }
-          >
+            >
             <Marker
               latitude={location.lat}
               longitude={location.long}
@@ -173,12 +180,16 @@ const Form = ({ submitForm, data, disabled }) => {
               onDragEnd={e =>
                 setLocation({ lat: e.lngLat.lat, long: e.lngLat.lng })
               }
-            />
+              />
             <GeolocateControl position='top-left' trackUserLocation />
             <Geocoder setLocation={setLocation} />
           </ReactMapGl>
         )}
       </div>
+        </div>
+        <div className='flex flex-col gap-4'>
+
+      <h3 className='font-volkhov text-2xl lg:text-3xl'>Add some photos</h3>
       <div className='rounded-xl bg-lightBlue'>
         <label
           htmlFor='image'
@@ -192,7 +203,7 @@ const Form = ({ submitForm, data, disabled }) => {
           onDragEnter={() => setIsImageDragged(true)}
           onDragExit={() => setIsImageDragged(false)}
           onDrop={() => setIsImageDragged(false)}
-        >
+          >
           {isImageDragged ? 'Drop here' : 'Choose or Drag images'}
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -205,7 +216,7 @@ const Form = ({ submitForm, data, disabled }) => {
             fill='none'
             strokeLinecap='round'
             strokeLinejoin='round'
-          >
+            >
             <path stroke='none' d='M0 0h24v24H0z' fill='none'></path>
             <path d='M15 8h.01'></path>
             <path d='M12 20h-5a3 3 0 0 1 -3 -3v-10a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v5'></path>
@@ -222,13 +233,13 @@ const Form = ({ submitForm, data, disabled }) => {
             className='absolute top-0 left-0 h-full w-full cursor-pointer rounded-xl opacity-0'
             multiple
             onChange={handleImageUpload}
-          />
+            />
         </label>
         <div
           className={`${
             !!(formik.values.images.length > 0) && 'px-5 pt-5'
           } gap-5 md:columns-2`}
-        >
+          >
           {renderPreviewImgs()}
         </div>
       </div>
@@ -238,13 +249,17 @@ const Form = ({ submitForm, data, disabled }) => {
           {formik.errors.images}
         </span>
       )}
+      </div>
+      <div className='flex flex-col gap-4'>
+
+      <h3 className='font-volkhov text-2xl lg:text-3xl'>Enter the price</h3>
       <div
         className={`flex max-w-full items-center rounded-xl bg-lightBlue pl-5 focus-within:outline focus-within:outline-2 focus-within:outline-brand ${
           !!formik.touched.price &&
           !!formik.errors.price &&
           'outline outline-2 outline-red'
         }`}
-      >
+        >
         <FaDollarSign className='text-dark' />
         <Input
           type='number'
@@ -254,7 +269,7 @@ const Form = ({ submitForm, data, disabled }) => {
           handleChange={formik.handleChange}
           value={formik.values.price}
           onBlur={formik.handleBlur}
-        />
+          />
       </div>
       {!!formik.touched.price && !!formik.errors.price && (
         <span className='inline-flex items-center gap-2 text-sm text-red'>
@@ -262,6 +277,7 @@ const Form = ({ submitForm, data, disabled }) => {
           {formik.errors.price}
         </span>
       )}
+      </div>
       {<Button text='Submit' title='Add Campground' disabled={disabled} />}
     </form>
   )

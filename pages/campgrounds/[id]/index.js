@@ -10,6 +10,9 @@ import { FaCheck } from 'react-icons/fa'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import Reviews from '../../../components/Reviews'
+import ReactMapGl, {GeolocateControl,Marker} from 'react-map-gl'
+import 'mapbox-gl/dist/mapbox-gl.css'
+
 
 const CampgroundDetail = ({ campground }) => {
   const { data: session } = useSession()
@@ -92,6 +95,24 @@ const CampgroundDetail = ({ campground }) => {
         )}
       </section>
       <hr className='text-paragraph' />
+      <div className='h-72 overflow-hidden rounded-xl lg:h-96'>
+      <ReactMapGl
+            mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_KEY}
+            initialViewState={{
+              latitude: campground.location.lat,
+              longitude: campground.location.long,
+              zoom: 5,
+            }}
+            mapStyle='mapbox://styles/dharmik403/cleh3wthw003g01qgpq5gxlk7'
+            attributionControl={false}
+            >
+            <Marker
+              latitude={campground.location.lat}
+              longitude={campground.location.long}
+            />
+            <GeolocateControl position='top-left' trackUserLocation />
+      </ReactMapGl>
+      </div>
       <div className='my-10 lg:my-16'>
         <h4 className='mb-3 font-volkhov text-2xl lg:text-3xl'>Reviews</h4>
         <Reviews data={campground.reviews} />

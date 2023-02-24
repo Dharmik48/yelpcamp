@@ -100,7 +100,8 @@ const CampgroundDetail = ({ campground }) => {
           </div>
         )}
       </section>
-      <hr className='text-paragraph' />
+      <hr className='text-paragraph my-10' />
+      <h3 className='mb-3 font-volkhov text-2xl lg:text-3xl'>Location</h3>
       <div className='h-72 overflow-hidden rounded-xl lg:h-96'>
       <ReactMapGl
             mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_KEY}

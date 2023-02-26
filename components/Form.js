@@ -10,6 +10,7 @@ import { v4 } from 'uuid'
 import ReactMapGl, { GeolocateControl, Marker } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import Geocoder from './Geocoder'
+import axios from 'axios'
 
 const Form = ({ submitForm, data, disabled }) => {
   const formik = useFormik({
@@ -18,6 +19,9 @@ const Form = ({ submitForm, data, disabled }) => {
       desc: data?.desc || '',
       price: data?.price || '',
       images: data?.images || [],
+      city: data?.city || '',
+      state: data?.state || '',
+      country: data?.country || '',
     },
     validationSchema: Yup.object({
       name: Yup.string().required('Please enter a name!'),
@@ -28,6 +32,9 @@ const Form = ({ submitForm, data, disabled }) => {
       price: Yup.number()
         .min(0, 'Price cannot be less than 0!')
         .required('Please enter a price!'),
+      city: Yup.string().required('Please enter the city!'),
+      state: Yup.string().required('Please enter the state!'),
+      country: Yup.string().required('Please enter the country!'),
     }),
     onSubmit: values => {
       submitForm({ ...values, location })
@@ -40,6 +47,22 @@ const Form = ({ submitForm, data, disabled }) => {
   useEffect(() => {
     getLocation()
   }, [])
+
+  useEffect(() => {
+    if (Object.keys(location).length === 0) return
+
+    const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${location.lat}&lon=${location.long}&apiKey=${process.env.NEXT_PUBLIC_GEOAPIFY_KEY}`
+
+    axios
+      .get(url)
+      .then(response => {
+        const { city, state, country } = response.data.features[0].properties
+        formik.setFieldValue('city', city || '')
+        formik.setFieldValue('state', state || '')
+        formik.setFieldValue('country', country || '')
+      })
+      .catch(err => console.log(err))
+  }, [location])
 
   const getLocation = () => {
     // if (navigator.geolocation) {
@@ -109,7 +132,7 @@ const Form = ({ submitForm, data, disabled }) => {
   }
   return (
     <form
-      className='x-auto flex w-full flex-col gap-8 lg:mx-0'
+      className='x-auto flex w-full flex-col gap-10 lg:mx-0'
       onSubmit={formik.handleSubmit}
     >
       <div className='flex flex-col gap-4'>
@@ -187,6 +210,68 @@ const Form = ({ submitForm, data, disabled }) => {
               <Geocoder setLocation={setLocation} />
             </ReactMapGl>
           )}
+        </div>
+        <div className='grid gap-4 lg:grid-cols-2 xl:grid-cols-3'>
+          <div className='flex flex-col gap-4'>
+            <Input
+              name='city'
+              placeholder='Enter City'
+              handleChange={formik.handleChange}
+              value={formik.values.city}
+              onBlur={formik.handleBlur}
+              className={`${
+                !!formik.touched.city &&
+                !!formik.errors.city &&
+                'outline outline-2 outline-red'
+              }`}
+            />
+            {!!formik.touched.city && !!formik.errors.city && (
+              <span className='inline-flex items-center gap-2 text-sm text-red'>
+                <FaExclamationCircle />
+                {formik.errors.city}
+              </span>
+            )}
+          </div>
+          <div className='flex flex-col gap-4'>
+            <Input
+              name='state'
+              placeholder='Enter State'
+              handleChange={formik.handleChange}
+              value={formik.values.state}
+              onBlur={formik.handleBlur}
+              className={`${
+                !!formik.touched.state &&
+                !!formik.errors.state &&
+                'outline outline-2 outline-red'
+              }`}
+            />
+            {!!formik.touched.state && !!formik.errors.state && (
+              <span className='inline-flex items-center gap-2 text-sm text-red'>
+                <FaExclamationCircle />
+                {formik.errors.state}
+              </span>
+            )}
+          </div>
+          <div className='flex flex-col gap-4'>
+            <Input
+              name='country'
+              placeholder='Enter Country'
+              handleChange={formik.handleChange}
+              value={formik.values.country}
+              onBlur={formik.handleBlur}
+              className={`${
+                !!formik.touched.country &&
+                !!formik.errors.country &&
+                'outline outline-2 outline-red'
+              }`}
+            />
+            {!!formik.touched.country && !!formik.errors.country && (
+              <span className='inline-flex items-center gap-2 text-sm text-red'>
+                <FaExclamationCircle />
+                {formik.errors.country}
+              </span>
+            )}
+          </div>
         </div>
       </div>
       <div className='flex flex-col gap-4'>

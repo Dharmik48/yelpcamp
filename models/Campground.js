@@ -1,6 +1,8 @@
 import { Schema, models, model } from 'mongoose'
 import { deleteObject, ref } from 'firebase/storage'
 import { db, storage } from '../util/firebase'
+import Review from './Review'
+import User from './User'
 
 const campgroundSchema = new Schema(
   {
@@ -43,6 +45,11 @@ campgroundSchema.post('findOneAndDelete', async doc => {
   doc.images.forEach(async image => {
     await deleteObject(ref(storage, `images/${image.id}`))
   })
+  // delete all reviews of this campground
+  await Review.deleteMany({ _id: { $in: doc.reviews } })
+
+  // remove campground id from users account
+  await User.findByIdAndUpdate(doc.owner, { $pull: { campgrounds: doc._id } })
 })
 
 campgroundSchema.post('findOneAndUpdate', async function (doc) {

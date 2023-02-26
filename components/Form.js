@@ -211,8 +211,8 @@ const Form = ({ submitForm, data, disabled }) => {
             </ReactMapGl>
           )}
         </div>
-        <div className='grid gap-4 lg:grid-cols-2 xl:grid-cols-3'>
-          <div className='flex flex-col gap-4'>
+        <div className='flex flex-wrap gap-4'>
+          <div className='flex flex-1 flex-col gap-4'>
             <Input
               name='city'
               placeholder='Enter City'
@@ -232,7 +232,7 @@ const Form = ({ submitForm, data, disabled }) => {
               </span>
             )}
           </div>
-          <div className='flex flex-col gap-4'>
+          <div className='flex flex-1 flex-col gap-4'>
             <Input
               name='state'
               placeholder='Enter State'
@@ -252,7 +252,7 @@ const Form = ({ submitForm, data, disabled }) => {
               </span>
             )}
           </div>
-          <div className='flex flex-col gap-4'>
+          <div className='flex flex-1 flex-col gap-4'>
             <Input
               name='country'
               placeholder='Enter Country'

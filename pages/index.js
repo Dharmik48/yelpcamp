@@ -7,8 +7,15 @@ import { FaChevronDown } from 'react-icons/fa'
 import signupicon from '/public/icons/things_to_do_signup.svg'
 import moneyicon from '/public/icons/things_to_do_money.svg'
 import travelicon from '/public/icons/things_to_do_travel.svg'
+import { getNames } from 'country-list'
 
 export default function Home() {
+  const countries = getNames().map(country => (
+    <option value={country}>
+      {country.length > 15 ? country.slice(0, 15) : country}
+    </option>
+  ))
+
   return (
     <>
       <Head>
@@ -38,7 +45,7 @@ export default function Home() {
           </div>
         </div>
         <form className='mx-auto flex max-w-screen-md flex-wrap items-center gap-8 rounded-lg bg-[#fff] p-6 drop-shadow-xl md:flex-row md:justify-around md:py-8'>
-          <div className='flex flex-col items-start'>
+          <div className='flex w-max flex-col items-start'>
             <div className='flex items-center gap-1'>
               <select
                 defaultValue={'null'}
@@ -49,30 +56,33 @@ export default function Home() {
                 <option value='null' disabled>
                   Location
                 </option>
-                <option value='Hello'>Hello</option>
+                {countries}
               </select>
-              <label htmlFor='location'>
+              <label htmlFor='location' className='cursor-pointer'>
                 <FaChevronDown className='text-xs text-brand' />
               </label>
             </div>
             <p className='text-sm text-paragraph'>Where are you going</p>
           </div>
           <div className='flex flex-col items-start'>
-            <div className='flex items-center gap-1'>
-              <input
-                type={'date'}
-                name='date'
-                id='date'
-                className='cursor-pointer appearance-none bg-transparent'
-              />
-              <label htmlFor='date'>
+            <div className='flex items-center gap-2'>
+              <div className='relative'>
+                <input
+                  type='date'
+                  name='date'
+                  id='date'
+                  datepicker
+                  // className='opacity-0'
+                />
+              </div>
+              <label htmlFor='date' className='cursor-pointer'>
                 <FaChevronDown className='text-xs text-brand' />
               </label>
             </div>
             <p className='text-sm text-paragraph'>When will you go</p>
           </div>
           <div className='flex flex-col items-start'>
-            <div className='flex items-center gap-1'>
+            <div className='flex items-center gap-2'>
               <select
                 defaultValue={'null'}
                 name='guests'
@@ -82,9 +92,11 @@ export default function Home() {
                 <option value='null' disabled>
                   Guest
                 </option>
-                <option value='Hello'>Hello</option>
+                <option value='1'>1 Guests</option>
+                <option value='2'>2 Guests</option>
+                <option value='3'>3 Guests</option>
               </select>
-              <label htmlFor='guests'>
+              <label htmlFor='guests' className='cursor-pointer'>
                 <FaChevronDown className='text-xs text-brand' />
               </label>
             </div>

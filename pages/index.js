@@ -11,7 +11,7 @@ import { getNames } from 'country-list'
 
 export default function Home() {
   const countries = getNames().map(country => (
-    <option value={country}>
+    <option value={country} key={country}>
       {country.length > 15 ? country.slice(0, 15) : country}
     </option>
   ))

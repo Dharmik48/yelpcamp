@@ -34,7 +34,12 @@ const campgroundSchema = new Schema(
       ref: 'Review',
     },
     location: {
-      type: { lat: Number, long: Number },
+      type: {
+        location: { lat: Number, long: Number },
+        city: String,
+        state: String,
+        country: String,
+      },
       required: true,
     },
   },

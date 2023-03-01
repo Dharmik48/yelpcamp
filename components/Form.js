@@ -37,7 +37,15 @@ const Form = ({ submitForm, data, disabled }) => {
       country: Yup.string().required('Please enter the country!'),
     }),
     onSubmit: values => {
-      submitForm({ ...values, location })
+      submitForm({
+        ...values,
+        location: {
+          location,
+          city: values.city,
+          state: values.state,
+          country: values.country,
+        },
+      })
     },
   })
 

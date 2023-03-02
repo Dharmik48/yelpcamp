@@ -10,9 +10,8 @@ import { FaCheck } from 'react-icons/fa'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import Reviews from '../../../components/Reviews'
-import ReactMapGl, {GeolocateControl,Marker} from 'react-map-gl'
+import ReactMapGl, { GeolocateControl, Marker } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
-
 
 const CampgroundDetail = ({ campground }) => {
   const { data: session } = useSession()
@@ -70,7 +69,7 @@ const CampgroundDetail = ({ campground }) => {
           </p>
         </div>
         <ul className='flex gap-2 overflow-scroll'>{renderImages()}</ul>
-        <div className='flex items-center justify-between w-full'>
+        <div className='flex w-full items-center justify-between'>
           <p className='md:text-xl'>
             <span className='text-xl font-bold md:text-2xl lg:text-3xl'>
               ${campground.price}
@@ -78,9 +77,9 @@ const CampgroundDetail = ({ campground }) => {
             /night
           </p>
           <LinkButton
-                text='Book'
-                linkTo={`/api/campgrounds/${campground._id}/checkout`}
-              />
+            text='Book'
+            linkTo={`/api/campgrounds/${campground._id}/checkout`}
+          />
         </div>
         <div>
           <h3 className='mb-3 font-volkhov text-2xl lg:text-3xl'>About</h3>
@@ -100,25 +99,25 @@ const CampgroundDetail = ({ campground }) => {
           </div>
         )}
       </section>
-      <hr className='text-paragraph my-10' />
+      <hr className='my-10 text-paragraph' />
       <h3 className='mb-3 font-volkhov text-2xl lg:text-3xl'>Location</h3>
       <div className='h-72 overflow-hidden rounded-xl lg:h-96'>
-      <ReactMapGl
-            mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_KEY}
-            initialViewState={{
-              latitude: campground.location.lat,
-              longitude: campground.location.long,
-              zoom: 5,
-            }}
-            mapStyle='mapbox://styles/dharmik403/cleh3wthw003g01qgpq5gxlk7'
-            attributionControl={false}
-            >
-            <Marker
-              latitude={campground.location.lat}
-              longitude={campground.location.long}
-            />
-            <GeolocateControl position='top-left' trackUserLocation />
-      </ReactMapGl>
+        <ReactMapGl
+          mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_KEY}
+          initialViewState={{
+            latitude: campground.location.coords.lat,
+            longitude: campground.location.coords.long,
+            zoom: 5,
+          }}
+          mapStyle='mapbox://styles/dharmik403/cleh3wthw003g01qgpq5gxlk7'
+          attributionControl={false}
+        >
+          <Marker
+            latitude={campground.location.coords.lat}
+            longitude={campground.location.coords.long}
+          />
+          <GeolocateControl position='top-left' trackUserLocation />
+        </ReactMapGl>
       </div>
       <div className='my-10 lg:my-16'>
         <h4 className='mb-3 font-volkhov text-2xl lg:text-3xl'>Reviews</h4>

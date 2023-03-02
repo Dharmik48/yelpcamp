@@ -40,7 +40,7 @@ const Form = ({ submitForm, data, disabled }) => {
       submitForm({
         ...values,
         location: {
-          location,
+          coords,
           city: values.city,
           state: values.state,
           country: values.country,
@@ -50,16 +50,16 @@ const Form = ({ submitForm, data, disabled }) => {
   })
 
   const [isImageDragged, setIsImageDragged] = useState(false)
-  const [location, setLocation] = useState({})
+  const [coords, setCoords] = useState({})
 
   useEffect(() => {
-    getLocation()
+    getCoords()
   }, [])
 
   useEffect(() => {
-    if (Object.keys(location).length === 0) return
+    if (Object.keys(coords).length === 0) return
 
-    const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${location.lat}&lon=${location.long}&apiKey=${process.env.NEXT_PUBLIC_GEOAPIFY_KEY}`
+    const url = `https://api.geoapify.com/v1/geocode/reverse?lat=${coords.lat}&lon=${coords.long}&apiKey=${process.env.NEXT_PUBLIC_GEOAPIFY_KEY}`
 
     axios
       .get(url)
@@ -70,10 +70,10 @@ const Form = ({ submitForm, data, disabled }) => {
         formik.setFieldValue('country', country || '')
       })
       .catch(err => console.log(err))
-  }, [location])
+  }, [coords])
 
-  const getLocation = () => {
-    // if (navigator.geolocation) {
+  const getCoords = () => {
+    // if (navigator.geocoords) {
     navigator.geolocation.getCurrentPosition(
       // Success function
       showPosition,
@@ -90,7 +90,7 @@ const Form = ({ submitForm, data, disabled }) => {
   }
 
   const showPosition = pos => {
-    setLocation({
+    setCoords({
       lat: pos.coords.latitude,
       long: pos.coords.longitude,
     })
@@ -189,33 +189,33 @@ const Form = ({ submitForm, data, disabled }) => {
       </div>
       <div className='flex flex-col gap-4'>
         <h3 className='font-volkhov text-2xl lg:text-3xl'>
-          Select the location
+          Select the Location
         </h3>
         <div className='h-72 overflow-hidden rounded-xl lg:h-96'>
-          {!(Object.keys(location).length === 0) && (
+          {!(Object.keys(coords).length === 0) && (
             <ReactMapGl
               mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_KEY}
               initialViewState={{
-                latitude: location.lat,
-                longitude: location.long,
+                latitude: coords.lat,
+                longitude: coords.long,
                 zoom: 8,
               }}
               mapStyle='mapbox://styles/dharmik403/cleh3wthw003g01qgpq5gxlk7'
               attributionControl={false}
               onClick={e =>
-                setLocation({ lat: e.lngLat.lat, long: e.lngLat.lng })
+                setCoords({ lat: e.lngLat.lat, long: e.lngLat.lng })
               }
             >
               <Marker
-                latitude={location.lat}
-                longitude={location.long}
+                latitude={coords.lat}
+                longitude={coords.long}
                 draggable
                 onDragEnd={e =>
-                  setLocation({ lat: e.lngLat.lat, long: e.lngLat.lng })
+                  setCoords({ lat: e.lngLat.lat, long: e.lngLat.lng })
                 }
               />
               <GeolocateControl position='top-left' trackUserLocation />
-              <Geocoder setLocation={setLocation} />
+              <Geocoder setLocation={setCoords} />
             </ReactMapGl>
           )}
         </div>

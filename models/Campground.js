@@ -35,7 +35,7 @@ const campgroundSchema = new Schema(
     },
     location: {
       type: {
-        location: { lat: Number, long: Number },
+        coords: { lat: Number, long: Number },
         city: String,
         state: String,
         country: String,

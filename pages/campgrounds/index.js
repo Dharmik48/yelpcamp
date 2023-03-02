@@ -17,11 +17,13 @@ const Campgrounds = ({ campgrounds, search, location }) => {
 
   const renderMarkers = campgrounds.map(campground => (
     <Marker
+      key={campground._id}
       anchor='left'
       latitude={campground.location.coords.lat}
       longitude={campground.location.coords.long}
-      children={<CampMarker camp={campground} />}
-    />
+    >
+      <CampMarker camp={campground} />
+    </Marker>
   ))
 
   const [showMap, setShowMap] = useState(false)

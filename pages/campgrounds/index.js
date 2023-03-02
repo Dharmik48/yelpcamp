@@ -5,7 +5,7 @@ import CampgroundCard from '../../components/CampgroundCard'
 // map stuff
 import ReactMapGl, { GeolocateControl, Marker } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { FaMapMarked, FaListUl } from 'react-icons/fa'
+import { FaMapMarked, FaListUl, FaThumbtack } from 'react-icons/fa'
 
 const Campgrounds = ({ campgrounds, search, location }) => {
   // Map over the campgrounds to create JSX
@@ -17,8 +17,10 @@ const Campgrounds = ({ campgrounds, search, location }) => {
 
   const renderMarkers = campgrounds.map(campground => (
     <Marker
+      anchor='left'
       latitude={campground.location.coords.lat}
       longitude={campground.location.coords.long}
+      children={<CampMarker camp={campground} />}
     />
   ))
 
@@ -95,6 +97,15 @@ export async function getServerSideProps(context) {
   return {
     props: { campgrounds, search, location },
   }
+}
+
+const CampMarker = ({ camp }) => {
+  return (
+    <div className='flex items-center text-brand'>
+      <FaThumbtack size={20} className='-rotate-45' />
+      <p className='rounded-md bg-secondaryBg p-1'>{camp.name}</p>
+    </div>
+  )
 }
 
 export default Campgrounds

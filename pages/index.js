@@ -44,7 +44,10 @@ export default function Home() {
             />
           </div>
         </div>
-        <form className='mx-auto flex max-w-screen-md flex-wrap items-center gap-8 rounded-lg bg-[#fff] p-6 drop-shadow-xl md:flex-row md:justify-around md:py-8'>
+        <form
+          className='mx-auto flex max-w-screen-md flex-wrap items-center gap-8 rounded-lg bg-[#fff] p-6 drop-shadow-xl md:flex-row md:justify-around md:py-8'
+          action='/campgrounds'
+        >
           <div className='flex w-max flex-col items-start'>
             <div className='flex items-center gap-1'>
               <select
@@ -70,9 +73,7 @@ export default function Home() {
                 <input
                   type='date'
                   name='date'
-                  id='date'
-                  datepicker
-                  // className='opacity-0'
+                  id='date' // className='opacity-0'
                 />
               </div>
               <label htmlFor='date' className='cursor-pointer'>

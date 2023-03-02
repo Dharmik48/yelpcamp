@@ -4,11 +4,18 @@ import Review from '../models/Review'
 import connectDb from './mongo'
 
 // Function to fetch campgrounds
-export async function getCampgrounds(fields) {
+export async function getCampgrounds(fields, filter = null) {
   // Connect to DB
   await connectDb()
   // Fetch camgprounds
-  const campgrounds = await Campground.find({}, fields)
+  let campgrounds
+  if (filter) {
+    campgrounds = await Campground.find({}, fields)
+      .where('location.country')
+      .equals(filter)
+  } else {
+    campgrounds = await Campground.find({}, fields)
+  }
   // Parse the data and return the data
   return JSON.parse(JSON.stringify(campgrounds))
 }

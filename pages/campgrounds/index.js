@@ -1,8 +1,13 @@
+import { useState } from 'react'
 import Head from 'next/head'
 import { getCampgrounds } from '../../util/campgrounds'
 import CampgroundCard from '../../components/CampgroundCard'
+// map stuff
+import ReactMapGl, { GeolocateControl, Marker } from 'react-map-gl'
+import 'mapbox-gl/dist/mapbox-gl.css'
+import { FaMapMarked, FaListUl } from 'react-icons/fa'
 
-const Campgrounds = ({ campgrounds }) => {
+const Campgrounds = ({ campgrounds, search, location }) => {
   // Map over the campgrounds to create JSX
   const renderCampgrounds = campgrounds.map(campground => (
     <li key={campground._id}>
@@ -10,29 +15,85 @@ const Campgrounds = ({ campgrounds }) => {
     </li>
   ))
 
+  const renderMarkers = campgrounds.map(campground => (
+    <Marker
+      latitude={campground.location.coords.lat}
+      longitude={campground.location.coords.long}
+    />
+  ))
+
+  const [showMap, setShowMap] = useState(false)
+
   return (
     <>
       <Head>
         <title>YelpCamp | All Campgrounds</title>
       </Head>
       <section className='py-12'>
-        <h2 className='mb-10 font-volkhov text-3xl'>All Campgrounds</h2>
-        <ul className='grid w-full gap-6 md:grid-cols-2 lg:grid-cols-3'>
-          {renderCampgrounds}
-        </ul>
+        <div className='mb-10 flex items-center justify-between'>
+          <h2 className='font-volkhov text-3xl'>
+            {search ? (
+              <>
+                Campgrounds in <span className='text-brand'>{location}</span>
+              </>
+            ) : (
+              'Top Campgrounds'
+            )}
+          </h2>
+          {showMap ? (
+            <button
+              className='flex items-center gap-2 rounded-md bg-blue p-2 text-white'
+              onClick={() => setShowMap(false)}
+            >
+              <FaListUl />
+              Show List
+            </button>
+          ) : (
+            <button
+              className='flex items-center gap-2 rounded-md bg-blue p-2 text-white'
+              onClick={() => setShowMap(true)}
+            >
+              <FaMapMarked />
+              Show Map
+            </button>
+          )}
+        </div>
+
+        {showMap ? (
+          <div className='sticky top-0 right-0 hidden h-screen flex-[4] overflow-hidden rounded-xl lg:block'>
+            <ReactMapGl
+              mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_KEY}
+              initialViewState={{
+                latitude: campgrounds[0].location.coords.lat,
+                longitude: campgrounds[0].location.coords.long,
+                zoom: 4,
+              }}
+              mapStyle='mapbox://styles/dharmik403/cleh3wthw003g01qgpq5gxlk7'
+              attributionControl={false}
+            >
+              {renderMarkers}
+              <GeolocateControl position='top-left' trackUserLocation />
+            </ReactMapGl>
+          </div>
+        ) : (
+          <ul className='grid w-full gap-6 md:grid-cols-2 lg:grid-cols-3'>
+            {renderCampgrounds}
+          </ul>
+        )}
       </section>
     </>
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps(context) {
+  let { location } = context.query
+  location = !!location ? location : null
+  const search = !!location
   // Fetch campground data
-  const campgrounds = await getCampgrounds()
+  const campgrounds = await getCampgrounds({}, location)
   // Send the data as prop
   return {
-    props: { campgrounds },
-    // Revalidate the page after 10 secs
-    revalidate: 10,
+    props: { campgrounds, search, location },
   }
 }
 

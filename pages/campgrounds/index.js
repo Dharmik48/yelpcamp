@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Link from 'next/link'
 import Head from 'next/head'
 import { getCampgrounds } from '../../util/campgrounds'
 import CampgroundCard from '../../components/CampgroundCard'
@@ -103,10 +104,10 @@ export async function getServerSideProps(context) {
 
 const CampMarker = ({ camp }) => {
   return (
-    <div className='flex items-center text-brand'>
+    <Link href={`/campgrounds/${camp._id}`} className='flex items-center text-brand'>
       <FaThumbtack size={20} className='-rotate-45' />
       <p className='rounded-md bg-secondaryBg p-1'>{camp.name}</p>
-    </div>
+    </Link>
   )
 }
 

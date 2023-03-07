@@ -1,12 +1,33 @@
 import { useState } from 'react'
+import { HiStar, HiOutlineStar } from 'react-icons/hi2'
 
 const ReviewForm = ({ setShowForm, camps, handleSubmit }) => {
   const [showMenu, setShowMenu] = useState(false)
   const [selectedOption, setSelectedOption] = useState(0)
+  const [rating, setRating] = useState(0)
 
   const selectOption = i => {
     setSelectedOption(i)
     setShowMenu(false)
+  }
+
+  const renderStars = () => {
+    const selectedStars = Array.from({ length: rating }).map((_, i) => (
+      <HiStar
+        key={i}
+        onClick={() => setRating(i + 1)}
+        className='cursor-pointer text-lg text-brand'
+      />
+    ))
+    const outlineStars = Array.from({ length: 5 - rating }).map((_, i) => (
+      <HiOutlineStar
+        key={i + rating}
+        onClick={() => setRating(i + 1 + rating)}
+        className='cursor-pointer text-lg text-brand'
+      />
+    ))
+
+    return [...selectedStars, ...outlineStars]
   }
 
   const renderCampOptions = () =>
@@ -66,7 +87,7 @@ const ReviewForm = ({ setShowForm, camps, handleSubmit }) => {
           <div className='relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg'>
             <form
               className='flex max-w-xl flex-col gap-5 rounded-lg p-8'
-              onSubmit={e => handleSubmit(e, camps[selectedOption]._id)}
+              onSubmit={e => handleSubmit(e, camps[selectedOption]._id, rating)}
             >
               <div>
                 <label
@@ -118,6 +139,10 @@ const ReviewForm = ({ setShowForm, camps, handleSubmit }) => {
                     </ul>
                   )}
                 </div>
+              </div>
+              <div className='flex flex-col gap-2'>
+                <label id='listbox-label'>Rating</label>
+                <div className='flex gap-2'>{renderStars()}</div>
               </div>
               <div className='flex flex-col gap-2'>
                 <label htmlFor='text'>Review</label>

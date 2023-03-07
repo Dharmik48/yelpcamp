@@ -24,12 +24,13 @@ const Profile = ({ user, camps }) => {
     return <div>Loading...</div>
   }
 
-  const handleSubmit = async (e, id) => {
+  const handleSubmit = async (e, id, rating) => {
     e.preventDefault()
     const data = {
       text: e.target.text.value,
       user: session.user.id,
       campground: id,
+      rating,
     }
 
     const res = await axios.post(

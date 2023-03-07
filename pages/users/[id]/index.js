@@ -6,11 +6,11 @@ import { getCampgrounds } from '../../../util/campgrounds'
 import CampgroundCard from '../../../components/CampgroundCard'
 import { useState } from 'react'
 import Reviews from '../../../components/Reviews'
-import NewReviewForm from '../../../components/NewReviewForm'
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
 import { FaCheck } from 'react-icons/fa'
+import ReviewForm from '../../../components/ReviewForm'
 
 const Profile = ({ user, camps }) => {
   const { data: session } = useSession()
@@ -36,6 +36,7 @@ const Profile = ({ user, camps }) => {
       `/api/campgrounds/${id.toString()}/review`,
       data
     )
+    setShowNewReviewForm(false)
     toast.success('Review Added!', { icon: FaCheck })
   }
 
@@ -97,20 +98,19 @@ const Profile = ({ user, camps }) => {
                 <h5 className='mb-3 font-volkhov text-xl lg:text-2xl'>
                   New Review
                 </h5>
-                {showNewReviewForm ? (
-                  <NewReviewForm
-                    setShowNewReviewForm={setShowNewReviewForm}
+                {showNewReviewForm && (
+                  <ReviewForm
+                    setShowForm={setShowNewReviewForm}
                     camps={camps}
                     handleSubmit={handleSubmit}
                   />
-                ) : (
-                  <button
-                    onClick={() => setShowNewReviewForm(true)}
-                    className='text-blue'
-                  >
-                    Click to write a new Review
-                  </button>
                 )}
+                <button
+                  onClick={() => setShowNewReviewForm(true)}
+                  className='text-blue'
+                >
+                  Click to write a new Review
+                </button>
               </div>
               <div>
                 <h5 className='font-volkhov text-xl lg:text-2xl'>

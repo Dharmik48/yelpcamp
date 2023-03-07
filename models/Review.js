@@ -21,6 +21,11 @@ const reviewSchema = new Schema(
       ref: 'Campground',
       required: true,
     },
+    rating: {
+      type: Number,
+      enum: [1, 2, 3, 4, 5],
+      required: true,
+    },
   },
   { timestamps: true }
 )

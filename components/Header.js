@@ -178,6 +178,14 @@ const Header = () => {
           >
             Campgrounds
           </Link>
+              <Link
+                href='/subscription'
+                title='Subscription'
+                className='inline-flex py-3 text-base font-normal text-dark transition-all duration-200 hover:text-brand focus:text-brand'
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Subscription
+              </Link>
 
           {session && (
             <>
@@ -188,14 +196,6 @@ const Header = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Add Campground
-              </Link>
-              <Link
-                href='/subscription'
-                title='Subscription'
-                className='inline-flex py-3 text-base font-normal text-dark transition-all duration-200 hover:text-brand focus:text-brand'
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Subscription
               </Link>
               <Link
                 href={`/users/${session?.user?.id}`}

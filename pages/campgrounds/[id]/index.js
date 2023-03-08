@@ -7,6 +7,7 @@ import { getCampgrounds, getCampground } from '../../../util/campgrounds'
 import Image from 'next/image'
 import { toast } from 'react-toastify'
 import { FaCheck } from 'react-icons/fa'
+import { HiStar } from 'react-icons/hi2'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import Reviews from '../../../components/Reviews'
@@ -120,7 +121,13 @@ const CampgroundDetail = ({ campground }) => {
         </ReactMapGl>
       </div>
       <div className='my-10 lg:my-16'>
-        <h4 className='mb-3 font-volkhov text-2xl lg:text-3xl'>Reviews</h4>
+        <h4 className='mb-3 font-volkhov text-2xl lg:text-3xl'>
+          Reviews &middot;{' '}
+          <span className='inline-flex items-center text-brand'>
+            {campground.rating}
+            <HiStar />
+          </span>
+        </h4>
         <Reviews data={campground.reviews} />
       </div>
     </>

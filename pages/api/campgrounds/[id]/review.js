@@ -16,9 +16,7 @@ export default async function handler(req, res) {
     await User.findByIdAndUpdate(review.user, {
       $push: { reviews: review._id },
     })
-    await Campground.findByIdAndUpdate(review.campground, {
-      $push: { reviews: review._id },
-    })
+    await Campground.findAndAddReview(review)
     // send success response
     return res.status(200).json(review)
   }

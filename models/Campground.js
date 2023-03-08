@@ -42,9 +42,25 @@ const campgroundSchema = new Schema(
       },
       required: true,
     },
+    rating: {
+      type: Number,
+    },
   },
   { timestamps: true }
 )
+
+campgroundSchema.statics.findAndAddReview = async function (review) {
+  const campground = await this.findById(review.campground)
+
+  campground.rating = (
+    ((campground.rating || 0) * campground.reviews.length + review.rating) /
+    (campground.reviews.length + 1)
+  ).toFixed(1)
+
+  campground.reviews.push(review._id)
+
+  await campground.save()
+}
 
 campgroundSchema.post('findOneAndDelete', async doc => {
   doc.images.forEach(async image => {

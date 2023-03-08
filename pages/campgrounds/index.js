@@ -34,7 +34,7 @@ const Campgrounds = ({ campgrounds, search, location }) => {
       <Head>
         <title>YelpCamp | All Campgrounds</title>
       </Head>
-      <section className='py-12'>
+      <section className='relative py-12'>
         <div className='mb-10 flex items-center justify-between'>
           <h2 className='font-volkhov text-3xl'>
             {search ? (
@@ -45,27 +45,46 @@ const Campgrounds = ({ campgrounds, search, location }) => {
               'Top Campgrounds'
             )}
           </h2>
-          {showMap ? (
-            <button
-              className='flex items-center gap-2 rounded-md bg-blue p-2 text-white'
-              onClick={() => setShowMap(false)}
-            >
-              <FaListUl />
-              Show List
-            </button>
-          ) : (
-            <button
-              className='flex items-center gap-2 rounded-md bg-blue p-2 text-white'
-              onClick={() => setShowMap(true)}
-            >
-              <FaMapMarked />
-              Show Map
-            </button>
-          )}
+          <div className='hidden md:block'>
+            {showMap ? (
+              <button
+                className='flex items-center gap-2 rounded-md bg-blue p-2 text-white'
+                onClick={() => setShowMap(false)}
+              >
+                <FaListUl />
+                Show List
+              </button>
+            ) : (
+              <button
+                className='flex items-center gap-2 rounded-md bg-blue p-2 text-white'
+                onClick={() => setShowMap(true)}
+              >
+                <FaMapMarked />
+                Show Map
+              </button>
+            )}
+          </div>
+          <div className='fixed bottom-8 right-8 z-40 sm:bottom-10 sm:right-10 md:bottom-12 md:right-12 md:hidden'>
+            {showMap ? (
+              <button
+                className='flex items-center gap-2 rounded-full bg-blue p-4 text-white'
+                onClick={() => setShowMap(false)}
+              >
+                <FaListUl />
+              </button>
+            ) : (
+              <button
+                className='flex items-center gap-2 rounded-full bg-blue p-4 text-white'
+                onClick={() => setShowMap(true)}
+              >
+                <FaMapMarked />
+              </button>
+            )}
+          </div>
         </div>
 
         {showMap ? (
-          <div className='sticky top-0 right-0 hidden h-screen flex-[4] overflow-hidden rounded-xl lg:block'>
+          <div className='sticky top-0 right-0 h-screen flex-[4] overflow-hidden rounded-xl lg:block'>
             <ReactMapGl
               mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_KEY}
               initialViewState={{
@@ -104,7 +123,10 @@ export async function getServerSideProps(context) {
 
 const CampMarker = ({ camp }) => {
   return (
-    <Link href={`/campgrounds/${camp._id}`} className='flex items-center text-brand'>
+    <Link
+      href={`/campgrounds/${camp._id}`}
+      className='flex items-center text-brand'
+    >
       <FaThumbtack size={20} className='-rotate-45' />
       <p className='rounded-md bg-secondaryBg p-1'>{camp.name}</p>
     </Link>

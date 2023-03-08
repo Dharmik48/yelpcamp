@@ -60,13 +60,18 @@ const CampgroundDetail = ({ campground }) => {
             {campground.name}
           </h1>
           <p className='text-sm'>
-            Posted by{' '}
+            {/* Posted by{' '}
             <Link
               href={`/users/${campground.owner._id}`}
               className='font-volkhov'
             >
               {campground.owner.name}
-            </Link>
+            </Link> */}
+            {`${campground.location.city}, ${campground.location.state}, ${campground.location.country}`}{' '}
+            &middot;{' '}
+            <span className='inline-flex items-center'>
+              {campground.rating} <HiStar />
+            </span>
           </p>
         </div>
         <ul className='flex gap-2 overflow-scroll'>{renderImages()}</ul>

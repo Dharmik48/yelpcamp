@@ -21,7 +21,7 @@ const Header = () => {
   }
 
   return (
-    <header className='sticky top-0 z-50 mx-auto max-w-7xl bg-primaryBg px-8 font-poppins text-dark sm:px-10 md:px-12 lg:px-14 lg:pb-0'>
+    <header className='sticky top-0 z-50 mx-auto h-24 max-w-7xl bg-primaryBg px-8 font-poppins text-dark sm:px-10 md:px-12 lg:px-14 lg:pb-0'>
       {/* <!-- lg+ --> */}
       <nav className='flex h-16 items-center justify-between lg:h-24'>
         <div className='flex-shrink-0'>
@@ -178,14 +178,14 @@ const Header = () => {
           >
             Campgrounds
           </Link>
-              <Link
-                href='/subscription'
-                title='Subscription'
-                className='inline-flex py-3 text-base font-normal text-dark transition-all duration-200 hover:text-brand focus:text-brand'
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Subscription
-              </Link>
+          <Link
+            href='/subscription'
+            title='Subscription'
+            className='inline-flex py-3 text-base font-normal text-dark transition-all duration-200 hover:text-brand focus:text-brand'
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Subscription
+          </Link>
 
           {session && (
             <>

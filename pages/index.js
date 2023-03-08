@@ -8,13 +8,24 @@ import signupicon from '/public/icons/things_to_do_signup.svg'
 import moneyicon from '/public/icons/things_to_do_money.svg'
 import travelicon from '/public/icons/things_to_do_travel.svg'
 import { getNames } from 'country-list'
+import { useRouter } from 'next/router'
 
 export default function Home() {
+  const router = useRouter()
+
   const countries = getNames().map(country => (
     <option value={country} key={country}>
       {country.length > 15 ? country.slice(0, 15) : country}
     </option>
   ))
+
+  const search = e => {
+    e.preventDefault()
+    const { location, date, guests } = e.target
+    router.push(
+      `/campgrounds?location=${location.value}&date=${date.value}&guests=${guests.value}`
+    )
+  }
 
   return (
     <>
@@ -46,7 +57,7 @@ export default function Home() {
         </div>
         <form
           className='mx-auto flex max-w-screen-md flex-wrap items-center gap-8 rounded-lg bg-[#fff] p-6 drop-shadow-xl md:flex-row md:justify-around md:py-8'
-          action='/campgrounds'
+          onSubmit={search}
         >
           <div className='flex w-max flex-col items-start'>
             <div className='flex items-center gap-1'>

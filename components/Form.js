@@ -17,7 +17,8 @@ const Form = ({ submitForm, data, disabled }) => {
     initialValues: {
       name: data?.name || '',
       desc: data?.desc || '',
-      price: data?.price || '',
+      adultPrice: data?.adultPrice || 0,
+      childrenPrice: data?.childrenPrice || 0,
       images: data?.images || [],
       city: data?.city || '',
       state: data?.state || '',
@@ -29,7 +30,10 @@ const Form = ({ submitForm, data, disabled }) => {
         .max(750, 'Description cannot be more than 750')
         .required('Please enter a description!'),
       images: Yup.array().min(1, 'Please select atleast 1 image!').required(),
-      price: Yup.number()
+      adultPrice: Yup.number()
+        .min(0, 'Price cannot be less than 0!')
+        .required('Please enter a price!'),
+      childrenPrice: Yup.number()
         .min(0, 'Price cannot be less than 0!')
         .required('Please enter a price!'),
       city: Yup.string().required('Please enter the city!'),
@@ -44,6 +48,10 @@ const Form = ({ submitForm, data, disabled }) => {
           city: values.city,
           state: values.state,
           country: values.country,
+        },
+        price: {
+          adults: values.adultPrice,
+          children: values.childrenPrice,
         },
       })
     },
@@ -346,30 +354,60 @@ const Form = ({ submitForm, data, disabled }) => {
       </div>
       <div className='flex flex-col gap-4'>
         <h3 className='font-volkhov text-2xl lg:text-3xl'>Enter the price</h3>
-        <div
-          className={`flex max-w-full items-center rounded-xl bg-lightBlue pl-5 focus-within:outline focus-within:outline-2 focus-within:outline-brand ${
-            !!formik.touched.price &&
-            !!formik.errors.price &&
-            'outline outline-2 outline-red'
-          }`}
-        >
-          <FaDollarSign className='text-dark' />
-          <Input
-            type='number'
-            name='price'
-            placeholder='Enter the price'
-            className='w-full focus:!outline-0'
-            handleChange={formik.handleChange}
-            value={formik.values.price}
-            onBlur={formik.handleBlur}
-          />
+        <div className='flex gap-4'>
+          <div className='flex flex-1 flex-col gap-4'>
+            <div
+              className={`flex max-w-full flex-1 items-center rounded-xl bg-lightBlue pl-5 focus-within:outline focus-within:outline-2 focus-within:outline-brand ${
+                !!formik.touched.adultPrice &&
+                !!formik.errors.adultPrice &&
+                'outline outline-2 outline-red'
+              }`}
+            >
+              <FaDollarSign className='text-dark' />
+              <Input
+                type='number'
+                name='adultPrice'
+                placeholder='Adults Age 13+'
+                className='w-full focus:!outline-0'
+                handleChange={formik.handleChange}
+                value={formik.values.adultPrice}
+                onBlur={formik.handleBlur}
+              />
+            </div>
+            {!!formik.touched.adultPrice && !!formik.errors.adultPrice && (
+              <span className='inline-flex items-center gap-2 text-sm text-red'>
+                <FaExclamationCircle />
+                {formik.errors.adultPrice}
+              </span>
+            )}
+          </div>
+          <div className='flex flex-1 flex-col gap-4'>
+            <div
+              className={`flex max-w-full items-center rounded-xl bg-lightBlue pl-5 focus-within:outline focus-within:outline-2 focus-within:outline-brand ${
+                !!formik.touched.childrenPrice &&
+                !!formik.errors.childrenPrice &&
+                'outline outline-2 outline-red'
+              }`}
+            >
+              <FaDollarSign className='text-dark' />
+              <Input
+                type='number'
+                name='childrenPrice'
+                placeholder='Children Age 2-12'
+                className='w-full focus:!outline-0'
+                handleChange={formik.handleChange}
+                value={formik.values.childrenPrice}
+                onBlur={formik.handleBlur}
+              />
+            </div>
+            {!!formik.touched.childrenPrice && !!formik.errors.childrenPrice && (
+              <span className='inline-flex items-center gap-2 text-sm text-red'>
+                <FaExclamationCircle />
+                {formik.errors.childrenPrice}
+              </span>
+            )}
+          </div>
         </div>
-        {!!formik.touched.price && !!formik.errors.price && (
-          <span className='inline-flex items-center gap-2 text-sm text-red'>
-            <FaExclamationCircle />
-            {formik.errors.price}
-          </span>
-        )}
       </div>
       {<Button text='Submit' title='Add Campground' disabled={disabled} />}
     </form>

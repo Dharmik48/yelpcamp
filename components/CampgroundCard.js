@@ -36,7 +36,7 @@ const CampgroundCard = ({ campground }) => {
             {campground.location.country}
           </p>
           <p className='w-fit rounded-md bg-[#FFE7DB] py-1 px-2 font-medium text-brand'>
-            ${campground.price}
+            ${campground.price.adults}
           </p>
         </div>
         <Link

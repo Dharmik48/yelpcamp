@@ -108,7 +108,7 @@ const CampgroundDetail = ({ campground }) => {
         <div className='flex w-full flex-col gap-4 md:flex-row md:items-center md:justify-between'>
           <p className='md:text-xl'>
             <span className='text-xl font-bold md:text-2xl lg:text-3xl'>
-              ${campground.price}
+              ${campground.price.adults}
             </span>
             /night
           </p>

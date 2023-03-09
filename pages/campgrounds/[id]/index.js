@@ -7,9 +7,9 @@ import { getCampgrounds, getCampground } from '../../../util/campgrounds'
 import Image from 'next/image'
 import { toast } from 'react-toastify'
 import { FaCheck } from 'react-icons/fa'
+import { IoAdd, IoRemove, IoChevronDown, IoChevronUp } from 'react-icons/io5'
 import { HiStar } from 'react-icons/hi2'
 import { useSession } from 'next-auth/react'
-import Link from 'next/link'
 import Reviews from '../../../components/Reviews'
 import ReactMapGl, { GeolocateControl, Marker } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -25,9 +25,34 @@ const CampgroundDetail = ({ campground }) => {
     endDate: 'Select',
   })
 
+  const [showGuestSelector, setShowGuestSelector] = useState(false)
+  const [guests, setGuests] = useState({
+    adults: 1,
+    children: 0,
+    infants: 0,
+  })
+
   const handleDateValueChange = newValue => {
     console.log('newValue:', newValue)
     setDateValue(newValue)
+  }
+
+  const addGuest = ageGroup => {
+    if (ageGroup === 'adult')
+      setGuests(curr => ({ ...curr, adults: curr.adults + 1 }))
+    if (ageGroup === 'children')
+      setGuests(curr => ({ ...curr, children: curr.children + 1 }))
+    if (ageGroup === 'infant')
+      setGuests(curr => ({ ...curr, infants: curr.infants + 1 }))
+  }
+
+  const removeGuest = ageGroup => {
+    if (ageGroup === 'adult')
+      setGuests(curr => ({ ...curr, adults: curr.adults - 1 }))
+    if (ageGroup === 'children')
+      setGuests(curr => ({ ...curr, children: curr.children - 1 }))
+    if (ageGroup === 'infant')
+      setGuests(curr => ({ ...curr, infants: curr.infants - 1 }))
   }
 
   if (router.isFallback) return <h1>Loading...</h1>
@@ -88,29 +113,110 @@ const CampgroundDetail = ({ campground }) => {
             /night
           </p>
           <div className='relative flex flex-col gap-2 sm:flex-row md:ml-auto'>
-            <div className='relative flex h-14 w-full max-w-sm rounded-md border border-text bg-primaryBg sm:h-auto md:w-sm'>
-              <div className='absolute inset-0'>
-                <Datepicker
-                  primaryColor='green'
-                  onChange={handleDateValueChange}
-                  value={dateValue}
-                  inputClassName='opacity-0 cursor-pointer h-full'
-                  toggleClassName='opacity-0 pointer-events-none'
-                  containerClassName='h-full'
-                />
+            <div className='w-full max-w-sm rounded-md border border-text bg-primaryBg sm:h-auto md:w-sm'>
+              <div className='relative flex h-14 border-b border-text'>
+                <div className='absolute inset-0'>
+                  <Datepicker
+                    primaryColor='green'
+                    onChange={handleDateValueChange}
+                    value={dateValue}
+                    inputClassName='opacity-0 cursor-pointer h-full'
+                    toggleClassName='opacity-0 pointer-events-none'
+                    containerClassName='h-full'
+                  />
+                </div>
+                <div className='my-auto ml-4 flex-1 border-r border-text'>
+                  <p className='text-xs'>Check in</p>
+                  <p>{dateValue.startDate.toString()}</p>
+                </div>
+                <div className='my-auto ml-4 flex-1'>
+                  <p className='text-xs'>Check out</p>
+                  <p>{dateValue.endDate.toString()}</p>
+                </div>
               </div>
-              <div className='my-auto ml-4 flex-1 border-r border-text'>
-                <p className='text-xs'>Check in</p>
-                <p>{dateValue.startDate.toString()}</p>
-              </div>
-              <div className='my-auto ml-4 flex-1'>
-                <p className='text-xs'>Check out</p>
-                <p>{dateValue.endDate.toString()}</p>
+              <div className='relative cursor-pointer'>
+                <div
+                  className='flex h-full items-center justify-between px-4 py-4'
+                  onClick={() => setShowGuestSelector(curr => !curr)}
+                >
+                  <div>
+                    <p className='text-xs'>Guests</p>
+                    <p>{`${guests.adults} adults${
+                      !!guests.children
+                        ? ', ' + guests.children + ' children'
+                        : ''
+                    } ${
+                      !!guests.infants ? ', ' + guests.infants + ' infants' : ''
+                    }`}</p>
+                  </div>
+                  {showGuestSelector ? (
+                    <IoChevronUp className='text-2xl text-brand' />
+                  ) : (
+                    <IoChevronDown className='text-2xl text-brand' />
+                  )}
+                </div>
+                <div
+                  className={`absolute top-full right-0 left-0 ${
+                    showGuestSelector ? 'flex' : 'hidden'
+                  } flex-col gap-4 rounded-md border border-text bg-primaryBg p-4 shadow-md`}
+                >
+                  <div className='flex items-center justify-between'>
+                    <div>
+                      <p>Adult</p>
+                      <p className='text-sm text-paragraph'>Age 13+</p>
+                    </div>
+                    <div className='flex items-center gap-2 text-xl'>
+                      <IoRemove
+                        className='cursor-pointer rounded-full border border-text text-dark'
+                        onClick={() => removeGuest('adult')}
+                      />
+                      {guests.adults}
+                      <IoAdd
+                        className='cursor-pointer rounded-full border border-text text-dark'
+                        onClick={() => addGuest('adult')}
+                      />
+                    </div>
+                  </div>
+                  <div className='flex items-center justify-between'>
+                    <div>
+                      <p>Children</p>
+                      <p className='text-sm text-paragraph'>Age 2-12</p>
+                    </div>
+                    <div className='flex items-center gap-2 text-xl'>
+                      <IoRemove
+                        className='cursor-pointer rounded-full border border-text text-dark'
+                        onClick={() => removeGuest('children')}
+                      />
+                      {guests.children}
+                      <IoAdd
+                        className='cursor-pointer rounded-full border border-text text-dark'
+                        onClick={() => addGuest('children')}
+                      />
+                    </div>
+                  </div>
+                  <div className='flex items-center justify-between'>
+                    <div>
+                      <p>Infants</p>
+                      <p className='text-sm text-paragraph'>Under 2</p>
+                    </div>
+                    <div className='flex items-center gap-2 text-xl'>
+                      <IoRemove
+                        className='cursor-pointer rounded-full border border-text text-dark'
+                        onClick={() => removeGuest('infant')}
+                      />
+                      {guests.infants}
+                      <IoAdd
+                        className='cursor-pointer rounded-full border border-text text-dark'
+                        onClick={() => addGuest('infant')}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <LinkButton
               text='Reserve'
-              className='max-w-fit'
+              className='h-fit max-w-fit'
               linkTo={`/api/campgrounds/${campground._id}/checkout`}
             />
           </div>

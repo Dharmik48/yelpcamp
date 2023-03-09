@@ -13,10 +13,22 @@ import Link from 'next/link'
 import Reviews from '../../../components/Reviews'
 import ReactMapGl, { GeolocateControl, Marker } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import Datepicker from 'react-tailwindcss-datepicker'
+import { useState } from 'react'
 
 const CampgroundDetail = ({ campground }) => {
   const { data: session } = useSession()
   const router = useRouter()
+
+  const [dateValue, setDateValue] = useState({
+    startDate: 'Select',
+    endDate: 'Select',
+  })
+
+  const handleDateValueChange = newValue => {
+    console.log('newValue:', newValue)
+    setDateValue(newValue)
+  }
 
   if (router.isFallback) return <h1>Loading...</h1>
 
@@ -68,17 +80,40 @@ const CampgroundDetail = ({ campground }) => {
           </p>
         </div>
         <ul className='flex gap-2 overflow-scroll'>{renderImages()}</ul>
-        <div className='flex w-full items-center justify-between'>
+        <div className='flex w-full flex-col gap-4 md:flex-row md:items-center md:justify-between'>
           <p className='md:text-xl'>
             <span className='text-xl font-bold md:text-2xl lg:text-3xl'>
               ${campground.price}
             </span>
             /night
           </p>
-          <LinkButton
-            text='Book'
-            linkTo={`/api/campgrounds/${campground._id}/checkout`}
-          />
+          <div className='relative flex flex-col gap-2 sm:flex-row md:ml-auto'>
+            <div className='relative flex h-14 w-full max-w-sm rounded-md border border-text bg-primaryBg sm:h-auto md:w-sm'>
+              <div className='absolute inset-0'>
+                <Datepicker
+                  primaryColor='green'
+                  onChange={handleDateValueChange}
+                  value={dateValue}
+                  inputClassName='opacity-0 cursor-pointer h-full'
+                  toggleClassName='opacity-0 pointer-events-none'
+                  containerClassName='h-full'
+                />
+              </div>
+              <div className='my-auto ml-4 flex-1 border-r border-text'>
+                <p className='text-xs'>Check in</p>
+                <p>{dateValue.startDate.toString()}</p>
+              </div>
+              <div className='my-auto ml-4 flex-1'>
+                <p className='text-xs'>Check out</p>
+                <p>{dateValue.endDate.toString()}</p>
+              </div>
+            </div>
+            <LinkButton
+              text='Reserve'
+              className='max-w-fit'
+              linkTo={`/api/campgrounds/${campground._id}/checkout`}
+            />
+          </div>
         </div>
         <div>
           <h3 className='mb-3 font-volkhov text-2xl lg:text-3xl'>About</h3>

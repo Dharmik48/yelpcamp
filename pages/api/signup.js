@@ -23,7 +23,7 @@ export default async function handler(req, res) {
       name,
       email,
       password: await hash(password, 14),
-      image: `https://avatars.dicebear.com/api/initials/${name}.svg`,
+      image: `https://api.dicebear.com/5.x/initials/svg?seed=${name}`,
       auth_type: ['credentials'],
     })
 

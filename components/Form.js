@@ -17,8 +17,8 @@ const Form = ({ submitForm, data, disabled }) => {
     initialValues: {
       name: data?.name || '',
       desc: data?.desc || '',
-      adultPrice: data?.adultPrice || 0,
-      childrenPrice: data?.childrenPrice || 0,
+      adultPrice: data?.adultPrice || '',
+      childrenPrice: data?.childrenPrice || '',
       images: data?.images || [],
       city: data?.city || '',
       state: data?.state || '',

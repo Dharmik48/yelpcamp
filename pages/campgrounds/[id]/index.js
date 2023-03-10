@@ -14,7 +14,8 @@ import Reviews from '../../../components/Reviews'
 import ReactMapGl, { GeolocateControl, Marker } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import Datepicker from 'react-tailwindcss-datepicker'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import dayjs from 'dayjs'
 
 const CampgroundDetail = ({ campground }) => {
   const { data: session } = useSession()
@@ -31,11 +32,26 @@ const CampgroundDetail = ({ campground }) => {
     children: 0,
     infants: 0,
   })
+  const [price, setPrice] = useState(campground.price.adults)
 
   const handleDateValueChange = newValue => {
     console.log('newValue:', newValue)
     setDateValue(newValue)
   }
+
+  useEffect(() => {
+    const start = dayjs(dateValue.startDate)
+    const end = dayjs(dateValue.endDate)
+
+    const hours = end.diff(start, 'hours')
+    const days = hours / 24 + 1
+
+    setPrice(
+      (guests.adults * campground.price.adults +
+        guests.children * campground.price.children) *
+        days
+    )
+  }, [guests, dateValue])
 
   const addGuest = ageGroup => {
     if (ageGroup === 'adult')
@@ -100,19 +116,19 @@ const CampgroundDetail = ({ campground }) => {
             {`${campground.location.city}, ${campground.location.state}, ${campground.location.country}`}{' '}
             &middot;{' '}
             <span className='inline-flex items-center'>
-            {campground.rating || '?'} <HiStar />
+              {campground.rating || '?'} <HiStar />
             </span>
           </p>
         </div>
         <ul className='flex gap-2 overflow-scroll'>{renderImages()}</ul>
-        <div className='flex w-full flex-col gap-4 md:flex-row md:items-center md:justify-between'>
+        <div className='flex w-full flex-col gap-4 rounded-md bg-secondaryBg p-6 shadow-lg md:flex-row md:items-center md:justify-between'>
           <p className='md:text-xl'>
             <span className='text-xl font-bold md:text-2xl lg:text-3xl'>
               ${campground.price.adults}
             </span>
             /night
           </p>
-          <div className='relative flex flex-col gap-2 sm:flex-row md:ml-auto'>
+          <div className='relative flex flex-col gap-6   sm:flex-row md:ml-auto'>
             <div className='w-full max-w-sm rounded-md border border-text bg-primaryBg sm:h-auto md:w-sm'>
               <div className='relative flex h-14 border-b border-text'>
                 <div className='absolute inset-0'>
@@ -214,11 +230,19 @@ const CampgroundDetail = ({ campground }) => {
                 </div>
               </div>
             </div>
-            <LinkButton
-              text='Reserve'
-              className='h-fit max-w-fit'
-              linkTo={`/api/campgrounds/${campground._id}/checkout`}
-            />
+            <div className='flex items-center justify-between gap-4 md:flex-col md:justify-start'>
+              <p className='font-volkhov text-lg'>
+                Total price:{' '}
+                <span className='text-2xl font-medium text-brand'>
+                  ${price}
+                </span>
+              </p>
+              <LinkButton
+                text='Reserve'
+                className='h-fit max-w-fit'
+                linkTo={`/api/campgrounds/${campground._id}/checkout`}
+              />
+            </div>
           </div>
         </div>
         <div>
@@ -263,7 +287,7 @@ const CampgroundDetail = ({ campground }) => {
         <h4 className='mb-3 font-volkhov text-2xl lg:text-3xl'>
           Reviews &middot;{' '}
           <span className='inline-flex items-center text-brand'>
-          {campground.rating || '?'}
+            {campground.rating || '?'}
             <HiStar />
           </span>
         </h4>

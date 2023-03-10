@@ -100,7 +100,7 @@ const CampgroundDetail = ({ campground }) => {
             {`${campground.location.city}, ${campground.location.state}, ${campground.location.country}`}{' '}
             &middot;{' '}
             <span className='inline-flex items-center'>
-              {campground.rating} <HiStar />
+            {campground.rating || '?'} <HiStar />
             </span>
           </p>
         </div>
@@ -263,7 +263,7 @@ const CampgroundDetail = ({ campground }) => {
         <h4 className='mb-3 font-volkhov text-2xl lg:text-3xl'>
           Reviews &middot;{' '}
           <span className='inline-flex items-center text-brand'>
-            {campground.rating}
+          {campground.rating || '?'}
             <HiStar />
           </span>
         </h4>

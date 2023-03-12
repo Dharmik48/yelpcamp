@@ -34,8 +34,19 @@ const CampgroundDetail = ({ campground }) => {
   })
   const [price, setPrice] = useState(campground.price.adults)
 
+  const redirectToCheckout = () => {
+    const start = dayjs(dateValue.startDate)
+    const end = dayjs(dateValue.endDate)
+
+    const hours = end.diff(start, 'hours')
+    const days = hours / 24 + 1
+
+    router.push(
+      `/api/campgrounds/${campground._id}/checkout?adults=${guests.adults}&children=${guests.children}&days=${days}`
+    )
+  }
+
   const handleDateValueChange = newValue => {
-    console.log('newValue:', newValue)
     setDateValue(newValue)
   }
 
@@ -237,10 +248,10 @@ const CampgroundDetail = ({ campground }) => {
                   ${price}
                 </span>
               </p>
-              <LinkButton
+              <Button
                 text='Reserve'
                 className='h-fit max-w-fit'
-                linkTo={`/api/campgrounds/${campground._id}/checkout`}
+                handleClick={redirectToCheckout}
               />
             </div>
           </div>

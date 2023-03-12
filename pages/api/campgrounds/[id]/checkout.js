@@ -3,12 +3,16 @@ import connectDB from '../../../../util/mongo'
 import Campground from '../../../../models/Campground'
 
 export default async function handler(req, res) {
+  const PAISA_TO_RUPEES = 100
+
   if (req.method === 'GET') {
     await connectDB()
-    const campId = req.query.id
+    const { id: campId, adults, children, days } = req.query
     const camp = await Campground.findById(campId)
-
     const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY)
+
+    const amount =
+      (camp.price.adults * adults + camp.price.children * children) * days
 
     try {
       // Create Checkout Sessions from body params.
@@ -21,7 +25,7 @@ export default async function handler(req, res) {
               product_data: {
                 name: camp.name,
               },
-              unit_amount: camp.price * 100,
+              unit_amount: amount * PAISA_TO_RUPEES,
             },
           },
         ],

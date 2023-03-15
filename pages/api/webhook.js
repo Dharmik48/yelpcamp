@@ -25,9 +25,9 @@ export default async function webhookHandler(req, res) {
       console.log(`Webhook error: ${e.message}`)
       return res.status(400).send(`Webhook error: ${e.message}`)
     }
-
-    console.log('event', event)
-
+    console.log(event.data.object.metadata)
+    if (event.type === 'checkout.session.completed') {
+    }
     res.status(200).send()
   }
 }

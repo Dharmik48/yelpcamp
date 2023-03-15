@@ -70,7 +70,7 @@ const CampgroundDetail = ({ campground = camp }) => {
     const days = hours / 24 + 1
 
     router.push(
-      `/api/campgrounds/${campground?._id}/checkout?adults=${guests.adults}&children=${guests.children}&days=${days}`
+      `/api/campgrounds/${campground?._id}/checkout?adults=${guests.adults}&children=${guests.children}&days=${days}&checkIn=${startDate}&checkOut=${endDate}`
     )
   }
 

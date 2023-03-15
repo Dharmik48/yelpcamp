@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
   if (req.method === 'GET') {
     await connectDB()
-    const { id: campId, adults, children, days } = req.query
+    const { id: campId, adults, children, days, checkIn, checkOut } = req.query
     const camp = await Campground.findById(campId)
     const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY)
 
@@ -33,7 +33,8 @@ export default async function handler(req, res) {
         success_url: `${process.env.NEXTAUTH_URL}/campgrounds/${camp._id}/success`,
         cancel_url: `${process.env.NEXTAUTH_URL}/campgrounds/${camp._id}`,
         metadata: {
-          name: 'hello',
+          checkIn,
+          checkOut,
         },
       })
       res.redirect(303, session.url)

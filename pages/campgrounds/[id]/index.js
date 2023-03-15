@@ -242,12 +242,14 @@ const CampgroundDetail = ({ campground }) => {
               </div>
             </div>
             <div className='flex items-center justify-between gap-4 md:flex-col md:justify-start'>
-              <p className='font-volkhov text-lg'>
-                Total price:{' '}
-                <span className='text-2xl font-medium text-brand'>
-                  ${price}
-                </span>
-              </p>
+              {!!price && (
+                <p className='font-volkhov text-lg'>
+                  Total price:{' '}
+                  <span className='text-2xl font-medium text-brand'>
+                    ${price}
+                  </span>
+                </p>
+              )}
               <Button
                 text='Reserve'
                 className='h-fit max-w-fit'

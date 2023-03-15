@@ -30,7 +30,7 @@ export default async function handler(req, res) {
           },
         ],
         mode: 'payment',
-        success_url: `${process.env.NEXTAUTH_URL}`,
+        success_url: `${process.env.NEXTAUTH_URL}/campgrounds/${camp._id}/success`,
         cancel_url: `${process.env.NEXTAUTH_URL}/campgrounds/${camp._id}`,
       })
       res.redirect(303, session.url)

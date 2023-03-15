@@ -17,7 +17,18 @@ import Datepicker from 'react-tailwindcss-datepicker'
 import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 
-const CampgroundDetail = ({ campground }) => {
+const camp = {
+  _id: '',
+  name: '',
+  desc: '',
+  price: {},
+  images: [],
+  owner: '',
+  reviews: [],
+  location: {},
+}
+
+const CampgroundDetail = ({ campground = camp }) => {
   const { data: session } = useSession()
   const router = useRouter()
 
@@ -32,23 +43,8 @@ const CampgroundDetail = ({ campground }) => {
     children: 0,
     infants: 0,
   })
-  const [price, setPrice] = useState(campground.price.adults)
 
-  const redirectToCheckout = () => {
-    const start = dayjs(dateValue.startDate)
-    const end = dayjs(dateValue.endDate)
-
-    const hours = end.diff(start, 'hours')
-    const days = hours / 24 + 1
-
-    router.push(
-      `/api/campgrounds/${campground._id}/checkout?adults=${guests.adults}&children=${guests.children}&days=${days}`
-    )
-  }
-
-  const handleDateValueChange = newValue => {
-    setDateValue(newValue)
-  }
+  const [price, setPrice] = useState(campground?.price.adults)
 
   useEffect(() => {
     const start = dayjs(dateValue.startDate)
@@ -58,11 +54,29 @@ const CampgroundDetail = ({ campground }) => {
     const days = hours / 24 + 1
 
     setPrice(
-      (guests.adults * campground.price.adults +
-        guests.children * campground.price.children) *
+      (guests.adults * campground?.price.adults +
+        guests.children * campground?.price.children) *
         days
     )
   }, [guests, dateValue])
+
+  if (router.isFallback) return <h1>Loading...</h1>
+
+  const redirectToCheckout = () => {
+    const start = dayjs(dateValue.startDate)
+    const end = dayjs(dateValue.endDate)
+
+    const hours = end.diff(start, 'hours')
+    const days = hours / 24 + 1
+
+    router.push(
+      `/api/campgrounds/${campground?._id}/checkout?adults=${guests.adults}&children=${guests.children}&days=${days}`
+    )
+  }
+
+  const handleDateValueChange = newValue => {
+    setDateValue(newValue)
+  }
 
   const addGuest = ageGroup => {
     if (ageGroup === 'adult')
@@ -82,17 +96,15 @@ const CampgroundDetail = ({ campground }) => {
       setGuests(curr => ({ ...curr, infants: curr.infants - 1 }))
   }
 
-  if (router.isFallback) return <h1>Loading...</h1>
-
   const deleteCampground = async () => {
     const { data: deletedCampground } = await axios.delete(
-      `/api/campgrounds/${campground._id}`
+      `/api/campgrounds/${campground?._id}`
     )
     toast.success(
       () => (
         <>
           Successfully deleted{' '}
-          <span className='font-semibold'>{deletedCampground.name}</span>
+          <span className='font-semibold'>{deletedCampground?.name}</span>
         </>
       ),
       {
@@ -103,7 +115,7 @@ const CampgroundDetail = ({ campground }) => {
   }
 
   const renderImages = () =>
-    campground.images.map(img => (
+    campground?.images.map(img => (
       <Image
         width={'300'}
         height={'300'}
@@ -116,18 +128,18 @@ const CampgroundDetail = ({ campground }) => {
   return (
     <>
       <Head>
-        <title>{`YelpCamp | ${campground.name}`}</title>
+        <title>{`YelpCamp | ${campground?.name}`}</title>
       </Head>
       <section className='flex flex-col gap-4 py-10 lg:gap-6 lg:py-16'>
         <div>
           <h1 className='mb-2 font-volkhov text-3xl text-brand lg:mb-4 lg:text-4xl 2xl:text-5xl'>
-            {campground.name}
+            {campground?.name}
           </h1>
           <p className='text-sm'>
-            {`${campground.location.city}, ${campground.location.state}, ${campground.location.country}`}{' '}
+            {`${campground?.location.city}, ${campground?.location.state}, ${campground?.location.country}`}{' '}
             &middot;{' '}
             <span className='inline-flex items-center'>
-              {campground.rating || '?'} <HiStar />
+              {campground?.rating || '?'} <HiStar />
             </span>
           </p>
         </div>
@@ -135,7 +147,7 @@ const CampgroundDetail = ({ campground }) => {
         <div className='flex w-full flex-col gap-4 rounded-md bg-secondaryBg p-6 shadow-lg md:flex-row md:items-center md:justify-between'>
           <p className='md:text-xl'>
             <span className='text-xl font-bold md:text-2xl lg:text-3xl'>
-              ${campground.price.adults}
+              ${campground?.price.adults}
             </span>
             /night
           </p>
@@ -260,13 +272,13 @@ const CampgroundDetail = ({ campground }) => {
         </div>
         <div>
           <h3 className='mb-3 font-volkhov text-2xl lg:text-3xl'>About</h3>
-          <p className='lg:text-lg'>{campground.desc}</p>
+          <p className='lg:text-lg'>{campground?.desc}</p>
         </div>
-        {session?.user?.email === campground.owner.email && (
+        {session?.user?.email === campground?.owner.email && (
           <div className='flex gap-4'>
             <LinkButton
               text='Edit'
-              linkTo={`/campgrounds/${campground._id}/edit`}
+              linkTo={`/campgrounds/${campground?._id}/edit`}
             />
             <Button
               text='Delete'
@@ -282,16 +294,16 @@ const CampgroundDetail = ({ campground }) => {
         <ReactMapGl
           mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_KEY}
           initialViewState={{
-            latitude: campground.location.coords.lat,
-            longitude: campground.location.coords.long,
+            latitude: campground?.location.coords.lat,
+            longitude: campground?.location.coords.long,
             zoom: 5,
           }}
           mapStyle='mapbox://styles/dharmik403/cleh3wthw003g01qgpq5gxlk7'
           attributionControl={false}
         >
           <Marker
-            latitude={campground.location.coords.lat}
-            longitude={campground.location.coords.long}
+            latitude={campground?.location.coords.lat}
+            longitude={campground?.location.coords.long}
           />
           <GeolocateControl position='top-left' trackUserLocation />
         </ReactMapGl>
@@ -300,11 +312,11 @@ const CampgroundDetail = ({ campground }) => {
         <h4 className='mb-3 font-volkhov text-2xl lg:text-3xl'>
           Reviews &middot;{' '}
           <span className='inline-flex items-center text-brand'>
-            {campground.rating || '?'}
+            {campground?.rating || '?'}
             <HiStar />
           </span>
         </h4>
-        <Reviews data={campground.reviews} />
+        <Reviews data={campground?.reviews} />
       </div>
     </>
   )
@@ -315,9 +327,8 @@ export async function getStaticPaths() {
   const campgrounds = await getCampgrounds('_id')
   // Map over the ids and create path obj
   const paths = campgrounds.map(campground => ({
-    params: { id: campground._id.toString() },
+    params: { id: campground?._id.toString() },
   }))
-
   return { paths, fallback: true }
 }
 

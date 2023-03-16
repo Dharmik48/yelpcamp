@@ -32,14 +32,16 @@ const userSchema = new Schema(
       ref: 'Review',
     },
     trips: {
-      type: {
-        checkIn: String,
-        checkOut: String,
-        campground: {
-          type: Schema.Types.ObjectId,
-          ref: 'Campground',
+      type: [
+        {
+          checkIn: String,
+          checkOut: String,
+          campground: {
+            type: Schema.Types.ObjectId,
+            ref: 'Campground',
+          },
         },
-      },
+      ],
     },
   },
   { timestamps: true }

@@ -11,6 +11,9 @@ import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
 import { FaCheck } from 'react-icons/fa'
 import ReviewForm from '../../../components/ReviewForm'
+import Campground from '../../../models/Campground'
+import dayjs from 'dayjs'
+import Link from 'next/link'
 
 const Profile = ({ user, camps }) => {
   const { data: session } = useSession()
@@ -106,12 +109,21 @@ const Profile = ({ user, camps }) => {
                     handleSubmit={handleSubmit}
                   />
                 )}
-                <button
-                  onClick={() => setShowNewReviewForm(true)}
-                  className='text-blue'
-                >
-                  Click to write a new Review
-                </button>
+                {!!camps.length ? (
+                  <button
+                    onClick={() => setShowNewReviewForm(true)}
+                    className='text-blue'
+                  >
+                    Click to write a new Review
+                  </button>
+                ) : (
+                  <p>
+                    No Campground to Review yet.{' '}
+                    <Link href={'/campgrounds'} className='text-blue'>
+                      Book a trip now
+                    </Link>
+                  </p>
+                )}
               </div>
               <div>
                 <h5 className='font-volkhov text-xl lg:text-2xl'>
@@ -144,11 +156,17 @@ export async function getStaticProps({ params }) {
 
   const user = await getUser(userId, true, true)
 
-  // ⚠️ TEMPORARY CODE
-  const camps = await getCampgrounds('_id name')
+  await getCampgrounds()
+
+  const eligibleTrips = user.trips?.filter(trip =>
+    dayjs().isAfter(dayjs(trip.checkOut))
+  )
+
+  const campIds = eligibleTrips.map(trip => trip.campground)
+  const camps = await Campground.find({ _id: { $in: campIds } })
 
   return {
-    props: { user, camps },
+    props: { user, camps: JSON.parse(JSON.stringify(camps)) || [] },
   }
 }
 

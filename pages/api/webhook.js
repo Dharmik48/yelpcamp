@@ -28,9 +28,14 @@ export default async function webhookHandler(req, res) {
     }
 
     if (event.type === 'checkout.session.completed') {
-      const { user: userId, checkIn, checkOut } = event.data.object.metadata
+      const {
+        user: userId,
+        checkIn,
+        checkOut,
+        camp,
+      } = event.data.object.metadata
 
-      const trip = { checkIn, checkOut }
+      const trip = { checkIn, checkOut, camp }
 
       await User.findByIdAndUpdate(userId, {
         $push: { trips: trip },

@@ -43,6 +43,7 @@ export default async function handler(req, res) {
           checkIn,
           checkOut,
           user,
+          camp: camp._id,
         },
       })
       res.redirect(303, session.url)

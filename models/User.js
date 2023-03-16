@@ -35,6 +35,10 @@ const userSchema = new Schema(
       type: {
         checkIn: String,
         checkOut: String,
+        campground: {
+          type: Schema.Types.ObjectId,
+          ref: 'Campground',
+        },
       },
     },
   },

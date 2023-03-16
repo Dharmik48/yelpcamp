@@ -1,5 +1,6 @@
 import Stripe from 'stripe'
 import { buffer } from 'micro'
+import User from '../../models/User'
 
 export const config = {
   api: {
@@ -25,9 +26,17 @@ export default async function webhookHandler(req, res) {
       console.log(`Webhook error: ${e.message}`)
       return res.status(400).send(`Webhook error: ${e.message}`)
     }
-    console.log(event.data.object.metadata)
+
     if (event.type === 'checkout.session.completed') {
+      const { user: userId, checkIn, checkOut } = event.data.object.metadata
+
+      const trip = { checkIn, checkOut }
+
+      await User.findByIdAndUpdate(userId, {
+        $push: { trips: trip },
+      })
     }
+
     res.status(200).send()
   }
 }

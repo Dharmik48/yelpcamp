@@ -7,10 +7,18 @@ export default async function handler(req, res) {
 
   if (req.method === 'GET') {
     await connectDB()
-    const { id: campId, adults, children, days, checkIn, checkOut } = req.query
+    const {
+      id: campId,
+      adults,
+      children,
+      days,
+      checkIn,
+      checkOut,
+      user,
+    } = req.query
     const camp = await Campground.findById(campId)
     const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY)
-
+    c
     const amount =
       (camp.price.adults * adults + camp.price.children * children) * days
 
@@ -35,6 +43,7 @@ export default async function handler(req, res) {
         metadata: {
           checkIn,
           checkOut,
+          user,
         },
       })
       res.redirect(303, session.url)

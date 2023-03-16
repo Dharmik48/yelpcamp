@@ -150,7 +150,7 @@ const ReviewForm = ({ setShowForm, camps, handleSubmit }) => {
                   name='text'
                   id='text'
                   rows='5'
-                  className='max-w-full rounded-md border border-gray-300 border-dark bg-transparent py-2 pl-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm'
+                  className='max-w-full rounded-md border border-gray-300 bg-transparent py-2 pl-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm'
                 />
               </div>
               <div>

@@ -31,6 +31,12 @@ const userSchema = new Schema(
       type: [Schema.Types.ObjectId],
       ref: 'Review',
     },
+    trips: {
+      type: {
+        checkIn: String,
+        checkOut: String,
+      },
+    },
   },
   { timestamps: true }
 )

@@ -44,6 +44,12 @@ const campgroundSchema = new Schema(
     rating: {
       type: Number,
     },
+    trips: {
+      type: {
+        checkIn: String,
+        checkOut: String,
+      },
+    },
   },
   { timestamps: true }
 )

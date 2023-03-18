@@ -9,8 +9,10 @@ import moneyicon from '/public/icons/things_to_do_money.svg'
 import travelicon from '/public/icons/things_to_do_travel.svg'
 import { getNames } from 'country-list'
 import { useRouter } from 'next/router'
+import { getCampgrounds } from '../util/campgrounds'
+import CampgroundCard from '../components/CampgroundCard'
 
-export default function Home() {
+export default function Home({ camps }) {
   const router = useRouter()
 
   const countries = getNames().map(country => (
@@ -26,6 +28,10 @@ export default function Home() {
       `/campgrounds?location=${location.value}&date=${date.value}&guests=${guests.value}`
     )
   }
+
+  const renderTopCampgrounds = camps.map(camp => (
+    <CampgroundCard campground={camp} />
+  ))
 
   return (
     <>
@@ -149,8 +155,27 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <section className='p-7 md:p-12 lg:p-16'>
+        <h3 className='mb-2 text-center font-volkhov text-2xl font-extrabold md:mb-4 md:text-3xl lg:mb-6 lg:text-4xl'>
+          Top rated campgrounds on <span className='text-brand'>YelpCamp</span>
+        </h3>
+        <p className='mx-auto mb-5 text-center text-base text-paragraph md:mb-10 md:max-w-lg lg:mb-14'>
+          Discover our fantastic campgrounds & start planning your journey.
+        </p>
+        <div className='grid w-full gap-6 md:grid-cols-2 lg:grid-cols-3'>
+          {renderTopCampgrounds}
+        </div>
+      </section>
     </>
   )
+}
+
+export async function getServerSideProps(context) {
+  const camps = await getCampgrounds({ sort: 'rating', limit: 3 })
+
+  return {
+    props: { camps },
+  }
 }
 
 // TODO: CRUD

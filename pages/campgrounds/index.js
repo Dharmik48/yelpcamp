@@ -114,7 +114,10 @@ export async function getServerSideProps(context) {
   location = !!location ? location : null
   const search = !!location
   // Fetch campground data
-  const campgrounds = await getCampgrounds({}, location)
+  const campgrounds = await getCampgrounds({
+    filter: location,
+    sort: 'createdAt',
+  })
   // Send the data as prop
   return {
     props: { campgrounds, search, location },

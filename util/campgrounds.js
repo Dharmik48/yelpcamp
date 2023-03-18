@@ -4,7 +4,12 @@ import Review from '../models/Review'
 import connectDb from './mongo'
 
 // Function to fetch campgrounds
-export async function getCampgrounds(fields, filter = null) {
+export async function getCampgrounds({
+  fields = null,
+  filter = null,
+  sort = '',
+  limit = null,
+}) {
   // Connect to DB
   await connectDb()
   // Fetch camgprounds
@@ -15,6 +20,8 @@ export async function getCampgrounds(fields, filter = null) {
       .equals(filter)
   } else {
     campgrounds = await Campground.find({}, fields)
+      .sort({ [sort]: -1 })
+      .limit(limit)
   }
   // Parse the data and return the data
   return JSON.parse(JSON.stringify(campgrounds))

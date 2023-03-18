@@ -156,7 +156,7 @@ export async function getStaticProps({ params }) {
 
   const user = await getUser(userId, true, true)
 
-  await getCampgrounds()
+  await getCampgrounds({ fields: 'name' })
 
   const eligibleTrips = user.trips?.filter(trip =>
     dayjs().isAfter(dayjs(trip.checkOut))

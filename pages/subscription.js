@@ -1,102 +1,93 @@
 import { FaCheck } from 'react-icons/fa'
 import Button from '../components/Button'
+import { useRouter } from 'next/router'
 
-const includedFeatures = [
-  'Private forum access',
-  'Member resources',
-  'Entry to annual conference',
-  'Official member t-shirt',
-]
+export default function Subscription() {
+  const router = useRouter()
 
-export default function Example() {
+  const checkout = () => {
+    router.push('/api/subscribe')
+  }
+
+  const includedFeatures = [
+    'Access to exclusive campsites',
+    'Discounts on campsite fees',
+    'Ability to save and share favorite campsites',
+    'No cancellation fees for premium members',
+    'Priority booking for popular campsites during peak seasons',
+  ]
+
   return (
-    <section className="w-full py-10 lg:gap-6 lg:py-16">
-    <div className="mx-auto w-full lg:py-16 lg:px-6">
-        <div className="mx-auto w-full text-center mb-8 lg:mb-12">
-            <h2 className="font-volkhov mb-4 text-4xl tracking-tight font-extrabold text-brand">Designed for business teams like yours</h2>
-            <p className="mb-5 font-light text-gray-500 sm:text-xl">Here at Flowbite we focus on markets where technology, innovation, and capital can unlock long-term value and drive economic growth.</p>
+    <section className='w-full py-10 lg:gap-6 lg:py-16'>
+      <div className='mx-auto w-full lg:py-16 lg:px-6'>
+        <div className='mx-auto mb-5 w-full text-center lg:mb-12'>
+          <h2 className='mb-5 font-volkhov text-4xl font-extrabold tracking-tight '>
+            Get exclusive benefits with{' '}
+            <span className='text-brand'>YelpCamp Plus</span>
+          </h2>
+          <p className='font-light text-paragraph md:text-lg'>
+            Unlock exclusive access to top-rated campgrounds and enjoy
+            personalized booking experiences with our premium membership.
+          </p>
         </div>
-        <div className="w-full flex flex-wrap gap-8">
-            {/* <!-- Pricing Card --> */}
-            <div className="shadow-xl hover:shadow-lightRed flex flex-col p-6 mx-auto max-w-md text-center text-gray-900 bg-white rounded-lg border border-gray-100xl:p-8">
-                <h3 className="font-volkhov mb-4 text-2xl font-semibold">Starter</h3>
-                <p className="font-light text-gray-500 sm:text-lg">Best option for personal use & for your next project.</p>
-                <div className="flex justify-center items-baseline my-8">
-                    <span className="mr-2 text-5xl font-extrabold">$79</span>
-                    <span className="text-gray-500">/month</span>
-                </div>
-                {/* <!-- List --> */}
-                <ul role="list" className="mb-8 space-y-4 text-left">
-                    <li className="flex items-center space-x-3">
-                        {/* <!-- Icon --> */}
-                        <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Individual configuration</span>
-                    </li>
-                    <li className="flex items-center space-x-3">
-                        {/* <!-- Icon --> */}
-                        <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>No setup, or hidden fees</span>
-                    </li>
-                    <li className="flex items-center space-x-3">
-                        {/* <!-- Icon --> */}
-                        <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Team size: <span className="font-semibold">1 developer</span></span>
-                    </li>
-                    <li className="flex items-center space-x-3">
-                        {/* <!-- Icon --> */}
-                        <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Premium support: <span className="font-semibold">6 months</span></span>
-                    </li>
-                    <li className="flex items-center space-x-3">
-                        {/* <!-- Icon --> */}
-                        <svg className="flex-shrink-0 w-5 h-5 text-green-500 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Free updates: <span className="font-semibold">6 months</span></span>
-                    </li>
-                </ul>
-                <Button text='Subscribe' />
+        {/* <!-- Pricing Card --> */}
+        <div className='mx-auto mt-10 max-w-2xl rounded-3xl ring-1 ring-gray-200 sm:mt-20 lg:mx-0 lg:flex lg:max-w-none'>
+          <div className='p-8 sm:p-10 lg:flex-auto'>
+            <h3 className='text-2xl font-bold tracking-tight text-dark'>
+              YelpCamp Plus
+            </h3>
+            <p className='mt-6 text-base leading-7 text-paragraph'>
+              Upgrade your camping experience with exclusive access and
+              personalized service - become a premium member today!
+            </p>
+            <div className='mt-10 flex items-center gap-x-4'>
+              <h4 className='flex-none text-sm font-semibold leading-6 text-brand'>
+                What&apos;s included
+              </h4>
             </div>
-            {/* <!-- Pricing Card --> */}
-            <div className="shadow-xl hover:shadow-lightRed flex flex-col p-6 mx-auto max-w-md text-center text-gray-900 bg-white rounded-lg border border-gray-100">
-                <h3 className="font-volkhov mb-4 text-2xl font-semibold">Company</h3>
-                <p className="font-light text-gray-500 sm:text-lg">Relevant for multiple users, extended & premium support.</p>
-                <div className="flex justify-center items-baseline my-8">
-                    <span className="mr-2 text-5xl font-extrabold">$799</span>
-                    <span className="text-gray-500">/year</span>
-                </div>
-                {/* <!-- List --> */}
-                <ul role="list" className="mb-8 space-y-4 text-left">
-                    <li className="flex items-center space-x-3">
-                        {/* <!-- Icon --> */}
-                        <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Individual configuration</span>
-                    </li>
-                    <li className="flex items-center space-x-3">
-                        {/* <!-- Icon --> */}
-                        <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>No setup, or hidden fees</span>
-                    </li>
-                    <li className="flex items-center space-x-3">
-                        {/* <!-- Icon --> */}
-                        <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Team size: <span className="font-semibold">10 developers</span></span>
-                    </li>
-                    <li className="flex items-center space-x-3">
-                        {/* <!-- Icon --> */}
-                        <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Premium support: <span className="font-semibold">24 months</span></span>
-                    </li>
-                    <li className="flex items-center space-x-3">
-                        {/* <!-- Icon --> */}
-                        <svg className="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                        <span>Free updates: <span className="font-semibold">24 months</span></span>
-                    </li>
-                </ul>
-                <Button text='Subscribe' />
-
+            <ul
+              role='list'
+              className='mt-8 grid grid-cols-1 gap-4 text-sm leading-6 text-paragraph sm:grid-cols-2 sm:gap-6'
+            >
+              {includedFeatures.map(feature => (
+                <li key={feature} className='flex gap-x-3'>
+                  <FaCheck
+                    className='h-6 w-5 flex-none text-brand'
+                    aria-hidden='true'
+                  />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className='-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0'>
+            <div className='h-full rounded-2xl bg-secondaryBg py-10 text-center ring-1 ring-inset ring-dark/5 lg:flex lg:flex-col lg:justify-center lg:py-16'>
+              <div className='mx-auto max-w-xs px-8'>
+                <p className='text-base font-semibold text-paragraph'>
+                  Become a Plus Member
+                </p>
+                <p className='mt-6 flex items-baseline justify-center gap-x-2'>
+                  <span className='text-5xl font-bold tracking-tight text-dark'>
+                    ₹12999
+                  </span>
+                  <span className='text-sm font-semibold leading-6 tracking-wide text-paragraph'>
+                    /year
+                  </span>
+                </p>
+                <a
+                  href='#'
+                  className='mt-10 block w-full rounded-md bg-brand px-3 py-2 text-center text-sm font-semibold text-primaryBg shadow-sm hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand'
+                >
+                  Get access
+                </a>
+                <p className='mt-6 text-xs leading-5 text-paragraph'>
+                  Invoices and receipts available for easy company reimbursement
+                </p>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-  </section>
-    )
+      </div>
+    </section>
+  )
 }
-

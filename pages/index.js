@@ -30,7 +30,7 @@ export default function Home({ camps }) {
   }
 
   const renderTopCampgrounds = camps.map(camp => (
-    <CampgroundCard campground={camp} />
+    <CampgroundCard key={camp._id} campground={camp} />
   ))
 
   return (

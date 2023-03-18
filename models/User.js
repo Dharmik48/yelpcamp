@@ -6,6 +6,12 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    premium: {
+      type: {
+        subscribed: { type: Boolean, default: false },
+        till: String,
+      },
+    },
     email: {
       type: String,
       required: true,

@@ -324,7 +324,7 @@ const CampgroundDetail = ({ campground = camp }) => {
 
 export async function getStaticPaths() {
   // Fetch campground ids
-  const campgrounds = await getCampgrounds('_id')
+  const campgrounds = await getCampgrounds({ fields: '_id' })
   // Map over the ids and create path obj
   const paths = campgrounds.map(campground => ({
     params: { id: campground?._id.toString() },

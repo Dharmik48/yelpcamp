@@ -18,10 +18,15 @@ export async function getCampgrounds({
     campgrounds = await Campground.find({}, fields)
       .where('location.country')
       .equals(filter)
-  } else {
-    campgrounds = await Campground.find({}, fields)
-      .sort({ [sort]: -1 })
       .limit(limit)
+  } else {
+    if (sort) {
+      campgrounds = await Campground.find({}, fields)
+        .sort({ [sort]: -1 })
+        .limit(limit)
+    } else {
+      campgrounds = await Campground.find({}, fields).limit(limit)
+    }
   }
   // Parse the data and return the data
   return JSON.parse(JSON.stringify(campgrounds))

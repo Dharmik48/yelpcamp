@@ -28,6 +28,14 @@ export default async function webhookHandler(req, res) {
     }
 
     if (event.type === 'checkout.session.completed') {
+      const { email } = event.data.object.metadata
+      await User.findOneAndUpdate(
+        { email },
+        {
+          premium: { subscribed: true },
+        }
+      )
+    } else if (event.type === 'customer.subscription.created') {
       const {
         user: userId,
         checkIn,
@@ -41,7 +49,6 @@ export default async function webhookHandler(req, res) {
         $push: { trips: trip },
       })
     }
-
     res.status(200).send()
   }
 }

@@ -9,7 +9,6 @@ const userSchema = new Schema(
     premium: {
       type: {
         subscribed: { type: Boolean, default: false },
-        till: String,
       },
     },
     email: {

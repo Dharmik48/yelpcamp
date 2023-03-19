@@ -14,6 +14,7 @@ import ReviewForm from '../../../components/ReviewForm'
 import Campground from '../../../models/Campground'
 import dayjs from 'dayjs'
 import Link from 'next/link'
+import LinkButton from '../../../components/LinkButton'
 
 const Profile = ({ user, camps }) => {
   const { data: session } = useSession()
@@ -58,20 +59,27 @@ const Profile = ({ user, camps }) => {
         <title>{user.name}&apos;s Profile</title>
       </Head>
       <section className='flex flex-col gap-6 py-10 lg:gap-16 lg:py-16'>
-        <div className='flex items-center gap-4'>
-          <Image
-            alt={user.name}
-            src={user.image}
-            width='100'
-            height='100'
-            className='aspect-square w-16 rounded-full border-2 border-brand lg:w-24'
-          />
-          <div>
-            <h2 className='font-volkhov text-2xl'>{user.name}</h2>
-            <p className='text-sm text-paragraph'>
-              Joined in {user.createdAt.slice(0, 4)}
-            </p>
+        <div className='flex flex-col justify-between gap-6 md:flex-row md:items-center'>
+          <div className='flex items-center gap-4'>
+            <Image
+              alt={user.name}
+              src={user.image}
+              width='100'
+              height='100'
+              className='aspect-square w-16 rounded-full border-2 border-brand lg:w-24'
+            />
+            <div>
+              <h2 className='font-volkhov text-2xl'>{user.name}</h2>
+              <p className='text-sm text-paragraph'>
+                Joined in {user.createdAt.slice(0, 4)}
+              </p>
+            </div>
           </div>
+          <LinkButton
+            linkTo='/campgrounds/new'
+            className='w-fit'
+            text='Host a Campground'
+          />
         </div>
 
         <section>
@@ -82,7 +90,7 @@ const Profile = ({ user, camps }) => {
               } ${tab === tabOptions[0] && 'bg-dark text-white hover:bg-dark'}`}
               onClick={() => setTab(tabOptions[0])}
             >
-              Campgrounds
+              Your Campgrounds
             </button>
             <button
               className={`rounded-t-md p-2 transition-transform hover:bg-paragraph hover:text-white hover:opacity-100 active:scale-90 active:rounded-md ${

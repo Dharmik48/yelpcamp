@@ -40,7 +40,7 @@ const Header = () => {
 
         <button
           type='button'
-          className='focus:bg-gray-100 hover:bg-gray-100 relative inline-flex rounded-md p-2 text-dark transition-all duration-200 lg:hidden'
+          className='relative inline-flex rounded-md p-2 text-dark transition-all duration-200 hover:bg-gray-100 focus:bg-gray-100 lg:hidden'
           onClick={toggleMenu}
         >
           {/* <!-- Menu open: "hidden", Menu closed: "block" --> */}
@@ -93,7 +93,7 @@ const Header = () => {
             className='text-base font-normal text-dark transition-all duration-200 hover:text-brand focus:text-brand'
             onClick={() => setIsMenuOpen(false)}
           >
-            Subscription
+            <span className='text-brand'>YelpCamp Plus</span>
           </Link>
         </div>
         <div className='hidden items-center justify-center lg:inline-flex lg:space-x-10'>
@@ -113,7 +113,7 @@ const Header = () => {
                 <ul
                   className={`${
                     isProfileDropDownOpen ? 'scale-100' : 'scale-0'
-                  } border-gray-200 absolute top-full mt-5 flex w-max origin-top flex-col gap-5 rounded-lg border bg-secondaryBg p-5 text-dark shadow-md transition-transform`}
+                  } absolute top-full mt-5 flex w-max origin-top flex-col gap-5 rounded-lg border border-gray-200 bg-secondaryBg p-5 text-dark shadow-md transition-transform`}
                 >
                   <li>
                     <Link href={`/users/${session.user.id}`}>Profile</Link>
@@ -158,7 +158,7 @@ const Header = () => {
       <nav
         className={`${
           isMenuOpen ? 'sacle-100' : 'scale-0'
-        } border-gray-200 absolute w-[calc(100%-64px)] origin-top-right rounded-md border bg-secondaryBg p-6 shadow-md transition-transform sm:w-[calc(100%-80px)] md:w-[calc(100%-96px)] lg:hidden`}
+        } absolute w-[calc(100%-64px)] origin-top-right rounded-md border border-gray-200 bg-secondaryBg p-6 shadow-md transition-transform sm:w-[calc(100%-80px)] md:w-[calc(100%-96px)] lg:hidden`}
       >
         <div className='-my-2 flex flex-col space-y-1'>
           <Link
@@ -177,14 +177,6 @@ const Header = () => {
             onClick={() => setIsMenuOpen(false)}
           >
             Campgrounds
-          </Link>
-          <Link
-            href='/subscription'
-            title='Subscription'
-            className='inline-flex py-3 text-base font-normal text-dark transition-all duration-200 hover:text-brand focus:text-brand'
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Subscription
           </Link>
 
           {session && (
@@ -207,6 +199,14 @@ const Header = () => {
               </Link>
             </>
           )}
+          <Link
+            href='/subscription'
+            title='Subscription'
+            className='inline-flex py-3 text-base font-normal text-dark transition-all duration-200 hover:text-brand focus:text-brand'
+            onClick={() => setIsMenuOpen(false)}
+          >
+            <span className='text-brand'>YelpCamp Plus</span>
+          </Link>
         </div>
 
         <div className='mt-8 flex items-center gap-6'>

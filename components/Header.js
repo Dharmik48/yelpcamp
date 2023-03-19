@@ -116,7 +116,29 @@ const Header = () => {
                   } absolute top-full mt-5 flex w-max origin-top flex-col gap-5 rounded-lg border border-gray-200 bg-secondaryBg p-5 text-dark shadow-md transition-transform`}
                 >
                   <li>
-                    <Link href={`/users/${session.user.id}`}>Profile</Link>
+                    <Link
+                      href={`/users/${session.user.id}`}
+                      onClick={() => setIsProfileDropDownOpen(false)}
+                    >
+                      Profile
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href={`/users/${session.user.id}?tab=reviews`}
+                      onClick={() => setIsProfileDropDownOpen(false)}
+                    >
+                      Reviews
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href='/subscription'
+                      title='Subscription'
+                      onClick={() => setIsProfileDropDownOpen(false)}
+                    >
+                      YelpCamp Plus
+                    </Link>
                   </li>
                   <li>
                     <button

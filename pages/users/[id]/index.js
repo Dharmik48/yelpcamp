@@ -17,11 +17,12 @@ import Link from 'next/link'
 
 const Profile = ({ user, camps }) => {
   const { data: session } = useSession()
+  const router = useRouter()
+
   const tabOptions = ['camps', 'reviews']
 
   const [showNewReviewForm, setShowNewReviewForm] = useState(false)
-  const [tab, setTab] = useState(tabOptions[0])
-  const router = useRouter()
+  const [tab, setTab] = useState(router.query.tab || tabOptions[0])
 
   if (router.isFallback) {
     return <div>Loading...</div>

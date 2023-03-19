@@ -15,13 +15,13 @@ export default async function handler(req, res) {
             quantity: 1,
             price_data: {
               recurring: {
-                interval: 'month',
+                interval: 'year',
               },
               currency: 'inr',
               product_data: {
                 name: 'YelpCamp Premium',
               },
-              unit_amount: 800 * PAISA_TO_RUPEES,
+              unit_amount: 12999 * PAISA_TO_RUPEES,
             },
           },
         ],

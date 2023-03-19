@@ -20,7 +20,7 @@ const Profile = ({ user, camps }) => {
   const { data: session } = useSession()
   const router = useRouter()
 
-  const tabOptions = ['camps', 'reviews']
+  const tabOptions = ['your campgrounds', 'reviews', 'past trips']
 
   const [showNewReviewForm, setShowNewReviewForm] = useState(false)
   const [tab, setTab] = useState(router.query.tab || tabOptions[0])
@@ -84,22 +84,18 @@ const Profile = ({ user, camps }) => {
 
         <section>
           <div className='mb-3 flex w-full gap-3 border-b-2 border-dark lg:mb-6'>
-            <button
-              className={`rounded-t-md p-2 transition-transform hover:bg-paragraph hover:text-white hover:opacity-100 active:scale-90 active:rounded-md ${
-                !(tab === tabOptions[0]) && 'opacity-70'
-              } ${tab === tabOptions[0] && 'bg-dark text-white hover:bg-dark'}`}
-              onClick={() => setTab(tabOptions[0])}
-            >
-              Your Campgrounds
-            </button>
-            <button
-              className={`rounded-t-md p-2 transition-transform hover:bg-paragraph hover:text-white hover:opacity-100 active:scale-90 active:rounded-md ${
-                !(tab === tabOptions[1]) && 'opacity-70'
-              } ${tab === tabOptions[1] && 'bg-dark text-white hover:bg-dark'}`}
-              onClick={() => setTab(tabOptions[1])}
-            >
-              Reviews
-            </button>
+            {tabOptions.map((tabOption, i) => (
+              <button
+                className={`rounded-t-md p-3 capitalize transition-transform hover:bg-paragraph hover:text-white hover:opacity-100 active:scale-90 active:rounded-md ${
+                  !(tab === tabOptions[i]) && 'opacity-70'
+                } ${
+                  tab === tabOptions[i] && 'bg-dark text-white hover:bg-dark'
+                }`}
+                onClick={() => setTab(tabOptions[i])}
+              >
+                {tabOption}
+              </button>
+            ))}
           </div>
           {tab === tabOptions[0] ? (
             <ul className='grid w-full gap-6 md:grid-cols-2 lg:grid-cols-3'>

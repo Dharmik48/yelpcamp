@@ -1,13 +1,8 @@
 import { FaCheck } from 'react-icons/fa'
-import Button from '../components/Button'
-import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 
 export default function Subscription() {
-  const router = useRouter()
-
-  const checkout = () => {
-    router.push('/api/subscribe')
-  }
+  const { data: session } = useSession()
 
   const includedFeatures = [
     'Access to exclusive campsites',
@@ -18,7 +13,7 @@ export default function Subscription() {
   ]
 
   return (
-    <section className='w-full py-10 lg:gap-6 lg:py-16'>
+    <section className='w-full pt-10 lg:gap-6 lg:pt-12'>
       <div className='mx-auto w-full lg:py-16 lg:px-6'>
         <div className='mx-auto mb-5 w-full text-center lg:mb-12'>
           <h2 className='mb-5 font-volkhov text-4xl font-extrabold tracking-tight '>
@@ -75,7 +70,7 @@ export default function Subscription() {
                   </span>
                 </p>
                 <a
-                  href='#'
+                  href={`/api/subscribe?email=${session?.user?.email}`}
                   className='mt-10 block w-full rounded-md bg-brand px-3 py-2 text-center text-sm font-semibold text-primaryBg shadow-sm hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand'
                 >
                   Get access

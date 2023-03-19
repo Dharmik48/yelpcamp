@@ -29,6 +29,7 @@ export default async function webhookHandler(req, res) {
 
     if (event.type === 'checkout.session.completed') {
       const { email } = event.data.object.metadata
+      console.log('🫠', event.data)
       await User.findOneAndUpdate(
         { email },
         {

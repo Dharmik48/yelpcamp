@@ -118,14 +118,18 @@ const SignUp = () => {
         <div className='justify-betwee flex flex-col items-center gap-4 sm:flex-row'>
           <button
             className='flex w-full flex-1 items-center justify-center gap-2 rounded-md border-2 border-blue bg-blue px-4 py-3 text-primaryBg transition-colors hover:bg-transparent hover:text-blue'
-            onClick={() => signIn('google', { callbackUrl: '/' })}
+            onClick={() =>
+              signIn('google', { callbackUrl: router.query.callBackUrl })
+            }
           >
             <FaGoogle />
             Google
           </button>
           <button
             className='flex w-full flex-1 items-center justify-center gap-2 rounded-md border-2 border-blue bg-blue px-4 py-3 text-primaryBg transition-colors hover:bg-transparent hover:text-blue'
-            onClick={() => signIn('facebook', { callbackUrl: '/' })}
+            onClick={() =>
+              signIn('facebook', { callbackUrl: router.query.callBackUrl })
+            }
           >
             <FaFacebook />
             Facebook

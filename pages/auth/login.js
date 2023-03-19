@@ -44,7 +44,7 @@ const Login = () => {
   })
 
   return (
-    <main className='flex flex-1 items-center gap-16'>
+    <main className='mt-14 flex flex-1 items-center gap-16 lg:mt-20 xl:mt-28'>
       <Image
         src={illustration}
         className='hidden max-w-[50%] flex-1 self-center lg:block'

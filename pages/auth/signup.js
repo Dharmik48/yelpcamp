@@ -47,7 +47,7 @@ const SignUp = () => {
   })
 
   return (
-    <main className='flex flex-1 items-center gap-16'>
+    <main className='mt-14 flex flex-1 items-center gap-16  lg:mt-20 xl:mt-28'>
       <div className='mx-auto flex max-w-full flex-col gap-8 lg:mx-0 lg:flex-1'>
         <h2 className='text-center font-volkhov text-3xl font-bold md:gap-4 lg:text-4xl'>
           Sign Up

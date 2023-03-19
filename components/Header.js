@@ -70,7 +70,7 @@ const Header = () => {
 
           <Link
             href='/campgrounds'
-            title='Campgrounds'
+            title='View Campgrounds'
             className='text-base font-normal text-dark transition-all duration-200 hover:text-brand focus:text-brand'
             onClick={() => setIsMenuOpen(false)}
           >
@@ -118,6 +118,7 @@ const Header = () => {
                   <li>
                     <Link
                       href={`/users/${session.user.id}`}
+                      title='Profile'
                       onClick={() => setIsProfileDropDownOpen(false)}
                     >
                       Profile
@@ -126,6 +127,7 @@ const Header = () => {
                   <li>
                     <Link
                       href={`/users/${session.user.id}?tab=reviews`}
+                      title='Reviews'
                       onClick={() => setIsProfileDropDownOpen(false)}
                     >
                       Reviews
@@ -194,7 +196,7 @@ const Header = () => {
 
           <Link
             href='/campgrounds'
-            title='Campgrounds'
+            title='View Campgrounds'
             className='inline-flex py-3 text-base font-normal text-dark transition-all duration-200 hover:text-brand focus:text-brand'
             onClick={() => setIsMenuOpen(false)}
           >
@@ -261,7 +263,7 @@ const Header = () => {
             <>
               <Link
                 href='/auth/login'
-                title='Add Campground'
+                title='Login'
                 className='border-b-2 border-transparent text-base font-semibold text-brand transition-all duration-200 hover:border-brand focus:border-brand'
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -269,7 +271,7 @@ const Header = () => {
               </Link>
               <Link
                 href='/auth/signup'
-                title=''
+                title='Sign Up'
                 className='rounded-md border-2 border-transparent bg-brand px-8 py-3 text-base font-semibold text-secondaryBg transition-all duration-200 hover:border-brand hover:bg-transparent hover:text-brand focus:border-brand focus:bg-transparent focus:text-brand'
                 role='button'
                 onClick={() => setIsMenuOpen(false)}

@@ -219,6 +219,14 @@ const Header = () => {
               >
                 Profile
               </Link>
+              <Link
+                href={`/users/${session?.user?.id}?tab=reviews`}
+                title='Reviews'
+                className='inline-flex py-3 text-base font-normal text-dark transition-all duration-200 hover:text-brand focus:text-brand'
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Reviews
+              </Link>
             </>
           )}
           <Link

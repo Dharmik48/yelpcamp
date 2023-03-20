@@ -86,6 +86,7 @@ const Profile = ({ user, camps }) => {
           <div className='mb-3 flex w-full gap-3 border-b-2 border-dark lg:mb-6'>
             {tabOptions.map((tabOption, i) => (
               <button
+                key={tabOption}
                 className={`rounded-t-md p-3 capitalize transition-transform hover:bg-paragraph hover:text-white hover:opacity-100 active:scale-90 active:rounded-md ${
                   !(tab === tabOptions[i]) && 'opacity-70'
                 } ${

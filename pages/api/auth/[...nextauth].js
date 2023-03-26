@@ -60,6 +60,7 @@ export default NextAuth({
         image: user.image,
         email: user.email,
         auth_type: [provider],
+        premium: { subscribed: false },
       }
       await User.create(userToCreate)
       return true

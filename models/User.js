@@ -10,6 +10,7 @@ const userSchema = new Schema(
       type: {
         subscribed: { type: Boolean, default: false },
       },
+      required: true,
     },
     email: {
       type: String,

@@ -2,13 +2,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import logo from '../public/logo.png'
 import { IoMenu, IoClose } from 'react-icons/io5'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { signOut, useSession } from 'next-auth/react'
 
 const Header = () => {
   const { data: session } = useSession()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isProfileDropDownOpen, setIsProfileDropDownOpen] = useState(false)
+  const [clientWindowHeight, setClientWindowHeight] = useState('')
 
   const toggleMenu = () => {
     setIsMenuOpen(currIsMenuOpen => !currIsMenuOpen)
@@ -20,8 +21,21 @@ const Header = () => {
     )
   }
 
+  const handleScroll = () => {
+    setClientWindowHeight(window.scrollY)
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  })
+
   return (
-    <header className='sticky top-0 z-10 mx-auto max-w-7xl bg-primaryBg px-8 font-poppins text-dark sm:px-10 md:px-12 lg:px-14 lg:pb-0'>
+    <header
+      className={`${
+        clientWindowHeight > 5 && 'shadow-[0_10px_10px_-12px_rgba(0,0,0,0.4)]'
+      } sticky top-0 z-10 mx-auto max-w-7xl bg-primaryBg px-8 font-poppins text-dark sm:px-10 md:px-12 lg:px-14 lg:pb-0`}
+    >
       {/* <!-- lg+ --> */}
       <nav className='flex h-16 items-center justify-between lg:h-24'>
         <div className='flex-shrink-0'>

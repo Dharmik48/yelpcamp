@@ -15,6 +15,7 @@ import Campground from '../../../models/Campground'
 import dayjs from 'dayjs'
 import Link from 'next/link'
 import LinkButton from '../../../components/LinkButton'
+import CampgroundListItem from '../../../components/CampgroundListItem'
 
 const Profile = ({ user, camps }) => {
   const { data: session } = useSession()
@@ -49,7 +50,7 @@ const Profile = ({ user, camps }) => {
   const renderCamps = () =>
     user.campgrounds.map(campground => (
       <li key={campground._id}>
-        <CampgroundCard campground={campground} />
+        <CampgroundListItem campground={campground} />
       </li>
     ))
 
@@ -83,7 +84,7 @@ const Profile = ({ user, camps }) => {
         </div>
 
         <section>
-          <div className='mb-3 flex w-full gap-3 border-b-2 border-dark lg:mb-6'>
+          <div className='mb-6 flex w-full gap-3 border-b-2 border-dark lg:mb-10'>
             {tabOptions.map((tabOption, i) => (
               <button
                 key={tabOption}
@@ -99,9 +100,7 @@ const Profile = ({ user, camps }) => {
             ))}
           </div>
           {tab === tabOptions[0] ? (
-            <ul className='grid w-full gap-6 md:grid-cols-2 lg:grid-cols-3'>
-              {renderCamps()}
-            </ul>
+            <ul className='flex w-full flex-col gap-6'>{renderCamps()}</ul>
           ) : (
             <div className='flex flex-col gap-5'>
               <div>

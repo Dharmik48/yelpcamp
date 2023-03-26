@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { FaDollarSign, FaExclamationCircle } from 'react-icons/fa'
+import { FaRupeeSign, FaExclamationCircle } from 'react-icons/fa'
 import { IoClose } from 'react-icons/io5'
 import Button from './Button'
 import Input from './Input'
@@ -363,7 +363,7 @@ const Form = ({ submitForm, data, disabled }) => {
                 'outline outline-2 outline-red'
               }`}
             >
-              <FaDollarSign className='text-dark' />
+              <FaRupeeSign className='text-dark' />
               <Input
                 type='number'
                 name='adultPrice'
@@ -389,7 +389,7 @@ const Form = ({ submitForm, data, disabled }) => {
                 'outline outline-2 outline-red'
               }`}
             >
-              <FaDollarSign className='text-dark' />
+              <FaRupeeSign className='text-dark' />
               <Input
                 type='number'
                 name='childrenPrice'

@@ -84,15 +84,14 @@ const Profile = ({ user, camps }) => {
         </div>
 
         <section>
-          <div className='mb-6 flex w-full gap-3 border-b-2 border-dark lg:mb-10'>
+          <div className='mb-6 flex w-full gap-3 rounded-lg bg-lightRed p-2 lg:mb-10'>
             {tabOptions.map((tabOption, i) => (
               <button
                 key={tabOption}
-                className={`rounded-t-md p-3 capitalize transition-transform hover:bg-paragraph hover:text-white hover:opacity-100 active:scale-90 active:rounded-md ${
-                  !(tab === tabOptions[i]) && 'opacity-70'
-                } ${
-                  tab === tabOptions[i] && 'bg-dark text-white hover:bg-dark'
-                }`}
+                className={`rounded-lg p-3 capitalize text-dark transition-transform  active:scale-90 ${
+                  !(tab === tabOptions[i]) &&
+                  'hover:bg-secondaryBg hover:opacity-90'
+                } ${tab === tabOptions[i] && 'bg-primaryBg !text-dark'}`}
                 onClick={() => setTab(tabOptions[i])}
               >
                 {tabOption}

@@ -274,21 +274,8 @@ const CampgroundDetail = ({ campground = camp }) => {
           <h3 className='mb-3 font-volkhov text-2xl lg:text-3xl'>About</h3>
           <p className='lg:text-lg'>{campground?.desc}</p>
         </div>
-        {session?.user?.email === campground?.owner.email && (
-          <div className='flex gap-4'>
-            <LinkButton
-              text='Edit'
-              linkTo={`/campgrounds/${campground?._id}/edit`}
-            />
-            <Button
-              text='Delete'
-              danger='true'
-              handleClick={deleteCampground}
-            />
-          </div>
-        )}
       </section>
-      <hr className='my-10 text-paragraph' />
+      <hr className='mb-10 text-paragraph' />
       <h3 className='mb-3 font-volkhov text-2xl lg:text-3xl'>Location</h3>
       <div className='h-72 overflow-hidden rounded-xl lg:h-96'>
         <ReactMapGl

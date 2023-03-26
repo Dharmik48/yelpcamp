@@ -16,6 +16,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import Datepicker from 'react-tailwindcss-datepicker'
 import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
+import Link from 'next/link'
 
 const camp = {
   _id: '',
@@ -53,11 +54,12 @@ const CampgroundDetail = ({ campground = camp }) => {
     const hours = end.diff(start, 'hours')
     const days = hours / 24 + 1
 
-    setPrice(
-      (guests.adults * campground?.price.adults +
-        guests.children * campground?.price.children) *
-        days
-    )
+    days &&
+      setPrice(
+        (guests.adults * campground?.price.adults +
+          guests.children * campground?.price.children) *
+          days
+      )
   }, [guests, dateValue])
 
   if (router.isFallback) return <h1>Loading...</h1>
@@ -126,14 +128,37 @@ const CampgroundDetail = ({ campground = camp }) => {
           </p>
         </div>
         <ul className='flex gap-2 overflow-scroll'>{renderImages()}</ul>
-        <div className='flex w-full flex-col gap-4 rounded-md bg-lightRed py-6 px-12 shadow-lg md:flex-row md:items-center md:justify-between'>
-          <p className='md:text-xl'>
-            <span className='text-xl font-bold md:text-2xl lg:text-3xl'>
-              ${campground?.price.adults}
-            </span>
-            /night
-          </p>
-          <div className='relative flex flex-col gap-6   sm:flex-row md:ml-auto'>
+        <div className='flex w-full flex-col gap-4 rounded-md bg-lightRed py-6 px-12 shadow-lg lg:flex-row-reverse lg:items-center lg:justify-between'>
+          <div className='flex flex-col gap-4'>
+            <div>
+              <p className='p-3 md:text-lg'>
+                <span className='text-lg font-bold md:text-xl lg:text-2xl'>
+                  ₹{campground?.price.adults}
+                </span>
+                /night
+              </p>
+              <p className='max-w-fit rounded-md bg-primaryBg p-3'>
+                <span className='text-xl font-bold md:text-2xl lg:text-3xl'>
+                  ₹{campground?.price.adults * 0.8}
+                </span>
+                <span className='md:text-xl'>/night</span> for{' '}
+                <Link
+                  href={'/subscription'}
+                  target='_blank'
+                  className='text-brand'
+                >
+                  YelpCamp Plus
+                </Link>{' '}
+                users
+              </p>
+            </div>
+            <Button
+              text='Reserve'
+              className='hidden h-fit max-w-fit self-end lg:block'
+              handleClick={redirectToCheckout}
+            />
+          </div>
+          <div className='relative flex flex-col gap-6 lg:mr-auto'>
             <div className='w-full max-w-sm rounded-md bg-primaryBg shadow-md sm:h-auto md:w-sm'>
               <div className='relative flex border-b border-text'>
                 <div className='absolute inset-0'>
@@ -183,7 +208,7 @@ const CampgroundDetail = ({ campground = camp }) => {
                 >
                   <div className='flex items-center justify-between'>
                     <div>
-                      <p>Adult</p>
+                      <p>Adult - ₹{campground.price.adults}/night</p>
                       <p className='text-sm text-paragraph'>Age 13+</p>
                     </div>
                     <div className='flex items-center gap-2 text-xl'>
@@ -200,7 +225,7 @@ const CampgroundDetail = ({ campground = camp }) => {
                   </div>
                   <div className='flex items-center justify-between'>
                     <div>
-                      <p>Children</p>
+                      <p>Children - ₹{campground.price.children}/night</p>
                       <p className='text-sm text-paragraph'>Age 2-12</p>
                     </div>
                     <div className='flex items-center gap-2 text-xl'>
@@ -235,18 +260,32 @@ const CampgroundDetail = ({ campground = camp }) => {
                 </div>
               </div>
             </div>
-            <div className='flex items-center justify-between gap-4 md:flex-col md:justify-start'>
-              {!!price && (
-                <p className='font-volkhov text-lg'>
-                  Total price:{' '}
-                  <span className='text-2xl font-medium text-brand'>
-                    ${price}
-                  </span>
+            <div className='flex flex-col justify-between gap-4'>
+              <div className='flex flex-col gap-4 lg:flex-row lg:items-center'>
+                {!!price && (
+                  <p className='font-volkhov text-xl'>
+                    Total:{' '}
+                    <span className='text-3xl font-medium'>₹{price}</span>
+                  </p>
+                )}
+                <p className='max-w-fit rounded-md bg-primaryBg p-3'>
+                  Save{' '}
+                  <span className='text-lg font-bold md:text-xl lg:text-2xl'>
+                    ₹{price * 0.2}
+                  </span>{' '}
+                  by getting{' '}
+                  <Link
+                    href={'/subscription'}
+                    target='_blank'
+                    className='text-brand'
+                  >
+                    YelpCamp Plus
+                  </Link>
                 </p>
-              )}
+              </div>
               <Button
                 text='Reserve'
-                className='h-fit max-w-fit'
+                className='h-fit max-w-fit lg:hidden'
                 handleClick={redirectToCheckout}
               />
             </div>

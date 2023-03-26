@@ -1,6 +1,7 @@
 import Stripe from 'stripe'
 import connectDB from '../../../../util/mongo'
 import Campground from '../../../../models/Campground'
+import User from '../../../../models/User'
 
 export default async function handler(req, res) {
   const PAISA_TO_RUPEES = 100
@@ -14,12 +15,19 @@ export default async function handler(req, res) {
       days,
       checkIn,
       checkOut,
-      user,
+      user: userId,
     } = req.query
+
+    const { premium } = await User.findById(userId, 'premium')
+
     const camp = await Campground.findById(campId)
     const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY)
-    const amount =
+    let amount =
       (camp.price.adults * adults + camp.price.children * children) * days
+
+    if (premium) {
+      amount *= 0.8
+    }
 
     try {
       // Create Checkout Sessions from body params.
@@ -42,7 +50,7 @@ export default async function handler(req, res) {
         metadata: {
           checkIn,
           checkOut,
-          user,
+          user: userId,
           camp: camp._id,
         },
       })

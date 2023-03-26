@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     let amount =
       (camp.price.adults * adults + camp.price.children * children) * days
 
-    if (premium) {
+    if (premium.subscribed) {
       amount *= 0.8
     }
 

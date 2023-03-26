@@ -13,16 +13,17 @@ import Geocoder from './Geocoder'
 import axios from 'axios'
 
 const Form = ({ submitForm, data, disabled }) => {
+  console.log(data)
   const formik = useFormik({
     initialValues: {
       name: data?.name || '',
       desc: data?.desc || '',
-      adultPrice: data?.adultPrice || '',
-      childrenPrice: data?.childrenPrice || '',
+      adultPrice: data?.price.adults || '',
+      childrenPrice: data?.price.children || '',
       images: data?.images || [],
-      city: data?.city || '',
-      state: data?.state || '',
-      country: data?.country || '',
+      city: data?.location.city || '',
+      state: data?.location.state || '',
+      country: data?.location.country || '',
     },
     validationSchema: Yup.object({
       name: Yup.string().required('Please enter a name!'),
@@ -58,9 +59,10 @@ const Form = ({ submitForm, data, disabled }) => {
   })
 
   const [isImageDragged, setIsImageDragged] = useState(false)
-  const [coords, setCoords] = useState({})
+  const [coords, setCoords] = useState(data?.location.coords || {})
 
   useEffect(() => {
+    if (Object.keys(coords).length > 1) return
     getCoords()
   }, [])
 
@@ -81,7 +83,6 @@ const Form = ({ submitForm, data, disabled }) => {
   }, [coords])
 
   const getCoords = () => {
-    // if (navigator.geocoords) {
     navigator.geolocation.getCurrentPosition(
       // Success function
       showPosition,
@@ -94,7 +95,6 @@ const Form = ({ submitForm, data, disabled }) => {
         maximumAge: 0,
       }
     )
-    // }
   }
 
   const showPosition = pos => {

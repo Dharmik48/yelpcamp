@@ -56,11 +56,11 @@ const EditCampground = ({ campground }) => {
             disabled={isSubmiting}
           />
         </div>
-        <Image
+        {/* <Image
           src={illustration}
           className='hidden max-w-[50%] flex-1 self-center lg:block'
           alt='man campging'
-        />
+        /> */}
       </section>
     </>
   )

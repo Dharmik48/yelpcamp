@@ -20,7 +20,7 @@ export default function Subscription({ subscribed }) {
           <h2 className='mb-5 font-volkhov text-4xl font-extrabold tracking-tight '>
             {!subscribed
               ? 'Get exclusive benefits with '
-              : 'You are already a subscribed to '}
+              : 'You are already subscribed to '}
             <span className='text-brand'>YelpCamp Plus</span>
           </h2>
           <p className='font-light text-paragraph md:text-lg'>

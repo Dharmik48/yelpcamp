@@ -47,10 +47,31 @@ const Profile = ({ user, camps }) => {
     toast.success('Review Added!', { icon: FaCheck })
   }
 
+  const deleteCampground = async id => {
+    const { data: deletedCampground } = await axios.delete(
+      `/api/campgrounds/${id}`
+    )
+    toast.success(
+      () => (
+        <>
+          Successfully deleted{' '}
+          <span className='font-semibold'>{deletedCampground?.name}</span>
+        </>
+      ),
+      {
+        icon: FaCheck,
+      }
+    )
+    router.push('/campgrounds')
+  }
+
   const renderCamps = () =>
     user.campgrounds.map(campground => (
       <li key={campground._id}>
-        <CampgroundListItem campground={campground} />
+        <CampgroundListItem
+          campground={campground}
+          deleteCampground={deleteCampground}
+        />
       </li>
     ))
 

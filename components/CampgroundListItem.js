@@ -5,7 +5,7 @@ import Modal from './Modal'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 
-const CampgroundListItem = ({ campground }) => {
+const CampgroundListItem = ({ campground, deleteCampground }) => {
   const [deleteConfirm, setDeleteConfirm] = useState(false)
   const router = useRouter()
 
@@ -19,6 +19,7 @@ const CampgroundListItem = ({ campground }) => {
           text={
             'This cannot be undone! All of the data associated with the campground will also be deleted! Are you sure want to delete?'
           }
+          onAgree={() => deleteCampground(campground._id)}
         />
       )}
       <h4 className='border-b border-transparent group-hover:border-text'>

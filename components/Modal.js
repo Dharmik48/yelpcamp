@@ -2,7 +2,7 @@ import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { IoWarningOutline } from 'react-icons/io5'
 
-export default function Modal({ open, setOpen, title, text }) {
+export default function Modal({ open, setOpen, title, text, onAgree }) {
   const cancelButtonRef = useRef(null)
 
   return (
@@ -62,7 +62,10 @@ export default function Modal({ open, setOpen, title, text }) {
                   <button
                     type='button'
                     className='inline-flex w-full justify-center rounded-md bg-red px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red sm:ml-3 sm:w-auto'
-                    onClick={() => setOpen(false)}
+                    onClick={() => {
+                      setOpen(false)
+                      onAgree()
+                    }}
                   >
                     Confirm
                   </button>

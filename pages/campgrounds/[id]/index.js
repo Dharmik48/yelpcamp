@@ -96,24 +96,6 @@ const CampgroundDetail = ({ campground = camp }) => {
       setGuests(curr => ({ ...curr, infants: curr.infants - 1 }))
   }
 
-  const deleteCampground = async () => {
-    const { data: deletedCampground } = await axios.delete(
-      `/api/campgrounds/${campground?._id}`
-    )
-    toast.success(
-      () => (
-        <>
-          Successfully deleted{' '}
-          <span className='font-semibold'>{deletedCampground?.name}</span>
-        </>
-      ),
-      {
-        icon: FaCheck,
-      }
-    )
-    router.push('/campgrounds')
-  }
-
   const renderImages = () =>
     campground?.images.map(img => (
       <Image

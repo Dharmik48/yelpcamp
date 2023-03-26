@@ -126,7 +126,7 @@ const CampgroundDetail = ({ campground = camp }) => {
           </p>
         </div>
         <ul className='flex gap-2 overflow-scroll'>{renderImages()}</ul>
-        <div className='flex w-full flex-col gap-4 rounded-md bg-secondaryBg p-6 shadow-lg md:flex-row md:items-center md:justify-between'>
+        <div className='flex w-full flex-col gap-4 rounded-md bg-lightRed py-6 px-12 shadow-lg md:flex-row md:items-center md:justify-between'>
           <p className='md:text-xl'>
             <span className='text-xl font-bold md:text-2xl lg:text-3xl'>
               ${campground?.price.adults}
@@ -134,8 +134,8 @@ const CampgroundDetail = ({ campground = camp }) => {
             /night
           </p>
           <div className='relative flex flex-col gap-6   sm:flex-row md:ml-auto'>
-            <div className='w-full max-w-sm rounded-md border border-text bg-primaryBg sm:h-auto md:w-sm'>
-              <div className='relative flex h-14 border-b border-text'>
+            <div className='w-full max-w-sm rounded-md bg-primaryBg shadow-md sm:h-auto md:w-sm'>
+              <div className='relative flex border-b border-text'>
                 <div className='absolute inset-0'>
                   <Datepicker
                     primaryColor='green'
@@ -146,18 +146,18 @@ const CampgroundDetail = ({ campground = camp }) => {
                     containerClassName='h-full'
                   />
                 </div>
-                <div className='my-auto ml-4 flex-1 border-r border-text'>
+                <div className='my-auto flex-1 border-r border-text p-3 px-4'>
                   <p className='text-xs'>Check in</p>
                   <p>{dateValue.startDate.toString()}</p>
                 </div>
-                <div className='my-auto ml-4 flex-1'>
+                <div className='my-auto flex-1 p-3 px-4'>
                   <p className='text-xs'>Check out</p>
                   <p>{dateValue.endDate.toString()}</p>
                 </div>
               </div>
               <div className='relative cursor-pointer'>
                 <div
-                  className='flex h-full items-center justify-between px-4 py-4'
+                  className='flex h-full items-center justify-between p-3 px-4'
                   onClick={() => setShowGuestSelector(curr => !curr)}
                 >
                   <div>

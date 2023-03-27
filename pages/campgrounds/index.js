@@ -83,26 +83,30 @@ const Campgrounds = ({ campgrounds, search, location }) => {
           </div>
         </div>
 
-        {showMap ? (
-          <div className='sticky top-0 right-0 h-screen flex-[4] overflow-hidden rounded-xl lg:block'>
-            <ReactMapGl
-              mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_KEY}
-              initialViewState={{
-                latitude: campgrounds[0].location.coords.lat,
-                longitude: campgrounds[0].location.coords.long,
-                zoom: 4,
-              }}
-              mapStyle='mapbox://styles/dharmik403/cleh3wthw003g01qgpq5gxlk7'
-              attributionControl={false}
-            >
-              {renderMarkers}
-              <GeolocateControl position='top-left' trackUserLocation />
-            </ReactMapGl>
-          </div>
+        {!!campgrounds.length ? (
+          showMap ? (
+            <div className='sticky top-0 right-0 h-screen flex-[4] overflow-hidden rounded-xl lg:block'>
+              <ReactMapGl
+                mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_KEY}
+                initialViewState={{
+                  latitude: campgrounds[0].location.coords.lat,
+                  longitude: campgrounds[0].location.coords.long,
+                  zoom: 4,
+                }}
+                mapStyle='mapbox://styles/dharmik403/cleh3wthw003g01qgpq5gxlk7'
+                attributionControl={false}
+              >
+                {renderMarkers}
+                <GeolocateControl position='top-left' trackUserLocation />
+              </ReactMapGl>
+            </div>
+          ) : (
+            <ul className='grid w-full gap-6 md:grid-cols-2 lg:grid-cols-3'>
+              {renderCampgrounds}
+            </ul>
+          )
         ) : (
-          <ul className='grid w-full gap-6 md:grid-cols-2 lg:grid-cols-3'>
-            {renderCampgrounds}
-          </ul>
+          <p>No campgrounds are available for selected filter</p>
         )}
       </section>
     </>

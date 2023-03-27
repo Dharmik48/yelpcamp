@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { HiStar, HiMapPin } from 'react-icons/hi2'
+import { FaRupeeSign } from 'react-icons/fa'
 import LinkButton from './LinkButton'
 
 const CampgroundCard = ({ campground }) => {
@@ -36,7 +37,8 @@ const CampgroundCard = ({ campground }) => {
             {campground.location.country}
           </p>
           <p className='w-fit rounded-md bg-[#FFE7DB] py-1 px-2 font-medium text-brand'>
-            ${campground.price.adults}
+            <FaRupeeSign className='inline' />
+            {campground.price.adults}
           </p>
         </div>
         <Link

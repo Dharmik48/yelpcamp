@@ -27,7 +27,7 @@ export default async function webhookHandler(req, res) {
       return res.status(400).send(`Webhook error: ${e.message}`)
     }
 
-    if (event.type === 'checkout.session.completed') {
+    if (event.type === 'customer.subscription.created') {
       const { email } = event.data.object.metadata
 
       await User.findOneAndUpdate(
@@ -36,7 +36,7 @@ export default async function webhookHandler(req, res) {
           premium: { subscribed: true },
         }
       )
-    } else if (event.type === 'customer.subscription.created') {
+    } else if (event.type === 'checkout.session.completed') {
       const {
         user: userId,
         checkIn,

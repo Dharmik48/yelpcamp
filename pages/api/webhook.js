@@ -29,6 +29,7 @@ export default async function webhookHandler(req, res) {
 
     if (event.type === 'customer.subscription.created') {
       const { email } = event.data.object.metadata
+      console.log('😅', email)
 
       await User.findOneAndUpdate(
         { email },
@@ -43,6 +44,7 @@ export default async function webhookHandler(req, res) {
         checkOut,
         camp,
       } = event.data.object.metadata
+      console.log('🎊')
 
       const trip = { checkIn, checkOut, camp }
 

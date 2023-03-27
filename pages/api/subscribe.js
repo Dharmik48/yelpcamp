@@ -2,7 +2,7 @@ import Stripe from 'stripe'
 
 export default async function handler(req, res) {
   const PAISA_TO_RUPEES = 100
-
+  const { email } = req.query
   if (req.method === 'GET') {
     const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY)
 
@@ -26,7 +26,7 @@ export default async function handler(req, res) {
           },
         ],
         metadata: {
-          email: req.query.email,
+          email,
         },
         mode: 'subscription',
         success_url: `${process.env.NEXTAUTH_URL}`,

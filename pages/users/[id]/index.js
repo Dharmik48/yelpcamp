@@ -142,14 +142,17 @@ const Profile = ({ user, camps }) => {
     {
       title: 'hosted campgrounds',
       component: <Campgrounds user={user} session={session} />,
+      restricted: false,
     },
     {
       title: 'reviews',
       component: <ReviewsSection camps={camps} user={user} session={session} />,
+      restricted: false,
     },
     {
       title: 'past trips',
       component: <PastTrips camps={camps} user={user} />,
+      restricted: true,
     },
   ]
 
@@ -192,20 +195,27 @@ const Profile = ({ user, camps }) => {
 
         <section>
           <div className='mb-6 flex w-full gap-3 rounded-lg bg-lightRed p-2 lg:mb-10'>
-            {tabOptions.map((tabOption, i) => (
-              <button
-                key={tabOption}
-                className={`rounded-lg p-3 capitalize text-dark transition-transform  active:scale-90 ${
-                  !(tab.title === tabOptions[i].title) &&
-                  'hover:bg-secondaryBg hover:opacity-90'
-                } ${
-                  tab.title === tabOptions[i].title && 'bg-primaryBg !text-dark'
-                }`}
-                onClick={() => setTab(tabOptions[i])}
-              >
-                {tabOption.title}
-              </button>
-            ))}
+            {tabOptions
+              .filter(option => {
+                if (session?.user.id === user._id) return true
+
+                return !option.restricted
+              })
+              .map((tabOption, i) => (
+                <button
+                  key={tabOption}
+                  className={`rounded-lg p-3 capitalize text-dark transition-transform  active:scale-90 ${
+                    !(tab.title === tabOptions[i].title) &&
+                    'hover:bg-secondaryBg hover:opacity-90'
+                  } ${
+                    tab.title === tabOptions[i].title &&
+                    'bg-primaryBg !text-dark'
+                  }`}
+                  onClick={() => setTab(tabOptions[i])}
+                >
+                  {tabOption.title}
+                </button>
+              ))}
           </div>
           {
             tabOptions.find(tabOption => tabOption.title === tab.title)

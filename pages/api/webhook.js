@@ -43,9 +43,9 @@ export default async function webhookHandler(req, res) {
         checkOut,
         camp,
       } = event.data.object.metadata
-
+      console.log('💀', event.data.object.metadata)
       const trip = { checkIn, checkOut, campground: camp }
-
+      console.log('👨🏻‍🏫', trip)
       await User.findByIdAndUpdate(userId, {
         $push: { trips: trip },
       })

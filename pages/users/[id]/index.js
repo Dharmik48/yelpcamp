@@ -128,7 +128,7 @@ const PastTrips = ({ camps }) => {
     <div>
       <h5 className='mb-5 font-volkhov text-xl lg:text-2xl'>Past Trips</h5>
       {camps.map(camp => (
-        <CampgroundWideCard campground={camp} />
+        <CampgroundWideCard key={camp._id} campground={camp} />
       ))}
     </div>
   )

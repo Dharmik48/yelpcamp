@@ -44,7 +44,7 @@ export default async function webhookHandler(req, res) {
         camp,
       } = event.data.object.metadata
 
-      const trip = { checkIn, checkOut, camp }
+      const trip = { checkIn, checkOut, campground: camp }
 
       await User.findByIdAndUpdate(userId, {
         $push: { trips: trip },

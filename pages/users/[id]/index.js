@@ -21,7 +21,7 @@ const Profile = ({ user, camps }) => {
   const { data: session } = useSession()
   const router = useRouter()
 
-  const tabOptions = ['your campgrounds', 'reviews', 'past trips']
+  const tabOptions = ['Hosted Campgrounds', 'reviews', 'past trips']
 
   const [showNewReviewForm, setShowNewReviewForm] = useState(false)
   const [tab, setTab] = useState(router.query.tab || tabOptions[0])
@@ -71,6 +71,7 @@ const Profile = ({ user, camps }) => {
         <CampgroundListItem
           campground={campground}
           deleteCampground={deleteCampground}
+          showEditDeleteBtns={session?.user.id === user._id}
         />
       </li>
     ))

@@ -5,7 +5,11 @@ import Modal from './Modal'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 
-const CampgroundListItem = ({ campground, deleteCampground }) => {
+const CampgroundListItem = ({
+  campground,
+  deleteCampground,
+  showEditDeleteBtns,
+}) => {
   const [deleteConfirm, setDeleteConfirm] = useState(false)
   const router = useRouter()
 
@@ -30,16 +34,18 @@ const CampgroundListItem = ({ campground, deleteCampground }) => {
           <HiStar />
         </span>
       </h4>
-      <div className='flex gap-6'>
-        <button
-          onClick={() => router.push(`/campgrounds/${campground._id}/edit`)}
-        >
-          <IoCreateOutline size='1.5em' className='group-hover:text-brand' />
-        </button>
-        <button onClick={() => setDeleteConfirm(true)}>
-          <IoTrashOutline size='1.5em' className='group-hover:text-red' />
-        </button>
-      </div>
+      {showEditDeleteBtns && (
+        <div className='flex gap-6'>
+          <button
+            onClick={() => router.push(`/campgrounds/${campground._id}/edit`)}
+          >
+            <IoCreateOutline size='1.5em' className='group-hover:text-brand' />
+          </button>
+          <button onClick={() => setDeleteConfirm(true)}>
+            <IoTrashOutline size='1.5em' className='group-hover:text-red' />
+          </button>
+        </div>
+      )}
     </div>
   )
 }

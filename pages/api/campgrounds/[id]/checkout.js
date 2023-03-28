@@ -18,7 +18,7 @@ export default async function handler(req, res) {
       user: userId,
     } = req.query
 
-    const { premium } = await User.findById(userId, 'premium')
+    const { email, premium } = await User.findById(userId, 'email premium')
 
     const camp = await Campground.findById(campId)
     const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY)
@@ -32,6 +32,7 @@ export default async function handler(req, res) {
     try {
       // Create Checkout Sessions from body params.
       const session = await stripe.checkout.sessions.create({
+        customer_email: email,
         line_items: [
           {
             quantity: 1,

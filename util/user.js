@@ -22,6 +22,7 @@ export async function getUser(
   // find user with id
   const user = await User.findById(id)
   populateCampgrounds && (await user.populate('campgrounds'))
+  populateCampgrounds && (await user.populate('trips.campground'))
   populateReviews &&
     (await user.populate('reviews')) &&
     (await user.populate('reviews.campground'))

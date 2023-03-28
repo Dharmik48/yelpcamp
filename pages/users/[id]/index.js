@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { getUser, getUsers } from '../../../util/user'
 import { getCampgrounds } from '../../../util/campgrounds'
-import CampgroundCard from '../../../components/CampgroundCard'
+import CampgroundWideCard from '../../../components/CampgroundWideCard'
 import { useState } from 'react'
 import Reviews from '../../../components/Reviews'
 import axios from 'axios'
@@ -17,36 +17,7 @@ import Link from 'next/link'
 import LinkButton from '../../../components/LinkButton'
 import CampgroundListItem from '../../../components/CampgroundListItem'
 
-const Profile = ({ user, camps }) => {
-  const { data: session } = useSession()
-  const router = useRouter()
-
-  const tabOptions = ['Hosted Campgrounds', 'reviews', 'past trips']
-
-  const [showNewReviewForm, setShowNewReviewForm] = useState(false)
-  const [tab, setTab] = useState(router.query.tab || tabOptions[0])
-
-  if (router.isFallback) {
-    return <div>Loading...</div>
-  }
-
-  const handleSubmit = async (e, id, rating) => {
-    e.preventDefault()
-    const data = {
-      text: e.target.text.value,
-      user: session.user.id,
-      campground: id,
-      rating,
-    }
-
-    const res = await axios.post(
-      `/api/campgrounds/${id.toString()}/review`,
-      data
-    )
-    setShowNewReviewForm(false)
-    toast.success('Review Added!', { icon: FaCheck })
-  }
-
+const Campgrounds = ({ user, session }) => {
   const deleteCampground = async id => {
     const { data: deletedCampground } = await axios.delete(
       `/api/campgrounds/${id}`
@@ -75,6 +46,120 @@ const Profile = ({ user, camps }) => {
         />
       </li>
     ))
+  return <ul className='flex w-full flex-col gap-6'>{renderCamps()}</ul>
+}
+
+const ReviewsSection = ({ camps, user, session }) => {
+  const [showNewReviewForm, setShowNewReviewForm] = useState(false)
+
+  const handleSubmit = async (e, id, rating) => {
+    e.preventDefault()
+    const data = {
+      text: e.target.text.value,
+      user: session.user.id,
+      campground: id,
+      rating,
+    }
+
+    const res = await axios.post(
+      `/api/campgrounds/${id.toString()}/review`,
+      data
+    )
+    setShowNewReviewForm(false)
+    toast.success('Review Added!', { icon: FaCheck })
+  }
+
+  if (!session || user._id !== session.user.id) {
+    return (
+      <div>
+        <h5 className='font-volkhov text-xl lg:text-2xl'>Past Reviews</h5>
+        <Reviews onProfilePage={true} data={user.reviews} />
+      </div>
+    )
+  }
+
+  return (
+    <div className='flex flex-col gap-5'>
+      <div>
+        <h5 className='mb-3 font-volkhov text-xl lg:text-2xl'>New Review</h5>
+        {showNewReviewForm && (
+          <ReviewForm
+            setShowForm={setShowNewReviewForm}
+            camps={camps}
+            handleSubmit={handleSubmit}
+          />
+        )}
+        {!!camps.length ? (
+          <button
+            onClick={() => setShowNewReviewForm(true)}
+            className='text-blue'
+          >
+            Click to write a new Review
+          </button>
+        ) : (
+          <p>
+            No Campground to Review yet.{' '}
+            <Link href={'/campgrounds'} className='text-blue'>
+              Book a trip now
+            </Link>
+          </p>
+        )}
+      </div>
+      <div>
+        <h5 className='font-volkhov text-xl lg:text-2xl'>Past Reviews</h5>
+        <Reviews onProfilePage={true} data={user.reviews} />
+      </div>
+    </div>
+  )
+}
+
+const PastTrips = ({ camps }) => {
+  if (!camps.length)
+    return (
+      <p>
+        You have not gone to any Campground yet.{' '}
+        <Link href={'/campgrounds'} className='text-blue'>
+          Book a campground now
+        </Link>
+      </p>
+    )
+
+  return (
+    <div>
+      <h5 className='mb-5 font-volkhov text-xl lg:text-2xl'>Past Trips</h5>
+      {camps.map(camp => (
+        <CampgroundWideCard campground={camp} />
+      ))}
+    </div>
+  )
+}
+
+const Profile = ({ user, camps }) => {
+  const { data: session } = useSession()
+  const router = useRouter()
+
+  const tabOptions = [
+    {
+      title: 'hosted campgrounds',
+      component: <Campgrounds user={user} session={session} />,
+    },
+    {
+      title: 'reviews',
+      component: <ReviewsSection camps={camps} user={user} session={session} />,
+    },
+    {
+      title: 'past trips',
+      component: <PastTrips camps={camps} user={user} />,
+    },
+  ]
+
+  const [tab, setTab] = useState(
+    tabOptions.find(opt => opt.title === router.query.tab) || tabOptions[0]
+  )
+
+  if (router.isFallback) {
+    return <div>Loading...</div>
+  }
 
   return (
     <section className='relative'>
@@ -111,54 +196,21 @@ const Profile = ({ user, camps }) => {
               <button
                 key={tabOption}
                 className={`rounded-lg p-3 capitalize text-dark transition-transform  active:scale-90 ${
-                  !(tab === tabOptions[i]) &&
+                  !(tab.title === tabOptions[i].title) &&
                   'hover:bg-secondaryBg hover:opacity-90'
-                } ${tab === tabOptions[i] && 'bg-primaryBg !text-dark'}`}
+                } ${
+                  tab.title === tabOptions[i].title && 'bg-primaryBg !text-dark'
+                }`}
                 onClick={() => setTab(tabOptions[i])}
               >
-                {tabOption}
+                {tabOption.title}
               </button>
             ))}
           </div>
-          {tab === tabOptions[0] ? (
-            <ul className='flex w-full flex-col gap-6'>{renderCamps()}</ul>
-          ) : (
-            <div className='flex flex-col gap-5'>
-              <div>
-                <h5 className='mb-3 font-volkhov text-xl lg:text-2xl'>
-                  New Review
-                </h5>
-                {showNewReviewForm && (
-                  <ReviewForm
-                    setShowForm={setShowNewReviewForm}
-                    camps={camps}
-                    handleSubmit={handleSubmit}
-                  />
-                )}
-                {!!camps.length ? (
-                  <button
-                    onClick={() => setShowNewReviewForm(true)}
-                    className='text-blue'
-                  >
-                    Click to write a new Review
-                  </button>
-                ) : (
-                  <p>
-                    No Campground to Review yet.{' '}
-                    <Link href={'/campgrounds'} className='text-blue'>
-                      Book a trip now
-                    </Link>
-                  </p>
-                )}
-              </div>
-              <div>
-                <h5 className='font-volkhov text-xl lg:text-2xl'>
-                  Past Reviews
-                </h5>
-                <Reviews onProfilePage={true} data={user.reviews} />
-              </div>
-            </div>
-          )}
+          {
+            tabOptions.find(tabOption => tabOption.title === tab.title)
+              .component
+          }
         </section>
       </section>
     </section>
@@ -187,7 +239,7 @@ export async function getStaticProps({ params }) {
   const eligibleTrips = user.trips?.filter(trip =>
     dayjs().isAfter(dayjs(trip.checkOut))
   )
-
+  console.log(user.trips)
   const campIds = eligibleTrips.map(trip => trip.campground)
   const camps = await Campground.find({ _id: { $in: campIds } })
 

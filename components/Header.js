@@ -139,6 +139,15 @@ const Header = () => {
                   </li>
                   <li>
                     <Link
+                      href={`/users/${session.user.id}?tab=past trips`}
+                      title='Past Trips'
+                      onClick={() => setIsProfileDropDownOpen(false)}
+                    >
+                      Past Trips
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
                       href='/subscription'
                       title='Subscription'
                       onClick={() => setIsProfileDropDownOpen(false)}
@@ -224,6 +233,14 @@ const Header = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Reviews
+              </Link>
+              <Link
+                href={`/users/${session?.user?.id}?tab=past trips`}
+                title='Past Trips'
+                className='inline-flex py-3 text-base font-normal text-dark transition-all duration-200 hover:text-brand focus:text-brand'
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Past Trips
               </Link>
             </>
           )}

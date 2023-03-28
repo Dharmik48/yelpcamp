@@ -25,8 +25,10 @@ export default async function handler(req, res) {
             },
           },
         ],
-        metadata: {
-          email,
+        subscription_data: {
+          metadata: {
+            email,
+          },
         },
         mode: 'subscription',
         success_url: `${process.env.NEXTAUTH_URL}`,

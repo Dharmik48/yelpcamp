@@ -25,6 +25,7 @@ export default async function handler(req, res) {
       password: await hash(password, 14),
       image: `https://api.dicebear.com/5.x/initials/svg?seed=${name}`,
       auth_type: ['credentials'],
+      premium: { subscribed: false },
     })
 
     return res.status(200).json(user)

@@ -65,6 +65,16 @@ const CampgroundDetail = ({ campground = camp }) => {
   if (router.isFallback) return <h1>Loading...</h1>
 
   const redirectToCheckout = () => {
+    if (dateValue.startDate === 'Select' || dateValue.endDate === 'Select') {
+      toast.error('Please select both check in and check out dates')
+      return
+    }
+
+    if (dayjs().isAfter(dayjs(dateValue.startDate))) {
+      toast.error('Please select a date in future')
+      return
+    }
+
     const start = dayjs(dateValue.startDate)
     const end = dayjs(dateValue.endDate)
 
@@ -90,11 +100,11 @@ const CampgroundDetail = ({ campground = camp }) => {
   }
 
   const removeGuest = ageGroup => {
-    if (ageGroup === 'adult')
+    if (ageGroup === 'adult' && guests.adults > 1)
       setGuests(curr => ({ ...curr, adults: curr.adults - 1 }))
-    if (ageGroup === 'children')
+    if (ageGroup === 'children' && guests.children > 0)
       setGuests(curr => ({ ...curr, children: curr.children - 1 }))
-    if (ageGroup === 'infant')
+    if (ageGroup === 'infant' && guests.infants > 0)
       setGuests(curr => ({ ...curr, infants: curr.infants - 1 }))
   }
 

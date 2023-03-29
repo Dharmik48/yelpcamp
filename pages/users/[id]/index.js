@@ -249,7 +249,7 @@ export async function getStaticProps({ params }) {
   const eligibleTrips = user.trips?.filter(trip =>
     dayjs().isAfter(dayjs(trip.checkOut))
   )
-  console.log(user.trips)
+
   const campIds = eligibleTrips.map(trip => trip.campground)
   const camps = await Campground.find({ _id: { $in: campIds } })
 

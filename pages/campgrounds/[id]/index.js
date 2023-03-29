@@ -330,6 +330,45 @@ const CampgroundDetail = ({ campground = camp }) => {
           <GeolocateControl position='top-left' trackUserLocation />
         </ReactMapGl>
       </div>
+      <div className='mt-10 lg:mt-16'>
+        <h4 className='mb-3 font-volkhov text-2xl lg:text-3xl'>Host</h4>
+        <div className='flex items-center gap-4'>
+          <Image
+            alt={campground.owner.name}
+            src={campground.owner.image}
+            width='70'
+            height='70'
+            className='aspect-square rounded-full border-2 border-brand'
+          />
+          <div>
+            <h2 className='font-volkhov text-2xl'>{campground.owner.name}</h2>
+            <p className='text-sm text-paragraph'>
+              Joined in {campground.owner.createdAt.slice(0, 4)}
+            </p>
+          </div>
+        </div>
+        <div className='mt-4 flex flex-wrap items-center gap-2'>
+          <p>
+            Hosted{' '}
+            <Link
+              href={`/users/${campground.owner._id}`}
+              className='text-blue underline underline-offset-1'
+            >
+              {campground.owner.campgrounds.length} campground(s)
+            </Link>
+          </p>
+          &middot;
+          <p>
+            Contact at{' '}
+            <Link
+              href={`mailto:${campground.owner.email}`}
+              className='text-blue underline underline-offset-1'
+            >
+              {campground.owner.email}
+            </Link>
+          </p>
+        </div>
+      </div>
       <div className='my-10 lg:my-16'>
         <h4 className='mb-3 font-volkhov text-2xl lg:text-3xl'>
           Reviews &middot;{' '}

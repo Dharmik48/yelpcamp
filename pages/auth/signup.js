@@ -119,7 +119,7 @@ const SignUp = () => {
           <button
             className='flex w-full flex-1 items-center justify-center gap-2 rounded-md border-2 border-blue bg-blue px-4 py-3 text-primaryBg transition-colors hover:bg-transparent hover:text-blue'
             onClick={() =>
-              signIn('google', { callbackUrl: router.query.callBackUrl })
+              signIn('google', { callbackUrl: router.query.callBackUrl || '/' })
             }
           >
             <FaGoogle />
@@ -128,7 +128,9 @@ const SignUp = () => {
           <button
             className='flex w-full flex-1 items-center justify-center gap-2 rounded-md border-2 border-blue bg-blue px-4 py-3 text-primaryBg transition-colors hover:bg-transparent hover:text-blue'
             onClick={() =>
-              signIn('facebook', { callbackUrl: router.query.callBackUrl })
+              signIn('facebook', {
+                callbackUrl: router.query.callBackUrl || '/',
+              })
             }
           >
             <FaFacebook />

@@ -33,7 +33,7 @@ const Login = () => {
         redirect: false,
         email: values.email,
         password: values.password,
-        callbackUrl: router.query.callBackUrl,
+        callbackUrl: router.query.callBackUrl || '/',
       })
 
       if (!status.ok) return toast.error(status.error)
@@ -90,7 +90,7 @@ const Login = () => {
           <button
             className='flex w-full flex-1 items-center justify-center gap-2 rounded-md border-2 border-blue bg-blue px-4 py-3 text-primaryBg transition-colors hover:bg-transparent hover:text-blue'
             onClick={() =>
-              signIn('google', { callbackUrl: router.query.callbackUrl })
+              signIn('google', { callbackUrl: router.query.callbackUrl || '/' })
             }
           >
             <FaGoogle />
@@ -99,7 +99,9 @@ const Login = () => {
           <button
             className='flex w-full flex-1 items-center justify-center gap-2 rounded-md border-2 border-blue bg-blue px-4 py-3 text-primaryBg transition-colors hover:bg-transparent hover:text-blue'
             onClick={() =>
-              signIn('facebook', { callbackUrl: router.query.callbackUrl })
+              signIn('facebook', {
+                callbackUrl: router.query.callbackUrl || '/',
+              })
             }
           >
             <FaFacebook />

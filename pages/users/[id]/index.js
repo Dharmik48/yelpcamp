@@ -186,11 +186,13 @@ const Profile = ({ user, camps }) => {
               </p>
             </div>
           </div>
-          <LinkButton
-            linkTo='/campgrounds/new'
-            className='w-fit'
-            text='Host a Campground'
-          />
+          {session?.user.id === user._id && (
+            <LinkButton
+              linkTo='/campgrounds/new'
+              className='w-fit'
+              text='Host a Campground'
+            />
+          )}
         </div>
 
         <section>

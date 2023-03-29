@@ -138,169 +138,173 @@ const CampgroundDetail = ({ campground = camp }) => {
           </p>
         </div>
         <ul className='flex gap-2 overflow-scroll'>{renderImages()}</ul>
-        <div className='flex w-full flex-col gap-4 rounded-md bg-lightRed py-6 px-12 shadow-lg lg:flex-row-reverse lg:items-center lg:justify-between'>
-          <div className='flex flex-col gap-4'>
-            <div>
-              <p className='p-3 md:text-lg'>
-                <span className='text-lg font-bold md:text-xl lg:text-2xl'>
-                  ₹{campground?.price.adults}
-                </span>
-                /night
-              </p>
-              <p className='max-w-fit rounded-md bg-primaryBg p-3'>
-                <span className='text-xl font-bold md:text-2xl lg:text-3xl'>
-                  ₹{campground?.price.adults * 0.8}
-                </span>
-                <span className='md:text-xl'>/night</span> for{' '}
-                <Link
-                  href={'/subscription'}
-                  target='_blank'
-                  className='text-brand'
-                >
-                  YelpCamp Plus
-                </Link>{' '}
-                users
-              </p>
-            </div>
-            <Button
-              text='Reserve'
-              className='hidden h-fit max-w-fit self-end lg:block'
-              handleClick={redirectToCheckout}
-            />
-          </div>
-          <div className='relative flex flex-col gap-6 lg:mr-auto'>
-            <div className='w-full max-w-sm rounded-md bg-primaryBg shadow-md sm:h-auto md:w-sm'>
-              <div className='relative flex border-b border-text'>
-                <div className='absolute inset-0'>
-                  <Datepicker
-                    primaryColor='green'
-                    onChange={handleDateValueChange}
-                    value={dateValue}
-                    inputClassName='opacity-0 cursor-pointer h-full'
-                    toggleClassName='opacity-0 pointer-events-none'
-                    containerClassName='h-full'
-                  />
-                </div>
-                <div className='my-auto flex-1 border-r border-text p-3 px-4'>
-                  <p className='text-xs'>Check in</p>
-                  <p>{dateValue.startDate.toString()}</p>
-                </div>
-                <div className='my-auto flex-1 p-3 px-4'>
-                  <p className='text-xs'>Check out</p>
-                  <p>{dateValue.endDate.toString()}</p>
-                </div>
-              </div>
-              <div className='relative cursor-pointer'>
-                <div
-                  className='flex h-full items-center justify-between p-3 px-4'
-                  onClick={() => setShowGuestSelector(curr => !curr)}
-                >
-                  <div>
-                    <p className='text-xs'>Guests</p>
-                    <p>{`${guests.adults} adults${
-                      !!guests.children
-                        ? ', ' + guests.children + ' children'
-                        : ''
-                    } ${
-                      !!guests.infants ? ', ' + guests.infants + ' infants' : ''
-                    }`}</p>
-                  </div>
-                  {showGuestSelector ? (
-                    <IoChevronUp className='text-2xl text-brand' />
-                  ) : (
-                    <IoChevronDown className='text-2xl text-brand' />
-                  )}
-                </div>
-                <div
-                  className={`absolute top-full right-0 left-0 ${
-                    showGuestSelector ? 'flex' : 'hidden'
-                  } flex-col gap-4 rounded-md border border-text bg-primaryBg p-4 shadow-md`}
-                >
-                  <div className='flex items-center justify-between'>
-                    <div>
-                      <p>Adult - ₹{campground.price.adults}/night</p>
-                      <p className='text-sm text-paragraph'>Age 13+</p>
-                    </div>
-                    <div className='flex items-center gap-2 text-xl'>
-                      <IoRemove
-                        className='cursor-pointer rounded-full border border-text text-dark'
-                        onClick={() => removeGuest('adult')}
-                      />
-                      {guests.adults}
-                      <IoAdd
-                        className='cursor-pointer rounded-full border border-text text-dark'
-                        onClick={() => addGuest('adult')}
-                      />
-                    </div>
-                  </div>
-                  <div className='flex items-center justify-between'>
-                    <div>
-                      <p>Children - ₹{campground.price.children}/night</p>
-                      <p className='text-sm text-paragraph'>Age 2-12</p>
-                    </div>
-                    <div className='flex items-center gap-2 text-xl'>
-                      <IoRemove
-                        className='cursor-pointer rounded-full border border-text text-dark'
-                        onClick={() => removeGuest('children')}
-                      />
-                      {guests.children}
-                      <IoAdd
-                        className='cursor-pointer rounded-full border border-text text-dark'
-                        onClick={() => addGuest('children')}
-                      />
-                    </div>
-                  </div>
-                  <div className='flex items-center justify-between'>
-                    <div>
-                      <p>Infants</p>
-                      <p className='text-sm text-paragraph'>Under 2</p>
-                    </div>
-                    <div className='flex items-center gap-2 text-xl'>
-                      <IoRemove
-                        className='cursor-pointer rounded-full border border-text text-dark'
-                        onClick={() => removeGuest('infant')}
-                      />
-                      {guests.infants}
-                      <IoAdd
-                        className='cursor-pointer rounded-full border border-text text-dark'
-                        onClick={() => addGuest('infant')}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className='flex flex-col justify-between gap-4'>
-              <div className='flex flex-col gap-4 lg:flex-row lg:items-center'>
-                {!!price && (
-                  <p className='font-volkhov text-xl'>
-                    Total:{' '}
-                    <span className='text-3xl font-medium'>₹{price}</span>
-                  </p>
-                )}
-                <p className='max-w-fit rounded-md bg-primaryBg p-3'>
-                  Save{' '}
+        {session?.user.id !== campground.owner._id && (
+          <div className='flex w-full flex-col gap-4 rounded-md bg-lightRed py-6 px-12 shadow-lg lg:flex-row-reverse lg:items-center lg:justify-between'>
+            <div className='flex flex-col gap-4'>
+              <div>
+                <p className='p-3 md:text-lg'>
                   <span className='text-lg font-bold md:text-xl lg:text-2xl'>
-                    ₹{price * 0.2}
-                  </span>{' '}
-                  by getting{' '}
+                    ₹{campground?.price.adults}
+                  </span>
+                  /night
+                </p>
+                <p className='max-w-fit rounded-md bg-primaryBg p-3'>
+                  <span className='text-xl font-bold md:text-2xl lg:text-3xl'>
+                    ₹{campground?.price.adults * 0.8}
+                  </span>
+                  <span className='md:text-xl'>/night</span> for{' '}
                   <Link
                     href={'/subscription'}
                     target='_blank'
                     className='text-brand'
                   >
                     YelpCamp Plus
-                  </Link>
+                  </Link>{' '}
+                  users
                 </p>
               </div>
               <Button
                 text='Reserve'
-                className='h-fit max-w-fit lg:hidden'
+                className='hidden h-fit max-w-fit self-end lg:block'
                 handleClick={redirectToCheckout}
               />
             </div>
+            <div className='relative flex flex-col gap-6 lg:mr-auto'>
+              <div className='w-full max-w-sm rounded-md bg-primaryBg shadow-md sm:h-auto md:w-sm'>
+                <div className='relative flex border-b border-text'>
+                  <div className='absolute inset-0'>
+                    <Datepicker
+                      primaryColor='green'
+                      onChange={handleDateValueChange}
+                      value={dateValue}
+                      inputClassName='opacity-0 cursor-pointer h-full'
+                      toggleClassName='opacity-0 pointer-events-none'
+                      containerClassName='h-full'
+                    />
+                  </div>
+                  <div className='my-auto flex-1 border-r border-text p-3 px-4'>
+                    <p className='text-xs'>Check in</p>
+                    <p>{dateValue.startDate.toString()}</p>
+                  </div>
+                  <div className='my-auto flex-1 p-3 px-4'>
+                    <p className='text-xs'>Check out</p>
+                    <p>{dateValue.endDate.toString()}</p>
+                  </div>
+                </div>
+                <div className='relative cursor-pointer'>
+                  <div
+                    className='flex h-full items-center justify-between p-3 px-4'
+                    onClick={() => setShowGuestSelector(curr => !curr)}
+                  >
+                    <div>
+                      <p className='text-xs'>Guests</p>
+                      <p>{`${guests.adults} adults${
+                        !!guests.children
+                          ? ', ' + guests.children + ' children'
+                          : ''
+                      } ${
+                        !!guests.infants
+                          ? ', ' + guests.infants + ' infants'
+                          : ''
+                      }`}</p>
+                    </div>
+                    {showGuestSelector ? (
+                      <IoChevronUp className='text-2xl text-brand' />
+                    ) : (
+                      <IoChevronDown className='text-2xl text-brand' />
+                    )}
+                  </div>
+                  <div
+                    className={`absolute top-full right-0 left-0 ${
+                      showGuestSelector ? 'flex' : 'hidden'
+                    } flex-col gap-4 rounded-md border border-text bg-primaryBg p-4 shadow-md`}
+                  >
+                    <div className='flex items-center justify-between'>
+                      <div>
+                        <p>Adult - ₹{campground.price.adults}/night</p>
+                        <p className='text-sm text-paragraph'>Age 13+</p>
+                      </div>
+                      <div className='flex items-center gap-2 text-xl'>
+                        <IoRemove
+                          className='cursor-pointer rounded-full border border-text text-dark'
+                          onClick={() => removeGuest('adult')}
+                        />
+                        {guests.adults}
+                        <IoAdd
+                          className='cursor-pointer rounded-full border border-text text-dark'
+                          onClick={() => addGuest('adult')}
+                        />
+                      </div>
+                    </div>
+                    <div className='flex items-center justify-between'>
+                      <div>
+                        <p>Children - ₹{campground.price.children}/night</p>
+                        <p className='text-sm text-paragraph'>Age 2-12</p>
+                      </div>
+                      <div className='flex items-center gap-2 text-xl'>
+                        <IoRemove
+                          className='cursor-pointer rounded-full border border-text text-dark'
+                          onClick={() => removeGuest('children')}
+                        />
+                        {guests.children}
+                        <IoAdd
+                          className='cursor-pointer rounded-full border border-text text-dark'
+                          onClick={() => addGuest('children')}
+                        />
+                      </div>
+                    </div>
+                    <div className='flex items-center justify-between'>
+                      <div>
+                        <p>Infants</p>
+                        <p className='text-sm text-paragraph'>Under 2</p>
+                      </div>
+                      <div className='flex items-center gap-2 text-xl'>
+                        <IoRemove
+                          className='cursor-pointer rounded-full border border-text text-dark'
+                          onClick={() => removeGuest('infant')}
+                        />
+                        {guests.infants}
+                        <IoAdd
+                          className='cursor-pointer rounded-full border border-text text-dark'
+                          onClick={() => addGuest('infant')}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className='flex flex-col justify-between gap-4'>
+                <div className='flex flex-col gap-4 lg:flex-row lg:items-center'>
+                  {!!price && (
+                    <p className='font-volkhov text-xl'>
+                      Total:{' '}
+                      <span className='text-3xl font-medium'>₹{price}</span>
+                    </p>
+                  )}
+                  <p className='max-w-fit rounded-md bg-primaryBg p-3'>
+                    Save{' '}
+                    <span className='text-lg font-bold md:text-xl lg:text-2xl'>
+                      ₹{price * 0.2}
+                    </span>{' '}
+                    by getting{' '}
+                    <Link
+                      href={'/subscription'}
+                      target='_blank'
+                      className='text-brand'
+                    >
+                      YelpCamp Plus
+                    </Link>
+                  </p>
+                </div>
+                <Button
+                  text='Reserve'
+                  className='h-fit max-w-fit lg:hidden'
+                  handleClick={redirectToCheckout}
+                />
+              </div>
+            </div>
           </div>
-        </div>
+        )}
         <div>
           <h3 className='mb-3 font-volkhov text-2xl lg:text-3xl'>About</h3>
           <p className='lg:text-lg'>{campground?.desc}</p>

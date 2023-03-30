@@ -6,7 +6,27 @@ import LinkButton from '../../../components/LinkButton'
 import { getCampgrounds, getCampground } from '../../../util/campgrounds'
 import Image from 'next/image'
 import { toast } from 'react-toastify'
-import { FaCheck } from 'react-icons/fa'
+import {
+  FaRestroom,
+  FaFaucet,
+  FaRecycle,
+  FaStore,
+  FaUmbrellaBeach,
+  FaSwimmingPool,
+  FaHiking,
+  FaBasketballBall,
+  FaDog,
+  FaWifi,
+  FaCampground,
+} from 'react-icons/fa'
+// import { TbCampfire } from 'react-icons/tb'
+import {
+  GiWashingMachine,
+  GiMountainClimbing,
+  GiFlamingo,
+  GiMeditation,
+  GiCampfire,
+} from 'react-icons/gi'
 import { IoAdd, IoRemove, IoChevronDown, IoChevronUp } from 'react-icons/io5'
 import { HiStar } from 'react-icons/hi2'
 import { useSession } from 'next-auth/react'
@@ -30,6 +50,26 @@ const camp = {
 }
 
 const CampgroundDetail = ({ campground = camp }) => {
+  const amenetyIcons = {
+    FaRestroom: <FaRestroom />,
+    FaFaucet: <FaFaucet />,
+    FaRecycle: <FaRecycle />,
+    FaStore: <FaStore />,
+    GiCampfire: <GiCampfire />,
+    GiWashingMachine: <GiWashingMachine />,
+    FaUmbrellaBeach: <FaUmbrellaBeach />,
+    FaSwimmingPool: <FaSwimmingPool />,
+    FaHiking: <FaHiking />,
+    FaBasketballBall: <FaBasketballBall />,
+    FaDog: <FaDog />,
+    FaWifi: <FaWifi />,
+    FaCampground: <FaCampground />,
+    GiMountainClimbing: <GiMountainClimbing />,
+    GiFlamingo: <GiFlamingo />,
+    HiStar: <HiStar />,
+    GiMeditation: <GiMeditation />,
+  }
+
   const { data: session } = useSession()
   const router = useRouter()
 
@@ -134,6 +174,7 @@ const CampgroundDetail = ({ campground = camp }) => {
             &middot;{' '}
             <span className='inline-flex items-center'>
               {campground?.rating || '?'} <HiStar />
+              {amenetyIcons['FaBasketballBall']}
             </span>
           </p>
         </div>
@@ -329,6 +370,18 @@ const CampgroundDetail = ({ campground = camp }) => {
           />
           <GeolocateControl position='top-left' trackUserLocation />
         </ReactMapGl>
+      </div>
+      <div className='mt-10 lg:mt-16'>
+        <h4 className='mb-3 font-volkhov text-2xl lg:text-3xl'>
+          What this place offers
+        </h4>
+        <ul className='flex flex-wrap gap-5 rounded-xl bg-lightRed p-5 text-lg capitalize'>
+          {campground.amenities.map(amenety => (
+            <li className='inline-flex items-center gap-2 rounded-xl bg-primaryBg p-5'>
+              {amenetyIcons[amenety.icon]} {amenety.text}
+            </li>
+          ))}
+        </ul>
       </div>
       <div className='mt-10 lg:mt-16'>
         <h4 className='mb-3 font-volkhov text-2xl lg:text-3xl'>Host</h4>

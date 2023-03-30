@@ -18,7 +18,7 @@ const Form = ({ submitForm, data, disabled }) => {
     { text: 'water supply', icon: 'FaFaucet' },
     { text: 'trash cans', icon: 'FaRecycle' },
     { text: 'general store', icon: 'FaStore' },
-    { text: 'firewood', icon: 'TbCampfire' },
+    { text: 'firewood', icon: 'GiCampfire' },
     { text: 'laundry', icon: 'GiWashingMachine' },
     { text: 'beach', icon: 'FaUmbrellaBeach' },
     { text: 'swimming pool', icon: 'FaSwimmingPool' },
@@ -29,7 +29,7 @@ const Form = ({ submitForm, data, disabled }) => {
     { text: 'tent rentals', icon: 'FaCampground' },
     { text: 'rock climbing', icon: 'GiMountainClimbing' },
     { text: 'wildlife viewing', icon: 'GiFlamingo' },
-    { text: 'stargazing', icon: 'FaStar' },
+    { text: 'stargazing', icon: 'HiStar' },
     { text: 'yoga', icon: 'GiMeditation' },
   ]
 

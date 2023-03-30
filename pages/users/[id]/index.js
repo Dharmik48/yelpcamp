@@ -33,7 +33,6 @@ const Campgrounds = ({ user, session }) => {
         icon: FaCheck,
       }
     )
-    router.push('/campgrounds')
   }
 
   const renderCamps = () =>

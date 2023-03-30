@@ -424,6 +424,7 @@ const Form = ({ submitForm, data, disabled }) => {
                 )
                 .map(amenity => (
                   <li
+                    key={amenity.text}
                     className='cursor-pointer capitalize underline-offset-2 hover:underline'
                     onClick={() => {
                       setShowAmenetiesList(false)
@@ -442,7 +443,10 @@ const Form = ({ submitForm, data, disabled }) => {
           {!!formik.values.amenities.length && (
             <ul className='flex flex-wrap gap-5 p-5 capitalize'>
               {formik.values.amenities.map(amenity => (
-                <li className='inline-flex items-center gap-2 rounded-xl border-2 border-brand p-5'>
+                <li
+                  key={amenity.text}
+                  className='inline-flex items-center gap-2 rounded-xl border-2 border-brand p-5'
+                >
                   {amenity.text}
                   <IoClose
                     className='cursor-pointer'

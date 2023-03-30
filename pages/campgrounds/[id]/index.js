@@ -50,7 +50,7 @@ const camp = {
 }
 
 const CampgroundDetail = ({ campground = camp }) => {
-  const amenetyIcons = {
+  const amenityIcons = {
     FaRestroom: <FaRestroom />,
     FaFaucet: <FaFaucet />,
     FaRecycle: <FaRecycle />,
@@ -174,7 +174,6 @@ const CampgroundDetail = ({ campground = camp }) => {
             &middot;{' '}
             <span className='inline-flex items-center'>
               {campground?.rating || '?'} <HiStar />
-              {amenetyIcons['FaBasketballBall']}
             </span>
           </p>
         </div>
@@ -376,9 +375,12 @@ const CampgroundDetail = ({ campground = camp }) => {
           What this place offers
         </h4>
         <ul className='flex flex-wrap gap-5 rounded-xl bg-lightRed p-5 text-lg capitalize'>
-          {campground.amenities.map(amenety => (
-            <li className='inline-flex items-center gap-2 rounded-xl bg-primaryBg p-5'>
-              {amenetyIcons[amenety.icon]} {amenety.text}
+          {campground.amenities.map(amenity => (
+            <li
+              key={amenity.text}
+              className='inline-flex items-center gap-2 rounded-xl bg-primaryBg p-5'
+            >
+              {amenityIcons[amenity.icon]} {amenity.text}
             </li>
           ))}
         </ul>

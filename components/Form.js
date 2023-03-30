@@ -1,7 +1,7 @@
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { FaRupeeSign, FaExclamationCircle } from 'react-icons/fa'
-import { IoClose } from 'react-icons/io5'
+import { IoClose, IoAdd } from 'react-icons/io5'
 import Button from './Button'
 import Input from './Input'
 import { useFormik } from 'formik'
@@ -13,7 +13,29 @@ import Geocoder from './Geocoder'
 import axios from 'axios'
 
 const Form = ({ submitForm, data, disabled }) => {
-  console.log(data)
+  const amenitiesList = [
+    { text: 'restrooms', icon: 'FaRestroom' },
+    { text: 'water supply', icon: 'FaFaucet' },
+    { text: 'trash cans', icon: 'FaRecycle' },
+    { text: 'general store', icon: 'FaStore' },
+    { text: 'firewood', icon: 'TbCampfire' },
+    { text: 'laundry', icon: 'GiWashingMachine' },
+    { text: 'beach', icon: 'FaUmbrellaBeach' },
+    { text: 'swimming pool', icon: 'FaSwimmingPool' },
+    { text: 'hiking trails', icon: 'FaHiking' },
+    { text: 'sports courts', icon: 'FaBasketballBall' },
+    { text: 'pet friendly', icon: 'FaDog' },
+    { text: 'wifi', icon: 'FaWifi' },
+    { text: 'tent rentals', icon: 'FaCampground' },
+    { text: 'rock climbing', icon: 'GiMountainClimbing' },
+    { text: 'wildlife viewing', icon: 'GiFlamingo' },
+    { text: 'stargazing', icon: 'FaStar' },
+    { text: 'yoga', icon: 'GiMeditation' },
+  ]
+
+  const [amenitiesInputValue, setAmenetiesInputValue] = useState('')
+  const [showAmenetiesList, setShowAmenetiesList] = useState(false)
+
   const formik = useFormik({
     initialValues: {
       name: data?.name || '',
@@ -24,6 +46,7 @@ const Form = ({ submitForm, data, disabled }) => {
       city: data?.location.city || '',
       state: data?.location.state || '',
       country: data?.location.country || '',
+      amenities: data?.amenities || [],
     },
     validationSchema: Yup.object({
       name: Yup.string().required('Please enter a name!'),
@@ -40,6 +63,9 @@ const Form = ({ submitForm, data, disabled }) => {
       city: Yup.string().required('Please enter the city!'),
       state: Yup.string().required('Please enter the state!'),
       country: Yup.string().required('Please enter the country!'),
+      amenities: Yup.array()
+        .min(1, 'Please select atleast 1 amenity')
+        .required(),
     }),
     onSubmit: values => {
       submitForm({
@@ -57,6 +83,8 @@ const Form = ({ submitForm, data, disabled }) => {
       })
     },
   })
+
+  const amenityRef = useRef()
 
   const [isImageDragged, setIsImageDragged] = useState(false)
   const [coords, setCoords] = useState(data?.location.coords || {})
@@ -146,6 +174,20 @@ const Form = ({ submitForm, data, disabled }) => {
       </div>
     ))
   }
+
+  useEffect(() => {
+    const handle = e => {
+      if (amenityRef.current.contains(e.target) && !!amenitiesInputValue) {
+        setShowAmenetiesList(true)
+      } else {
+        setShowAmenetiesList(false)
+      }
+    }
+
+    window.addEventListener('mousedown', handle)
+    return () => window.removeEventListener('mousedown', handle)
+  })
+
   return (
     <form
       className='x-auto flex w-full flex-col gap-10 lg:mx-0'
@@ -351,6 +393,73 @@ const Form = ({ submitForm, data, disabled }) => {
             {formik.errors.images}
           </span>
         )}
+      </div>
+      <div className='flex flex-col gap-4'>
+        <h3 className='font-volkhov text-2xl lg:text-3xl'>Select Amenities</h3>
+        <div className='relative rounded-xl bg-lightBlue' ref={amenityRef}>
+          <input
+            type='text'
+            value={amenitiesInputValue}
+            placeholder='Type to search amenities'
+            className={`w-full rounded-xl bg-lightBlue p-5 focus:outline focus:outline-2 focus:outline-brand`}
+            onChange={e => {
+              setAmenetiesInputValue(e.target.value)
+              e.target.value.length > 0
+                ? setShowAmenetiesList(true)
+                : setShowAmenetiesList(false)
+            }}
+            onFocus={() => !!amenitiesInputValue && setShowAmenetiesList(true)}
+          />
+          {showAmenetiesList && (
+            <ul className='flex flex-col gap-2 rounded-b-xl p-5'>
+              {amenitiesList
+                .filter(
+                  amenity =>
+                    amenity.text.includes(
+                      amenitiesInputValue.toLocaleLowerCase()
+                    ) &&
+                    !formik.values.amenities.filter(
+                      a => a.text === amenity.text
+                    ).length
+                )
+                .map(amenity => (
+                  <li
+                    className='cursor-pointer capitalize underline-offset-2 hover:underline'
+                    onClick={() => {
+                      setShowAmenetiesList(false)
+                      setAmenetiesInputValue('')
+                      formik.setFieldValue('amenities', [
+                        ...formik.values.amenities,
+                        amenity,
+                      ])
+                    }}
+                  >
+                    {amenity.text}
+                  </li>
+                ))}
+            </ul>
+          )}
+          {!!formik.values.amenities.length && (
+            <ul className='flex flex-wrap gap-5 p-5 capitalize'>
+              {formik.values.amenities.map(amenity => (
+                <li className='inline-flex items-center gap-2 rounded-xl border-2 border-brand p-5'>
+                  {amenity.text}
+                  <IoClose
+                    className='cursor-pointer'
+                    onClick={() =>
+                      formik.setFieldValue(
+                        'amenities',
+                        formik.values.amenities.filter(
+                          a => a.text !== amenity.text
+                        )
+                      )
+                    }
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
       <div className='flex flex-col gap-4'>
         <h3 className='font-volkhov text-2xl lg:text-3xl'>Enter the price</h3>

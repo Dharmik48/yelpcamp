@@ -44,6 +44,10 @@ const campgroundSchema = new Schema(
     rating: {
       type: Number,
     },
+    amenities: {
+      type: [{ icon: String, text: String }],
+      required: true,
+    },
   },
   { timestamps: true }
 )

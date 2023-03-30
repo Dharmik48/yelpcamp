@@ -257,6 +257,7 @@ export async function getStaticProps({ params }) {
 
   return {
     props: { user, camps: JSON.parse(JSON.stringify(camps)) || [] },
+    revalidate: 3,
   }
 }
 

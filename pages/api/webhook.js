@@ -36,7 +36,7 @@ export default async function webhookHandler(req, res) {
           premium: { subscribed: true },
         }
       )
-    } else if (event.type === 'checkout.session.completed') {
+    } else if (event.type === 'payment_intent.created') {
       const {
         user: userId,
         checkIn,
@@ -44,7 +44,12 @@ export default async function webhookHandler(req, res) {
         camp,
       } = event.data.object.metadata
 
-      const trip = { checkIn, checkOut, campground: camp }
+      const trip = {
+        checkIn,
+        checkOut,
+        campground: camp,
+        payment_intent: event.data.object.id,
+      }
 
       await User.findByIdAndUpdate(userId, {
         $push: { trips: trip },

@@ -46,6 +46,7 @@ const userSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'Campground',
           },
+          payment_intent: String,
         },
       ],
     },

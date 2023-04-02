@@ -5,16 +5,22 @@ const stripe = require('stripe')(
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { tripDetails, user } = req.body
+    const { tripDetails, user: userId } = req.body
+
+    const user = await User.findById(userId)
+
+    let amount = tripDetails.charge
+
+    if (user.premium.subscribed) amount *= 0.85
 
     const refund = await stripe.refunds.create({
       payment_intent: 'pi_3MsP1FSGiitP8hRj1pjeudY8',
-      amount: tripDetails.charge,
+      amount,
     })
 
     if (refund.status !== 'succeeded') return res.status(500).send(refund)
 
-    await User.findByIdAndUpdate(user, {
+    await User.findByIdAndUpdate(userId, {
       $pull: { trips: { campground: tripDetails.campground } },
     })
 

@@ -136,17 +136,17 @@ const PastTrips = ({ camps, user }) => {
   return (
     <div>
       <h5 className='mb-5 font-volkhov text-xl lg:text-2xl'>Past Trips</h5>
-      {camps.map(camp => (
-        <CampgroundWideCard
-          key={camp._id}
-          campground={camp}
-          showCancel={dayjs().isBefore(
-            dayjs(
-              user.trips.find(trip => trip.campground._id === camp._id).checkIn
-            )
-          )}
-        />
-      ))}
+      {camps.map(camp => {
+        const trip = user.trips.find(trip => trip.campground._id === camp._id)
+        return (
+          <CampgroundWideCard
+            key={camp._id}
+            campground={camp}
+            showCancel={dayjs().isBefore(dayjs(trip.checkIn))}
+            tripDetails={trip}
+          />
+        )
+      })}
     </div>
   )
 }

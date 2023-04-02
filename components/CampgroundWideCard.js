@@ -1,14 +1,46 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import Modal from './Modal'
 import { HiStar, HiMapPin, HiChevronRight } from 'react-icons/hi2'
 import { FaRupeeSign } from 'react-icons/fa'
+import { useState } from 'react'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import { useSession } from 'next-auth/react'
 
-const CampgroundWideCard = ({ campground }) => {
+const CampgroundWideCard = ({ campground, showCancel, tripDetails }) => {
+  const [showRefundConfirm, setShowRefundConfirm] = useState(false)
+  const { data: session } = useSession()
+
+  const refund = async () => {
+    const res = await axios.post('/api/cancelBooking', {
+      user: session.user.id,
+      tripDetails,
+    })
+
+    if (res.status === 200) {
+      toast.success(
+        `Reservation to ${campground.name} successfully canceled. You refund will be transferred shortly.`
+      )
+    } else {
+      toast.error(`Something went wrong! Please try again later.`)
+    }
+  }
+
   return (
     <div
       key={campground._id}
       className='flex flex-col gap-3 rounded-xl border border-lightBlue shadow-lg shadow-lightBlue hover:shadow-lg hover:shadow-lightRed lg:flex-row'
     >
+      <Modal
+        open={showRefundConfirm}
+        setOpen={setShowRefundConfirm}
+        title={'Are you sure want to canel this trip?'}
+        text={
+          'Cancellation fees may apply if you cancel your booking outside of the designated cancellation window. The fee amount is a 15% of your total booking. This fee is charged to cover any expenses incurred as a result of your cancellation. However, if you need to cancel your booking and are a premium user, there will be no cancellation charge.'
+        }
+        onAgree={refund}
+      />
       <div className='relative'>
         <Image
           src={campground.images[0].url}
@@ -38,13 +70,23 @@ const CampgroundWideCard = ({ campground }) => {
             {campground.price.adults}
           </p>
         </div>
-        <Link
-          href={`/campgrounds/${campground._id}`}
-          className='text-lg text-brand'
-        >
-          View More
-          <HiChevronRight className='inline' />
-        </Link>
+        <div className='flex justify-between'>
+          <Link
+            href={`/campgrounds/${campground._id}`}
+            className='text-lg text-brand'
+          >
+            View More
+            <HiChevronRight className='inline' />
+          </Link>
+          {showCancel && (
+            <button
+              className='text-lg text-red'
+              onClick={() => setShowRefundConfirm(true)}
+            >
+              Cancel
+            </button>
+          )}
+        </div>
       </div>
     </div>
   )

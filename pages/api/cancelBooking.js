@@ -11,7 +11,7 @@ export default async function handler(req, res) {
 
     let amount = tripDetails.charge
 
-    if (user.premium.subscribed) amount *= 0.85
+    if (!user.premium.subscribed) amount *= 0.85
 
     const refund = await stripe.refunds.create({
       payment_intent: 'pi_3MsP1FSGiitP8hRj1pjeudY8',

@@ -139,11 +139,11 @@ const Header = () => {
                   </li>
                   <li>
                     <Link
-                      href={`/users/${session.user.id}?tab=past trips`}
-                      title='Past Trips'
+                      href={`/users/${session.user.id}?tab=trips`}
+                      title='Your Trips'
                       onClick={() => setIsProfileDropDownOpen(false)}
                     >
-                      Past Trips
+                      Your Trips
                     </Link>
                   </li>
                   <li>
@@ -235,12 +235,12 @@ const Header = () => {
                 Reviews
               </Link>
               <Link
-                href={`/users/${session?.user?.id}?tab=past trips`}
-                title='Past Trips'
+                href={`/users/${session?.user?.id}?tab=trips`}
+                title='Your Trips'
                 className='inline-flex py-3 text-base font-normal text-dark transition-all duration-200 hover:text-brand focus:text-brand'
                 onClick={() => setIsMenuOpen(false)}
               >
-                Past Trips
+                Your Trips
               </Link>
             </>
           )}

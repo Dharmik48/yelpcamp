@@ -35,6 +35,17 @@ const Campgrounds = ({ user, session }) => {
     )
   }
 
+  if (user.campgrounds.length === 0)
+    return (
+      <p>
+        You have not hosted any campground on YelpCamp!{' '}
+        <Link href={'/campgrounds/new'} className='text-blue'>
+          Host
+        </Link>{' '}
+        now and get more campers!
+      </p>
+    )
+
   const renderCamps = () =>
     user.campgrounds.map(campground => (
       <li key={campground._id}>
@@ -112,8 +123,8 @@ const ReviewsSection = ({ camps, user, session }) => {
   )
 }
 
-const PastTrips = ({ camps }) => {
-  if (!camps.length)
+const PastTrips = ({ camps, user }) => {
+  if (!camps?.length)
     return (
       <p>
         You have not gone to any Campground yet.{' '}
@@ -122,18 +133,25 @@ const PastTrips = ({ camps }) => {
         </Link>
       </p>
     )
-
   return (
     <div>
       <h5 className='mb-5 font-volkhov text-xl lg:text-2xl'>Past Trips</h5>
       {camps.map(camp => (
-        <CampgroundWideCard key={camp._id} campground={camp} />
+        <CampgroundWideCard
+          key={camp._id}
+          campground={camp}
+          showCancel={dayjs().isBefore(
+            dayjs(
+              user.trips.find(trip => trip.campground._id === camp._id).checkIn
+            )
+          )}
+        />
       ))}
     </div>
   )
 }
 
-const Profile = ({ user, camps }) => {
+const Profile = ({ user, camps, allCamps }) => {
   const { data: session } = useSession()
   const router = useRouter()
 
@@ -149,8 +167,8 @@ const Profile = ({ user, camps }) => {
       restricted: false,
     },
     {
-      title: 'past trips',
-      component: <PastTrips camps={camps} user={user} />,
+      title: 'trips',
+      component: <PastTrips camps={allCamps} user={user} />,
       restricted: true,
     },
   ]
@@ -204,7 +222,7 @@ const Profile = ({ user, camps }) => {
               })
               .map((tabOption, i) => (
                 <button
-                  key={tabOption}
+                  key={tabOption.title}
                   className={`rounded-lg p-3 capitalize text-dark transition-transform  active:scale-90 ${
                     !(tab.title === tabOptions[i].title) &&
                     'hover:bg-secondaryBg hover:opacity-90'
@@ -254,8 +272,15 @@ export async function getStaticProps({ params }) {
   const campIds = eligibleTrips.map(trip => trip.campground)
   const camps = await Campground.find({ _id: { $in: campIds } })
 
+  const allTrips = user.trips?.map(trip => trip.campground)
+  const allCamps = await Campground.find({ _id: { $in: allTrips } })
+
   return {
-    props: { user, camps: JSON.parse(JSON.stringify(camps)) || [] },
+    props: {
+      user,
+      camps: JSON.parse(JSON.stringify(camps)) || [],
+      allCamps: JSON.parse(JSON.stringify(allCamps)),
+    },
     revalidate: 3,
   }
 }

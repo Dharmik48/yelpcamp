@@ -36,7 +36,7 @@ export default async function webhookHandler(req, res) {
           premium: { subscribed: true },
         }
       )
-    } else if (event.type === 'checkout.session.completed') {
+    } else if (event.type === 'payment_intent.created') {
       const {
         user: userId,
         checkIn,

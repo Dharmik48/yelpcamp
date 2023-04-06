@@ -36,7 +36,7 @@ export default async function webhookHandler(req, res) {
           premium: { subscribed: true },
         }
       )
-    } else if (event.type === 'payment_intent.created') {
+    } else if (event.type === 'checkout.session.completed') {
       const {
         user: userId,
         checkIn,
@@ -48,7 +48,7 @@ export default async function webhookHandler(req, res) {
         checkIn,
         checkOut,
         campground: camp,
-        payment_intent: event.data.object.id,
+        payment_intent: event.data.object.payment_intent,
       }
 
       await User.findByIdAndUpdate(userId, {

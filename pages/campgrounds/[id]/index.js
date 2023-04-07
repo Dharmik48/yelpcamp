@@ -347,7 +347,9 @@ const CampgroundDetail = ({ campground = camp }) => {
         )}
         <div>
           <h3 className='mb-3 font-volkhov text-2xl lg:text-3xl'>About</h3>
-          <p className='lg:text-lg'>{campground?.desc}</p>
+          <p className='max-w-full break-words lg:text-lg'>
+            {campground?.desc}
+          </p>
         </div>
       </section>
       <hr className='mb-10 text-paragraph' />

@@ -1,8 +1,7 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 
-export default function ComboBox({ list }) {
-  const [selected, setSelected] = useState(list[0])
+export default function ComboBox({ list, selected, setSelected }) {
   const [query, setQuery] = useState('')
 
   const filteredList =

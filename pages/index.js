@@ -12,6 +12,8 @@ import { useRouter } from 'next/router'
 import { getCampgrounds } from '../util/campgrounds'
 import CampgroundCard from '../components/CampgroundCard'
 import ComboBox from '../components/ComboBox'
+import Datepicker from 'react-tailwindcss-datepicker'
+import { useState } from 'react'
 
 export default function Home({ camps }) {
   const router = useRouter()
@@ -21,11 +23,15 @@ export default function Home({ camps }) {
     disable: false,
   }))
 
+  const [date, setDate] = useState('')
+  const [location, setLocation] = useState({ text: 'Location', disable: true })
+  const [guests, setGuests] = useState({ text: 'Guests', disable: true })
+
   const search = e => {
     e.preventDefault()
-    const { location, date, guests } = e.target
+
     router.push(
-      `/campgrounds?location=${location.value}&date=${date.value}&guests=${guests.value}`
+      `/campgrounds?location=${location.text}&date=${date}&guests=${guests.text}`
     )
   }
 
@@ -65,10 +71,13 @@ export default function Home({ camps }) {
           className='mx-auto flex max-w-screen-md flex-wrap items-center gap-8 rounded-lg bg-[#fff] p-6 drop-shadow-xl md:flex-row md:justify-around md:py-8'
           onSubmit={search}
         >
+          {/* LOCATION */}
           <div className='flex w-max flex-col items-start gap-1'>
             <div className='flex max-w-[8.75rem] items-center gap-1'>
               <ComboBox
                 list={[{ text: 'Location', disable: true }, ...countries]}
+                selected={location}
+                setSelected={setLocation}
               />
               <label htmlFor='location' className='cursor-pointer'>
                 <FaChevronDown className='text-xs text-brand' />
@@ -76,21 +85,30 @@ export default function Home({ camps }) {
             </div>
             <p className='text-sm text-paragraph'>Where are you going</p>
           </div>
+          {/* DATE */}
           <div className='flex flex-col items-start gap-1'>
-            <div className='flex items-center gap-2'>
+            <div className='flex max-w-[8.75rem] items-center gap-2'>
               <div className='relative'>
-                <input
-                  type='date'
-                  name='date'
-                  id='date' // className='opacity-0'
+                <Datepicker
+                  primaryColor='green'
+                  onChange={val => setDate(val.startDate)}
+                  asSingle={true}
+                  useRange={false}
+                  inputClassName='opacity-0 !p-0 cursor-pointer h-full'
+                  toggleClassName='opacity-0 pointer-events-none'
+                  containerClassName='w-full'
                 />
               </div>
+              <label className='pointer-events-none absolute'>
+                {!!date ? date : 'Date'}
+              </label>
               <label htmlFor='date' className='cursor-pointer'>
                 <FaChevronDown className='text-xs text-brand' />
               </label>
             </div>
             <p className='text-sm text-paragraph'>When will you go</p>
           </div>
+          {/* GUESTS */}
           <div className='flex flex-col items-start gap-1'>
             <div className='flex max-w-[8.75rem] items-center gap-2'>
               <ComboBox
@@ -101,6 +119,8 @@ export default function Home({ camps }) {
                   { text: '3 Guests', disable: false },
                   { text: '3+ Guests', disable: false },
                 ]}
+                selected={guests}
+                setSelected={setGuests}
               />
               <label htmlFor='guests' className='cursor-pointer'>
                 <FaChevronDown className='text-xs text-brand' />

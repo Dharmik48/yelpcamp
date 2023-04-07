@@ -11,6 +11,8 @@ import ReactMapGl, { GeolocateControl, Marker } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import Geocoder from './Geocoder'
 import axios from 'axios'
+import { toast } from 'react-toastify'
+import { FaSpinner } from 'react-icons/fa'
 
 const Form = ({ submitForm, data, disabled }) => {
   const amenitiesList = [
@@ -115,7 +117,11 @@ const Form = ({ submitForm, data, disabled }) => {
       // Success function
       showPosition,
       // Error function
-      null,
+      e => {
+        if (e.code !== e.PERMISSION_DENIED) return
+        setCoords({ lat: 21.17, long: 72.83 })
+        toast.warn('Please allow location permission')
+      },
       // Options.
       {
         enableHighAccuracy: true,
@@ -242,7 +248,7 @@ const Form = ({ submitForm, data, disabled }) => {
           Select the Location
         </h3>
         <div className='h-72 overflow-hidden rounded-xl lg:h-96'>
-          {!(Object.keys(coords).length === 0) && (
+          {!(Object.keys(coords).length === 0) ? (
             <ReactMapGl
               mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_KEY}
               initialViewState={{
@@ -267,6 +273,8 @@ const Form = ({ submitForm, data, disabled }) => {
               <GeolocateControl position='top-left' trackUserLocation />
               <Geocoder setLocation={setCoords} />
             </ReactMapGl>
+          ) : (
+            <FaSpinner className='animate-spin' />
           )}
         </div>
         <div className='md:columns-2 lg:columns-3'>

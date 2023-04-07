@@ -11,15 +11,14 @@ import { getNames } from 'country-list'
 import { useRouter } from 'next/router'
 import { getCampgrounds } from '../util/campgrounds'
 import CampgroundCard from '../components/CampgroundCard'
+import ComboBox from '../components/ComboBox'
 
 export default function Home({ camps }) {
   const router = useRouter()
 
-  const countries = getNames().map(country => (
-    <option value={country} key={country}>
-      {country.length > 15 ? country.slice(0, 15) : country}
-    </option>
-  ))
+  const countries = getNames().map(country =>
+    country.length > 15 ? country.slice(0, 15) : country
+  )
 
   const search = e => {
     e.preventDefault()
@@ -65,26 +64,16 @@ export default function Home({ camps }) {
           className='mx-auto flex max-w-screen-md flex-wrap items-center gap-8 rounded-lg bg-[#fff] p-6 drop-shadow-xl md:flex-row md:justify-around md:py-8'
           onSubmit={search}
         >
-          <div className='flex w-max flex-col items-start'>
-            <div className='flex items-center gap-1'>
-              <select
-                defaultValue={'null'}
-                name='location'
-                id='location'
-                className='cursor-pointer appearance-none bg-transparent'
-              >
-                <option value='null' disabled>
-                  Location
-                </option>
-                {countries}
-              </select>
+          <div className='flex w-max flex-col items-start gap-1'>
+            <div className='flex max-w-[8.75rem] items-center gap-1'>
+              <ComboBox list={['Location', ...countries]} />
               <label htmlFor='location' className='cursor-pointer'>
                 <FaChevronDown className='text-xs text-brand' />
               </label>
             </div>
             <p className='text-sm text-paragraph'>Where are you going</p>
           </div>
-          <div className='flex flex-col items-start'>
+          <div className='flex flex-col items-start gap-1'>
             <div className='flex items-center gap-2'>
               <div className='relative'>
                 <input
@@ -99,21 +88,17 @@ export default function Home({ camps }) {
             </div>
             <p className='text-sm text-paragraph'>When will you go</p>
           </div>
-          <div className='flex flex-col items-start'>
-            <div className='flex items-center gap-2'>
-              <select
-                defaultValue={'null'}
-                name='guests'
-                id='guests'
-                className='cursor-pointer appearance-none bg-transparent'
-              >
-                <option value='null' disabled>
-                  Guest
-                </option>
-                <option value='1'>1 Guests</option>
-                <option value='2'>2 Guests</option>
-                <option value='3'>3 Guests</option>
-              </select>
+          <div className='flex flex-col items-start gap-1'>
+            <div className='flex max-w-[8.75rem] items-center gap-2'>
+              <ComboBox
+                list={[
+                  'Guests',
+                  '1 Guests',
+                  '2 Guests',
+                  '3 Guests',
+                  '3+ Guests',
+                ]}
+              />
               <label htmlFor='guests' className='cursor-pointer'>
                 <FaChevronDown className='text-xs text-brand' />
               </label>

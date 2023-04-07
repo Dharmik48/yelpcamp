@@ -16,9 +16,10 @@ import ComboBox from '../components/ComboBox'
 export default function Home({ camps }) {
   const router = useRouter()
 
-  const countries = getNames().map(country =>
-    country.length > 15 ? country.slice(0, 15) : country
-  )
+  const countries = getNames().map(country => ({
+    text: country,
+    disable: false,
+  }))
 
   const search = e => {
     e.preventDefault()
@@ -66,7 +67,9 @@ export default function Home({ camps }) {
         >
           <div className='flex w-max flex-col items-start gap-1'>
             <div className='flex max-w-[8.75rem] items-center gap-1'>
-              <ComboBox list={['Location', ...countries]} />
+              <ComboBox
+                list={[{ text: 'Location', disable: true }, ...countries]}
+              />
               <label htmlFor='location' className='cursor-pointer'>
                 <FaChevronDown className='text-xs text-brand' />
               </label>
@@ -92,11 +95,11 @@ export default function Home({ camps }) {
             <div className='flex max-w-[8.75rem] items-center gap-2'>
               <ComboBox
                 list={[
-                  'Guests',
-                  '1 Guests',
-                  '2 Guests',
-                  '3 Guests',
-                  '3+ Guests',
+                  { text: 'Guests', disable: true },
+                  { text: '1 Guests', disable: false },
+                  { text: '2 Guests', disable: false },
+                  { text: '3 Guests', disable: false },
+                  { text: '3+ Guests', disable: false },
                 ]}
               />
               <label htmlFor='guests' className='cursor-pointer'>

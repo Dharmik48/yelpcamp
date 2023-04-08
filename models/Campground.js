@@ -48,6 +48,12 @@ const campgroundSchema = new Schema(
       type: [{ icon: String, text: String }],
       required: true,
     },
+    plusExclusive: {
+      type: Boolean,
+      enum: [true, false],
+      default: false,
+      required: true,
+    },
   },
   { timestamps: true }
 )

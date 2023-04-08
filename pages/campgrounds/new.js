@@ -9,9 +9,10 @@ import { uploadAndGetImgUrls } from '../../util/uploadImage'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import Link from 'next/link'
-import { useSession } from 'next-auth/react'
+import { useSession, getSession } from 'next-auth/react'
+import { getUser } from '../../util/user'
 
-const NewCampground = () => {
+const NewCampground = ({ user }) => {
   const { data: session } = useSession()
 
   const router = useRouter()
@@ -53,7 +54,11 @@ const NewCampground = () => {
             <FaCampground />
             Add a Campground
           </h3>
-          <Form submitForm={addCampground} disabled={isSubmiting} />
+          <Form
+            submitForm={addCampground}
+            disabled={isSubmiting}
+            subscribed={user.premium.subscribed}
+          />
         </div>
         {/* <Image
           src={illustration}
@@ -63,6 +68,16 @@ const NewCampground = () => {
       </section>
     </>
   )
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context)
+
+  const user = await getUser(session.user.id)
+
+  return {
+    props: { user },
+  }
 }
 
 export default NewCampground

@@ -13,8 +13,9 @@ import Geocoder from './Geocoder'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { FaSpinner } from 'react-icons/fa'
+import Link from 'next/link'
 
-const Form = ({ submitForm, data, disabled }) => {
+const Form = ({ submitForm, data, disabled, subscribed }) => {
   const amenitiesList = [
     { text: 'restrooms', icon: 'FaRestroom' },
     { text: 'water supply', icon: 'FaFaucet' },
@@ -49,6 +50,8 @@ const Form = ({ submitForm, data, disabled }) => {
       state: data?.location.state || '',
       country: data?.location.country || '',
       amenities: data?.amenities || [],
+      terms: !!data?.name || false,
+      plusExclusive: data?.plusExclusive || false,
     },
     validationSchema: Yup.object({
       name: Yup.string().required('Please enter a name!'),
@@ -68,6 +71,11 @@ const Form = ({ submitForm, data, disabled }) => {
       amenities: Yup.array()
         .min(1, 'Please select atleast 1 amenity')
         .required(),
+      terms: Yup.boolean().oneOf(
+        [true],
+        'You must agree to terms and conditions to continue'
+      ),
+      plusExclusive: Yup.boolean().oneOf([true, false]),
     }),
     onSubmit: values => {
       submitForm({
@@ -530,6 +538,56 @@ const Form = ({ submitForm, data, disabled }) => {
           </div>
         </div>
       </div>
+      <div className='flex flex-col gap-4'>
+        <div>
+          <input
+            type='checkbox'
+            id='terms'
+            className='mr-2 cursor-pointer'
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            checked={formik.terms}
+          />
+          <label htmlFor='terms' className='cursor-pointer'>
+            Agree to the{' '}
+            <Link
+              href={'/campgrounds/terms-and-conditions'}
+              className='text-brand'
+            >
+              Terms and Conditions
+            </Link>
+          </label>
+        </div>
+        {!!formik.touched.terms && !!formik.errors.terms && (
+          <span className='inline-flex items-center gap-2 text-sm text-red'>
+            <FaExclamationCircle />
+            {formik.errors.terms}
+          </span>
+        )}
+      </div>
+      {subscribed && (
+        <div className='flex flex-col gap-4'>
+          <div>
+            <input
+              type='checkbox'
+              id='plusExclusive'
+              className='mr-2 cursor-pointer'
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              checked={formik.plusExclusive}
+            />
+            <label htmlFor='plusExclusive' className='cursor-pointer'>
+              Keep this campground <span>YelpCamp Plus</span> exclusive?
+            </label>
+          </div>
+          {!!formik.touched.plusExclusive && !!formik.errors.plusExclusive && (
+            <span className='inline-flex items-center gap-2 text-sm text-red'>
+              <FaExclamationCircle />
+              {formik.errors.plusExclusive}
+            </span>
+          )}
+        </div>
+      )}
       {<Button text='Submit' title='Add Campground' disabled={disabled} />}
     </form>
   )

@@ -80,44 +80,6 @@ const Confirm = ({ campground, premium }) => {
             </ul>
           </div>
         </div>
-        {/* {premium.subscribed && (
-          <>
-            <p className='mt-6 justify-self-end font-volkhov text-3xl'>
-              Price: <span className='text-xl line-through'>₹{price}</span>{' '}
-              <span className='rounded-lg bg-lightRed p-2 text-3xl text-brand'>
-                ₹{price * 0.8}
-              </span>
-            </p>
-            <p className='mt-6 max-w-fit rounded-md bg-lightRed p-3'>
-              You saved{' '}
-              <span className='text-lg font-bold md:text-xl lg:text-2xl'>
-                ₹{price * 0.2}
-              </span>{' '}
-              for being a <span className='text-brand'>YelpCamp Plus</span> user
-            </p>
-          </>
-        )} */}
-        {/* {!premium.subscribed && (
-          <>
-            <p className='justify-self-end font-volkhov text-3xl'>
-              Price: <span className='text-5xl text-brand'>₹{price}</span>
-            </p>
-            <p className='mt-3 max-w-fit rounded-md bg-lightRed p-3'>
-              Save{' '}
-              <span className='text-lg font-bold md:text-xl lg:text-2xl'>
-                ₹{price * 0.2}
-              </span>{' '}
-              by getting{' '}
-              <Link
-                href={'/subscription'}
-                target='_blank'
-                className='text-brand'
-              >
-                YelpCamp Plus
-              </Link>
-            </p>
-          </>
-        )} */}
         <p className='my-4 font-volkhov text-3xl'>Price</p>
         <ul className='flex flex-col gap-2 divide-y divide-text'>
           <li className='flex items-center justify-between'>
@@ -152,7 +114,18 @@ const Confirm = ({ campground, premium }) => {
             <span>₹{total}</span>
           </li>
         </ul>
-
+        {!premium.subscribed && (
+          <p className='mt-3 max-w-fit rounded-md bg-lightRed p-3'>
+            Save{' '}
+            <span className='text-lg font-bold md:text-xl lg:text-2xl'>
+              ₹{(price * 0.2).toFixed()}
+            </span>{' '}
+            by getting{' '}
+            <Link href={'/subscription'} target='_blank' className='text-brand'>
+              YelpCamp Plus
+            </Link>
+          </p>
+        )}
         <Button
           text='Reserve'
           className='mt-6 h-fit max-w-fit self-end lg:block'

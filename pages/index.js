@@ -41,11 +41,7 @@ export default function Home({ camps, discountCamps = [] }) {
   ))
 
   const renderDiscountCampgrounds = discountCamps.map(camp => (
-    <CampgroundCard
-      key={camp._id}
-      campground={camp}
-      discount={camp.price.discount}
-    />
+    <CampgroundCard key={camp._id} campground={camp} />
   ))
 
   return (

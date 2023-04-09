@@ -34,7 +34,7 @@ const Header = () => {
     <header
       className={`${
         clientWindowHeight > 5 && 'shadow-[0_10px_10px_-12px_rgba(0,0,0,0.4)]'
-      } sticky top-0 z-50 mx-auto max-w-7xl bg-primaryBg px-8 font-poppins text-dark sm:px-10 md:px-12 lg:px-14 lg:pb-0`}
+      } sticky top-0 z-40 mx-auto max-w-7xl bg-primaryBg px-8 font-poppins text-dark sm:px-10 md:px-12 lg:px-14 lg:pb-0`}
     >
       {/* <!-- lg+ --> */}
       <nav className='flex h-16 items-center justify-between lg:h-24'>

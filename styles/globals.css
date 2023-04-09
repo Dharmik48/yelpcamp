@@ -17,6 +17,11 @@
   clip-path: inset(0 -100vmax);
 }
 
+.bg-bleed-lightBlue {
+  box-shadow: 0 0 0 100vmax #eff0f6;
+  clip-path: inset(0 -100vmax);
+}
+
 .Toastify__toast {
   padding-inline: 1rem;
   border-radius: 0.75rem;

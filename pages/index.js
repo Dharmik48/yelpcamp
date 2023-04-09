@@ -14,8 +14,9 @@ import CampgroundCard from '../components/CampgroundCard'
 import ComboBox from '../components/ComboBox'
 import Datepicker from 'react-tailwindcss-datepicker'
 import { useState } from 'react'
+import Campground from '../models/Campground'
 
-export default function Home({ camps }) {
+export default function Home({ camps, discountCamps = [] }) {
   const router = useRouter()
 
   const countries = getNames().map(country => ({
@@ -37,6 +38,14 @@ export default function Home({ camps }) {
 
   const renderTopCampgrounds = camps.map(camp => (
     <CampgroundCard key={camp._id} campground={camp} />
+  ))
+
+  const renderDiscountCampgrounds = discountCamps.map(camp => (
+    <CampgroundCard
+      key={camp._id}
+      campground={camp}
+      discount={camp.price.discount}
+    />
   ))
 
   return (
@@ -163,6 +172,7 @@ export default function Home({ camps }) {
           </div>
         </div>
       </section>
+      {/* Top Camps */}
       <section className='p-7 md:p-12 lg:p-16'>
         <h3 className='mb-2 text-center font-volkhov text-2xl font-extrabold md:mb-4 md:text-3xl lg:mb-6 lg:text-4xl'>
           Top rated campgrounds on <span className='text-brand'>YelpCamp</span>
@@ -174,6 +184,21 @@ export default function Home({ camps }) {
           {renderTopCampgrounds}
         </div>
       </section>
+      {/* Discount camps */}
+      {!!discountCamps.length && (
+        <section className='p-7 md:p-12 lg:p-16'>
+          <h3 className='mb-2 text-center font-volkhov text-2xl font-extrabold md:mb-4 md:text-3xl lg:mb-6 lg:text-4xl'>
+            Exclusive <span className='text-brand'>deals & discounts</span>
+          </h3>
+          <p className='mx-auto mb-5 text-center text-base text-paragraph md:mb-10 md:max-w-lg lg:mb-14'>
+            Discover our fantastic exclusive booking discounts & start planning
+            your journey.
+          </p>
+          <div className='grid w-full gap-6 md:grid-cols-2 lg:grid-cols-3'>
+            {renderDiscountCampgrounds}
+          </div>
+        </section>
+      )}
     </>
   )
 }
@@ -181,8 +206,12 @@ export default function Home({ camps }) {
 export async function getServerSideProps(context) {
   const camps = await getCampgrounds({ sort: 'rating', limit: 3 })
 
+  const discountCamps = await Campground.find({})
+    .where('price.discount')
+    .gt('0')
+
   return {
-    props: { camps },
+    props: { camps, discountCamps: JSON.parse(JSON.stringify(discountCamps)) },
   }
 }
 

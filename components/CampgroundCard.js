@@ -8,8 +8,13 @@ const CampgroundCard = ({ campground }) => {
   return (
     <div
       key={campground._id}
-      className='group flex flex-col gap-3 rounded-xl border border-lightBlue shadow-lg shadow-lightBlue hover:shadow-lg hover:shadow-lightRed'
+      className='group relative flex flex-col gap-3 rounded-xl border border-lightBlue shadow-lg shadow-lightBlue hover:shadow-lg hover:shadow-lightRed'
     >
+      {campground.price.discount > 0 && (
+        <p className='absolute top-0 right-0 z-[2] w-fit -translate-x-1/3 translate-y-1/2 rounded-md bg-lightRed py-1 px-2 font-medium text-brand'>
+          -{campground.price.discount}%
+        </p>
+      )}
       <div className='relative'>
         <Image
           src={campground.images[0].url}
@@ -36,10 +41,19 @@ const CampgroundCard = ({ campground }) => {
             <HiMapPin />
             {campground.location.country}
           </p>
-          <p className='w-fit rounded-md bg-[#FFE7DB] py-1 px-2 font-medium text-brand'>
-            <FaRupeeSign className='inline' />
-            {campground.price.adults}
-          </p>
+          <div className='flex items-center gap-1'>
+            {campground.price.discount > 0 && (
+              <p className='text-text line-through'>
+                <FaRupeeSign className='inline' />
+                {campground.price.adults}
+              </p>
+            )}
+            <p className='w-fit rounded-md bg-[#FFE7DB] py-1 px-2 font-medium text-brand'>
+              <FaRupeeSign className='inline' />
+              {campground.price.adults *
+                ((100 - campground.price.discount) / 100)}
+            </p>
+          </div>
         </div>
         <Link
           href={`/campgrounds/${campground._id}`}

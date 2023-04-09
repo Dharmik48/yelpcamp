@@ -35,7 +35,7 @@ const Footer = () => {
       </div>
       <div className='my-8 max-w-full border-b border-dark lg:my-10' />
       <div className='flex flex-col justify-between gap-4 md:flex-row'>
-        <p>Copyright, YelpCamp {dayjs().year()}. All rights reserved.</p>
+        <p>Copyright &copy;, YelpCamp {dayjs().year()}. All rights reserved.</p>
         <Link
           href={'campgrounds/terms-and-conditions'}
           className='text-text hover:text-brand'

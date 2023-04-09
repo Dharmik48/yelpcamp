@@ -29,6 +29,10 @@ export default async function handler(req, res) {
       amount *= 0.8
     }
 
+    if (camp.price.discount > 0) {
+      amount *= (100 - camp.price.discount) / 100
+    }
+
     try {
       // Create Checkout Sessions from body params.
       const session = await stripe.checkout.sessions.create({
@@ -41,7 +45,7 @@ export default async function handler(req, res) {
               product_data: {
                 name: camp.name,
               },
-              unit_amount: amount * PAISA_TO_RUPEES,
+              unit_amount: amount.toFixed() * PAISA_TO_RUPEES,
             },
           },
         ],

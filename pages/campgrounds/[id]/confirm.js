@@ -14,6 +14,10 @@ const Confirm = ({ campground, premium }) => {
     (adults * campground?.price.adults +
       children * campground?.price.children) *
     days
+  let total = price
+  if (campground.price.discount > 0)
+    total *= (100 - campground.price.discount) / 100
+  if (premium.subscribed) total *= 0.8
 
   const checkout = () => {
     router.push(
@@ -74,7 +78,7 @@ const Confirm = ({ campground, premium }) => {
             </ul>
           </div>
         </div>
-        {premium.subscribed && (
+        {/* {premium.subscribed && (
           <>
             <p className='mt-6 justify-self-end font-volkhov text-3xl'>
               Price: <span className='text-xl line-through'>₹{price}</span>{' '}
@@ -90,8 +94,8 @@ const Confirm = ({ campground, premium }) => {
               for being a <span className='text-brand'>YelpCamp Plus</span> user
             </p>
           </>
-        )}
-        {!premium.subscribed && (
+        )} */}
+        {/* {!premium.subscribed && (
           <>
             <p className='justify-self-end font-volkhov text-3xl'>
               Price: <span className='text-5xl text-brand'>₹{price}</span>
@@ -111,7 +115,35 @@ const Confirm = ({ campground, premium }) => {
               </Link>
             </p>
           </>
-        )}
+        )} */}
+        <p className='my-4 font-volkhov text-3xl'>Price</p>
+        <ul className='flex flex-col gap-2 divide-y divide-text'>
+          <li className='flex items-center justify-between'>
+            <span>Cost</span>
+            <span>₹{price}</span>
+          </li>
+          <li className='flex items-center justify-between'>
+            <span>Campground Discount</span>
+            <span>- {campground.price.discount}%</span>
+          </li>
+          <li className='flex items-center justify-between'>
+            <span></span>
+            <span>= ₹{(price * (100 - campground.price.discount)) / 100}</span>
+          </li>
+          {premium.subscribed && (
+            <li className='flex items-center justify-between'>
+              <span>YelpCamp Plus benefit</span>
+              <span>
+                - ₹{price * ((100 - campground.price.discount) / 100) * 0.2}
+              </span>
+            </li>
+          )}
+          <li className='flex items-center justify-between'>
+            <span>Final</span>
+            <span>₹{total}</span>
+          </li>
+        </ul>
+
         <Button
           text='Reserve'
           className='mt-6 h-fit max-w-fit self-end lg:block'

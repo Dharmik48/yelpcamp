@@ -98,6 +98,7 @@ const CampgroundDetail = ({ campground = camp }) => {
       setPrice(
         (guests.adults * campground?.price.adults +
           guests.children * campground?.price.children) *
+          ((100 - campground.price.discount) / 100) *
           days
       )
   }, [guests, dateValue])
@@ -183,14 +184,31 @@ const CampgroundDetail = ({ campground = camp }) => {
             <div className='flex flex-col gap-4'>
               <div>
                 <p className='p-3 md:text-lg'>
-                  <span className='text-lg font-bold md:text-xl lg:text-2xl'>
+                  <span
+                    className={`${
+                      campground.price.discount > 0
+                        ? 'text-base line-through md:text-lg lg:text-xl'
+                        : 'text-lg font-bold md:text-xl lg:text-2xl'
+                    }`}
+                  >
                     ₹{campground?.price.adults}
                   </span>
+                  {!!campground.price.discount && (
+                    <span className='text-lg font-bold md:text-xl lg:text-2xl'>
+                      {campground.price.adults *
+                        ((100 - campground.price.discount) / 100)}
+                    </span>
+                  )}
                   /night
                 </p>
                 <p className='max-w-fit rounded-md bg-primaryBg p-3'>
                   <span className='text-xl font-bold md:text-2xl lg:text-3xl'>
-                    ₹{campground?.price.adults * 0.8}
+                    ₹
+                    {campground.price.discount > 0
+                      ? campground.price.adults *
+                        ((100 - campground.price.discount) / 100) *
+                        0.8
+                      : campground?.price.adults * 0.8}
                   </span>
                   <span className='md:text-xl'>/night</span> for{' '}
                   <Link
@@ -261,7 +279,14 @@ const CampgroundDetail = ({ campground = camp }) => {
                   >
                     <div className='flex items-center justify-between'>
                       <div>
-                        <p>Adult - ₹{campground.price.adults}/night</p>
+                        <p>
+                          Adult - ₹
+                          {campground.price.discount
+                            ? campground.price.adults *
+                              ((100 - campground.price.discount) / 100)
+                            : campground.price.adults}
+                          /night
+                        </p>
                         <p className='text-sm text-paragraph'>Age 13+</p>
                       </div>
                       <div className='flex items-center gap-2 text-xl'>
@@ -278,7 +303,14 @@ const CampgroundDetail = ({ campground = camp }) => {
                     </div>
                     <div className='flex items-center justify-between'>
                       <div>
-                        <p>Children - ₹{campground.price.children}/night</p>
+                        <p>
+                          Children - ₹
+                          {campground.price.discount
+                            ? campground.price.children *
+                              ((100 - campground.price.discount) / 100)
+                            : campground.price.children}
+                          /night
+                        </p>
                         <p className='text-sm text-paragraph'>Age 2-12</p>
                       </div>
                       <div className='flex items-center gap-2 text-xl'>
@@ -313,35 +345,38 @@ const CampgroundDetail = ({ campground = camp }) => {
                   </div>
                 </div>
               </div>
-              <div className='flex flex-col justify-between gap-4'>
-                <div className='flex flex-col gap-4 lg:flex-row lg:items-center'>
-                  {!!price && (
-                    <p className='font-volkhov text-xl'>
-                      Total:{' '}
-                      <span className='text-3xl font-medium'>₹{price}</span>
-                    </p>
-                  )}
-                  <p className='max-w-fit rounded-md bg-primaryBg p-3'>
-                    Save{' '}
-                    <span className='text-lg font-bold md:text-xl lg:text-2xl'>
-                      ₹{price * 0.2}
-                    </span>{' '}
-                    by getting{' '}
-                    <Link
-                      href={'/subscription'}
-                      target='_blank'
-                      className='text-brand'
-                    >
-                      YelpCamp Plus
-                    </Link>
-                  </p>
-                </div>
-                <Button
-                  text='Reserve'
-                  className='h-fit max-w-fit lg:hidden'
-                  handleClick={redirectToCheckout}
-                />
-              </div>
+              {dateValue.startDate !== 'Select' &&
+                dateValue.endDate !== 'Select' && (
+                  <div className='flex flex-col justify-between gap-4'>
+                    <div className='flex flex-col gap-4 lg:flex-row lg:items-center'>
+                      {!!price && (
+                        <p className='font-volkhov text-xl'>
+                          Total:{' '}
+                          <span className='text-3xl font-medium'>₹{price}</span>
+                        </p>
+                      )}
+                      <p className='max-w-fit rounded-md bg-primaryBg p-3'>
+                        Save{' '}
+                        <span className='text-lg font-bold md:text-xl lg:text-2xl'>
+                          ₹{price * 0.2}
+                        </span>{' '}
+                        by getting{' '}
+                        <Link
+                          href={'/subscription'}
+                          target='_blank'
+                          className='text-brand'
+                        >
+                          YelpCamp Plus
+                        </Link>
+                      </p>
+                    </div>
+                    <Button
+                      text='Reserve'
+                      className='h-fit max-w-fit lg:hidden'
+                      handleClick={redirectToCheckout}
+                    />
+                  </div>
+                )}
             </div>
           </div>
         )}

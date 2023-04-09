@@ -19,6 +19,8 @@ const Confirm = ({ campground, premium }) => {
     total *= (100 - campground.price.discount) / 100
   if (premium.subscribed) total *= 0.8
 
+  total = total.toFixed()
+
   const checkout = () => {
     router.push(
       `/api/campgrounds/${campground?._id}/checkout?adults=${adults}&children=${children}&days=${days}&checkIn=${checkIn}&checkOut=${checkOut}&user=${session.user.id}`
@@ -128,13 +130,20 @@ const Confirm = ({ campground, premium }) => {
           </li>
           <li className='flex items-center justify-between'>
             <span></span>
-            <span>= ₹{(price * (100 - campground.price.discount)) / 100}</span>
+            <span>
+              = ₹{((price * (100 - campground.price.discount)) / 100).toFixed()}
+            </span>
           </li>
           {premium.subscribed && (
             <li className='flex items-center justify-between'>
               <span>YelpCamp Plus benefit</span>
               <span>
-                - ₹{price * ((100 - campground.price.discount) / 100) * 0.2}
+                - ₹
+                {(
+                  price *
+                  ((100 - campground.price.discount) / 100) *
+                  0.2
+                ).toFixed()}
               </span>
             </li>
           )}

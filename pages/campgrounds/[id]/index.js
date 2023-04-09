@@ -96,10 +96,11 @@ const CampgroundDetail = ({ campground = camp }) => {
 
     days &&
       setPrice(
-        (guests.adults * campground?.price.adults +
-          guests.children * campground?.price.children) *
-          ((100 - campground.price.discount) / 100) *
-          days
+        (
+          (guests.adults * campground?.price.adults +
+            guests.children * campground?.price.children) *
+          ((100 - campground.price.discount) / 100)
+        ).toFixed() * days
       )
   }, [guests, dateValue])
 
@@ -195,8 +196,10 @@ const CampgroundDetail = ({ campground = camp }) => {
                   </span>
                   {!!campground.price.discount && (
                     <span className='text-lg font-bold md:text-xl lg:text-2xl'>
-                      {campground.price.adults *
-                        ((100 - campground.price.discount) / 100)}
+                      {(
+                        campground.price.adults *
+                        ((100 - campground.price.discount) / 100)
+                      ).toFixed()}
                     </span>
                   )}
                   /night
@@ -205,10 +208,12 @@ const CampgroundDetail = ({ campground = camp }) => {
                   <span className='text-xl font-bold md:text-2xl lg:text-3xl'>
                     ₹
                     {campground.price.discount > 0
-                      ? campground.price.adults *
-                        ((100 - campground.price.discount) / 100) *
-                        0.8
-                      : campground?.price.adults * 0.8}
+                      ? (
+                          campground.price.adults *
+                          ((100 - campground.price.discount) / 100) *
+                          0.8
+                        ).toFixed()
+                      : (campground?.price.adults * 0.8).toFixed()}
                   </span>
                   <span className='md:text-xl'>/night</span> for{' '}
                   <Link
@@ -358,7 +363,7 @@ const CampgroundDetail = ({ campground = camp }) => {
                       <p className='max-w-fit rounded-md bg-primaryBg p-3'>
                         Save{' '}
                         <span className='text-lg font-bold md:text-xl lg:text-2xl'>
-                          ₹{price * 0.2}
+                          ₹{(price * 0.2).toFixed()}
                         </span>{' '}
                         by getting{' '}
                         <Link

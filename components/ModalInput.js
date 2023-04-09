@@ -20,6 +20,7 @@ export default function ModalInput({
     validationSchema: Yup.object({
       discount: Yup.number()
         .typeError('Must be a number')
+        .max(35, 'You cannot add more discount than 35%')
         .positive('Cannot be less than 0')
         .required('Please enter a value'),
     }),

@@ -51,8 +51,10 @@ const CampgroundCard = ({ campground }) => {
             <p className='w-fit rounded-md bg-[#FFE7DB] py-1 px-2 font-medium text-brand'>
               <FaRupeeSign className='inline' />
               {campground.price.discount > 0
-                ? campground.price.adults *
-                  ((100 - campground.price.discount) / 100)
+                ? (
+                    campground.price.adults *
+                    ((100 - campground.price.discount) / 100)
+                  ).toFixed()
                 : campground.price.adults}
             </p>
           </div>

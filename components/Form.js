@@ -89,6 +89,7 @@ const Form = ({ submitForm, data, disabled, subscribed }) => {
         price: {
           adults: values.adultPrice,
           children: values.childrenPrice,
+          discount: 0,
         },
       })
     },

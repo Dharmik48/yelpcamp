@@ -16,7 +16,7 @@ const campgroundSchema = new Schema(
       max: 750,
     },
     price: {
-      type: { adults: Number, children: Number },
+      type: { adults: Number, children: Number, discount: Number },
       required: true,
     },
     images: {

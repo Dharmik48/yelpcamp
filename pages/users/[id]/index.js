@@ -194,7 +194,7 @@ const Profile = ({ user, camps, allCamps }) => {
               src={user.image}
               width='100'
               height='100'
-              className='aspect-square w-16 rounded-full border-2 border-brand lg:w-24'
+              className='aspect-square w-20 rounded-full border-2 border-brand lg:w-24'
             />
             <div>
               <h2 className='font-volkhov text-2xl'>{user.name}</h2>

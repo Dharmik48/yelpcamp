@@ -1,9 +1,7 @@
 import Head from 'next/head'
-import axios from 'axios'
 import { useRouter } from 'next/router'
 import Button from '../../../components/Button'
-import LinkButton from '../../../components/LinkButton'
-import { getCampgrounds, getCampground } from '../../../util/campgrounds'
+// import { getCampgrounds, getCampground } from '../../../util/campgrounds'
 import Image from 'next/image'
 import { toast } from 'react-toastify'
 import {
@@ -29,7 +27,7 @@ import {
 } from 'react-icons/gi'
 import { IoAdd, IoRemove, IoChevronDown, IoChevronUp } from 'react-icons/io5'
 import { HiStar } from 'react-icons/hi2'
-import { useSession } from 'next-auth/react'
+import { getSession } from 'next-auth/react'
 import Reviews from '../../../components/Reviews'
 import ReactMapGl, { GeolocateControl, Marker } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -37,6 +35,10 @@ import Datepicker from 'react-tailwindcss-datepicker'
 import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import Link from 'next/link'
+import connectDb from '../../../util/mongo'
+import Campground from '../../../models/Campground'
+import Review from '../../../models/Review'
+import User from '../../../models/User'
 
 const camp = {
   _id: '',
@@ -49,7 +51,7 @@ const camp = {
   location: {},
 }
 
-const CampgroundDetail = ({ campground = camp }) => {
+const CampgroundDetail = ({ campground = camp, user = null }) => {
   const amenityIcons = {
     FaRestroom: <FaRestroom />,
     FaFaucet: <FaFaucet />,
@@ -70,7 +72,6 @@ const CampgroundDetail = ({ campground = camp }) => {
     GiMeditation: <GiMeditation />,
   }
 
-  const { data: session } = useSession()
   const router = useRouter()
 
   const [dateValue, setDateValue] = useState({
@@ -180,30 +181,32 @@ const CampgroundDetail = ({ campground = camp }) => {
           </p>
         </div>
         <ul className='flex gap-2 overflow-scroll'>{renderImages()}</ul>
-        {session?.user.id !== campground.owner._id && (
+        {user?._id !== campground.owner._id && (
           <div className='flex w-full flex-col gap-4 rounded-md bg-lightRed py-6 px-12 shadow-lg lg:flex-row-reverse lg:items-center lg:justify-between'>
             <div className='flex flex-col gap-4'>
               <div>
-                <p className='p-3 md:text-lg'>
-                  <span
-                    className={`${
-                      campground.price.discount > 0
-                        ? 'text-base line-through md:text-lg lg:text-xl'
-                        : 'text-lg font-bold md:text-xl lg:text-2xl'
-                    }`}
-                  >
-                    ₹{campground?.price.adults}
-                  </span>
-                  {!!campground.price.discount && (
-                    <span className='text-lg font-bold md:text-xl lg:text-2xl'>
-                      {(
-                        campground.price.adults *
-                        ((100 - campground.price.discount) / 100)
-                      ).toFixed()}
+                {!campground.plusExclusive && (
+                  <p className='p-3 md:text-lg'>
+                    <span
+                      className={`${
+                        campground.price.discount > 0
+                          ? 'text-base line-through md:text-lg lg:text-xl'
+                          : 'text-lg font-bold md:text-xl lg:text-2xl'
+                      }`}
+                    >
+                      ₹{campground?.price.adults}
                     </span>
-                  )}
-                  /night
-                </p>
+                    {!!campground.price.discount && (
+                      <span className='text-lg font-bold md:text-xl lg:text-2xl'>
+                        {(
+                          campground.price.adults *
+                          ((100 - campground.price.discount) / 100)
+                        ).toFixed()}
+                      </span>
+                    )}
+                    /night
+                  </p>
+                )}
                 <p className='max-w-fit rounded-md bg-primaryBg p-3'>
                   <span className='text-xl font-bold md:text-2xl lg:text-3xl'>
                     ₹
@@ -222,11 +225,21 @@ const CampgroundDetail = ({ campground = camp }) => {
                   users
                 </p>
               </div>
-              <Button
-                text='Reserve'
-                className='hidden h-fit max-w-fit self-end lg:block'
-                handleClick={redirectToCheckout}
-              />
+              {campground.plusExclusive ? (
+                user?.premium.subscribed && (
+                  <Button
+                    text='Reserve'
+                    className='hidden h-fit max-w-fit self-end lg:block'
+                    handleClick={redirectToCheckout}
+                  />
+                )
+              ) : (
+                <Button
+                  text='Reserve'
+                  className='hidden h-fit max-w-fit self-end lg:block'
+                  handleClick={redirectToCheckout}
+                />
+              )}
             </div>
             <div className='relative flex flex-col gap-6 lg:mr-auto'>
               <div className='w-full max-w-sm rounded-md bg-primaryBg shadow-md sm:h-auto md:w-sm'>
@@ -371,13 +384,31 @@ const CampgroundDetail = ({ campground = camp }) => {
                         </Link>
                       </p>
                     </div>
-                    <Button
-                      text='Reserve'
-                      className='h-fit max-w-fit lg:hidden'
-                      handleClick={redirectToCheckout}
-                    />
                   </div>
                 )}
+              {campground.plusExclusive ? (
+                user?.premium.subscribed ? (
+                  <Button
+                    text='Reserve'
+                    className='h-fit max-w-fit lg:hidden'
+                    handleClick={redirectToCheckout}
+                  />
+                ) : (
+                  <p className='max-w-fit rounded-md bg-primaryBg p-3'>
+                    Subscribe to{' '}
+                    <Link href={'/plus'} target='_blank' className='text-brand'>
+                      YelpCamp Plus
+                    </Link>{' '}
+                    to unlock this campground
+                  </p>
+                )
+              ) : (
+                <Button
+                  text='Reserve'
+                  className='h-fit max-w-fit lg:hidden'
+                  handleClick={redirectToCheckout}
+                />
+              )}
             </div>
           </div>
         )}
@@ -476,24 +507,43 @@ const CampgroundDetail = ({ campground = camp }) => {
   )
 }
 
-export async function getStaticPaths() {
-  // Fetch campground ids
-  const campgrounds = await getCampgrounds({ fields: '_id' })
-  // Map over the ids and create path obj
-  const paths = campgrounds.map(campground => ({
-    params: { id: campground?._id.toString() },
-  }))
-  return { paths, fallback: true }
-}
+// export async function getStaticPaths() {
+//   // Fetch campground ids
+//   const campgrounds = await getCampgrounds({ fields: '_id' })
+//   // Map over the ids and create path obj
+//   const paths = campgrounds.map(campground => ({
+//     params: { id: campground?._id.toString() },
+//   }))
+//   return { paths, fallback: true }
+// }
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps(context) {
+  await connectDb()
+  await Review.find({})
+  await User.find({})
+
+  const session = await getSession(context)
+
   // Fetch campground data
-  const campground = await getCampground(params.id, true, true)
+  const campground = await Campground.findById(context.params.id).populate(
+    'reviews owner'
+  )
+
+  if (!session)
+    return {
+      props: {
+        campground: JSON.parse(JSON.stringify(campground)),
+      },
+    }
+
+  const user = await User.findById(session.user.id)
+
   // Send the data as prop
   return {
-    props: { campground },
-    // Revalidate the page after 10 secs
-    revalidate: 10,
+    props: {
+      campground: JSON.parse(JSON.stringify(campground)),
+      user: JSON.parse(JSON.stringify(user)),
+    },
   }
 }
 

@@ -16,7 +16,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Header />
-      <div className='relative mx-auto flex min-h-[calc(100vh-64px)] max-w-7xl flex-col px-8 font-poppins text-dark sm:px-10 md:px-12 lg:min-h-[calc(100vh-96px)] lg:px-14'>
+      <div className='relative mx-auto flex min-h-[calc(100vh-64px)] max-w-7xl flex-col px-8 pb-12 font-poppins text-dark sm:px-10 md:px-12 lg:min-h-[calc(100vh-96px)] lg:px-14'>
         <Head>
           <title>YelpCamp</title>
         </Head>

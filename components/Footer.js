@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 
 const Footer = () => {
   return (
-    <footer className='bg-bleed-lightBlue absolute bottom-0 w-[calc(100%-4rem)] translate-y-full bg-lightBlue py-10 sm:w-[calc(100%-5rem)] md:w-[calc(100%-6rem)] lg:w-[calc(100%-7rem)]'>
+    <footer className='bg-bleed-lightBlue absolute bottom-0 w-[calc(100%-4rem)] translate-y-full bg-lightBlue py-10 sm:w-[calc(100%-5rem)] md:w-[calc(100%-6rem)] lg:w-[calc(100%-7rem)] lg:py-16'>
       <div className='flex flex-col gap-8 lg:flex-row'>
         <div className='flex flex-col gap-4 lg:flex-1 lg:gap-8'>
           <div className='flex items-center gap-2'>

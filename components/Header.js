@@ -92,7 +92,7 @@ const Header = () => {
           </Link>
 
           <Link
-            href='/subscription'
+            href='/plus'
             title='Subscription'
             className='text-base font-normal text-dark transition-all duration-200 hover:text-brand focus:text-brand'
             onClick={() => setIsMenuOpen(false)}
@@ -148,7 +148,7 @@ const Header = () => {
                   </li>
                   <li>
                     <Link
-                      href='/subscription'
+                      href='/plus'
                       title='Subscription'
                       onClick={() => setIsProfileDropDownOpen(false)}
                     >
@@ -245,7 +245,7 @@ const Header = () => {
             </>
           )}
           <Link
-            href='/subscription'
+            href='/plus'
             title='Subscription'
             className='inline-flex py-3 text-base font-normal text-dark transition-all duration-200 hover:text-brand focus:text-brand'
             onClick={() => setIsMenuOpen(false)}

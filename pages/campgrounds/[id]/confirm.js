@@ -121,7 +121,7 @@ const Confirm = ({ campground, premium }) => {
               ₹{(price * 0.2).toFixed()}
             </span>{' '}
             by getting{' '}
-            <Link href={'/subscription'} target='_blank' className='text-brand'>
+            <Link href={'/plus'} target='_blank' className='text-brand'>
               YelpCamp Plus
             </Link>
           </p>

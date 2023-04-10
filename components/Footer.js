@@ -27,7 +27,7 @@ const Footer = () => {
             </Link>
           </li>
           <li>
-            <Link className='hover:text-brand' href={'/subscription'}>
+            <Link className='hover:text-brand' href={'/plus'}>
               YelpCamp Plus
             </Link>
           </li>

@@ -216,11 +216,7 @@ const CampgroundDetail = ({ campground = camp }) => {
                       : (campground?.price.adults * 0.8).toFixed()}
                   </span>
                   <span className='md:text-xl'>/night</span> for{' '}
-                  <Link
-                    href={'/subscription'}
-                    target='_blank'
-                    className='text-brand'
-                  >
+                  <Link href={'/plus'} target='_blank' className='text-brand'>
                     YelpCamp Plus
                   </Link>{' '}
                   users
@@ -367,7 +363,7 @@ const CampgroundDetail = ({ campground = camp }) => {
                         </span>{' '}
                         by getting{' '}
                         <Link
-                          href={'/subscription'}
+                          href={'/plus'}
                           target='_blank'
                           className='text-brand'
                         >

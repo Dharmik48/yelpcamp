@@ -201,6 +201,11 @@ const Profile = ({ user, camps, allCamps }) => {
               <p className='text-sm text-paragraph'>
                 Joined in {user.createdAt.slice(0, 4)}
               </p>
+              {user.premium.subscribed && (
+                <Link href={'/plus'} className='mt-4 block text-brand'>
+                  YelpCamp Plus member
+                </Link>
+              )}
             </div>
           </div>
           {session?.user.id === user._id && (

@@ -35,16 +35,21 @@ const Confirm = ({ campground, premium }) => {
           <span>Cost</span>
           <span>₹{price}</span>
         </li>
-        <li className='flex items-center justify-between'>
-          <span>Campground Discount</span>
-          <span>- {campground.price.discount}%</span>
-        </li>
-        <li className='flex items-center justify-between'>
-          <span></span>
-          <span>
-            = ₹{((price * (100 - campground.price.discount)) / 100).toFixed()}
-          </span>
-        </li>
+        {campground.price.discount > 0 && (
+          <>
+            <li className='flex items-center justify-between'>
+              <span>Campground Discount</span>
+              <span>- {campground.price.discount}%</span>
+            </li>
+            <li className='flex items-center justify-between'>
+              <span></span>
+              <span>
+                = ₹
+                {((price * (100 - campground.price.discount)) / 100).toFixed()}
+              </span>
+            </li>
+          </>
+        )}
         {premium.subscribed && (
           <li className='flex items-center justify-between'>
             <span>YelpCamp Plus benefit</span>

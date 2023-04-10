@@ -213,7 +213,7 @@ const Profile = ({ user, camps, allCamps }) => {
         </div>
 
         <section>
-          <div className='mb-12 flex w-full flex-wrap gap-3 rounded-lg bg-lightRed p-2 lg:mb-16'>
+          <div className='mb-12 flex w-full gap-3 overflow-x-scroll rounded-lg bg-lightRed p-2 lg:mb-16'>
             {tabOptions
               .filter(option => {
                 if (session?.user.id === user._id) return true

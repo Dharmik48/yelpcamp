@@ -27,6 +27,62 @@ const Confirm = ({ campground, premium }) => {
     )
   }
 
+  const PriceSection = (
+    <>
+      <p className='my-4 font-volkhov text-3xl'>Price</p>
+      <ul className='flex flex-col gap-2 divide-y divide-text'>
+        <li className='flex items-center justify-between'>
+          <span>Cost</span>
+          <span>₹{price}</span>
+        </li>
+        <li className='flex items-center justify-between'>
+          <span>Campground Discount</span>
+          <span>- {campground.price.discount}%</span>
+        </li>
+        <li className='flex items-center justify-between'>
+          <span></span>
+          <span>
+            = ₹{((price * (100 - campground.price.discount)) / 100).toFixed()}
+          </span>
+        </li>
+        {premium.subscribed && (
+          <li className='flex items-center justify-between'>
+            <span>YelpCamp Plus benefit</span>
+            <span>
+              - ₹
+              {(
+                price *
+                ((100 - campground.price.discount) / 100) *
+                0.2
+              ).toFixed()}
+            </span>
+          </li>
+        )}
+        <li className='flex items-center justify-between'>
+          <span>Final</span>
+          <span>₹{total}</span>
+        </li>
+      </ul>
+      {!premium.subscribed && (
+        <p className='mt-3 max-w-fit rounded-md bg-lightRed p-3'>
+          Save{' '}
+          <span className='text-lg font-bold md:text-xl lg:text-2xl'>
+            ₹{(price * 0.2).toFixed()}
+          </span>{' '}
+          by getting{' '}
+          <Link href={'/plus'} target='_blank' className='text-brand'>
+            YelpCamp Plus
+          </Link>
+        </p>
+      )}
+      <Button
+        text='Reserve'
+        className='mt-6 h-fit max-w-fit self-end lg:block'
+        handleClick={checkout}
+      />
+    </>
+  )
+
   return (
     <div className='my-5 flex flex-col gap-12 rounded-md p-5 text-lg lg:flex-row'>
       <div className='flex-[6]'>
@@ -80,57 +136,22 @@ const Confirm = ({ campground, premium }) => {
             </ul>
           </div>
         </div>
-        <p className='my-4 font-volkhov text-3xl'>Price</p>
-        <ul className='flex flex-col gap-2 divide-y divide-text'>
-          <li className='flex items-center justify-between'>
-            <span>Cost</span>
-            <span>₹{price}</span>
-          </li>
-          <li className='flex items-center justify-between'>
-            <span>Campground Discount</span>
-            <span>- {campground.price.discount}%</span>
-          </li>
-          <li className='flex items-center justify-between'>
-            <span></span>
-            <span>
-              = ₹{((price * (100 - campground.price.discount)) / 100).toFixed()}
-            </span>
-          </li>
-          {premium.subscribed && (
-            <li className='flex items-center justify-between'>
-              <span>YelpCamp Plus benefit</span>
-              <span>
-                - ₹
-                {(
-                  price *
-                  ((100 - campground.price.discount) / 100) *
-                  0.2
-                ).toFixed()}
-              </span>
-            </li>
-          )}
-          <li className='flex items-center justify-between'>
-            <span>Final</span>
-            <span>₹{total}</span>
-          </li>
-        </ul>
-        {!premium.subscribed && (
-          <p className='mt-3 max-w-fit rounded-md bg-lightRed p-3'>
-            Save{' '}
-            <span className='text-lg font-bold md:text-xl lg:text-2xl'>
-              ₹{(price * 0.2).toFixed()}
-            </span>{' '}
-            by getting{' '}
-            <Link href={'/plus'} target='_blank' className='text-brand'>
-              YelpCamp Plus
-            </Link>
-          </p>
+        {/* PRICE */}
+        {campground.plusExclusive ? (
+          premium.subscribed ? (
+            PriceSection
+          ) : (
+            <p className='mt-3 max-w-fit rounded-md bg-lightRed p-3'>
+              Subscribe to{' '}
+              <Link href={'/plus'} target='_blank' className='text-brand'>
+                YelpCamp Plus
+              </Link>{' '}
+              to unlock this campground
+            </p>
+          )
+        ) : (
+          PriceSection
         )}
-        <Button
-          text='Reserve'
-          className='mt-6 h-fit max-w-fit self-end lg:block'
-          handleClick={checkout}
-        />
       </div>
     </div>
   )

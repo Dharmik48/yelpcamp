@@ -12,10 +12,11 @@ export default function ModalInput({
   title,
   text,
   handleSubmit,
+  defaultValue = '',
 }) {
   const formik = useFormik({
     initialValues: {
-      discount: '',
+      discount: defaultValue,
     },
     validationSchema: Yup.object({
       discount: Yup.number()

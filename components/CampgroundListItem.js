@@ -37,6 +37,7 @@ const CampgroundListItem = ({
           setOpen={setShowDiscountModal}
           title={`Create a discount on ${campground.name}?`}
           text={`If you create a discount on ${campground.name}, it will stay on discounted price untill discount not manually removed. If you want to continue then simply enter the percentage discount you'd like to offer below, and we'll take care of the rest. If you want to remove discount then simply enter 0 below.`}
+          defaultValue={campground.price.discount}
         />
       )}
       {deleteConfirm && (

@@ -56,7 +56,7 @@ const Campgrounds = ({ user, session }) => {
         />
       </li>
     ))
-  return <ul className='flex w-full flex-col gap-6'>{renderCamps()}</ul>
+  return <ul className='flex w-full flex-col gap-12'>{renderCamps()}</ul>
 }
 
 const ReviewsSection = ({ camps, user, session }) => {

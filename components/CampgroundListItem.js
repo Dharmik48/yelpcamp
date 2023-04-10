@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import ModalInput from './ModalInput'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+import Image from 'next/image'
 
 const CampgroundListItem = ({
   campground,
@@ -29,7 +30,12 @@ const CampgroundListItem = ({
   }
 
   return (
-    <div className='group flex justify-between rounded-lg bg-lightBlue p-4 hover:shadow-md hover:shadow-lightRed'>
+    <div className='group relative flex flex-col justify-between gap-4 rounded-lg bg-lightBlue p-4 hover:shadow-md hover:shadow-lightRed sm:flex-row sm:justify-start sm:gap-8'>
+      {campground.price.discount > 0 && (
+        <p className='absolute top-0 right-0 z-[2] w-fit translate-x-1/2 -translate-y-1/2 rounded-md bg-lightRed py-1 px-2 font-medium text-brand md:text-lg'>
+          -{campground.price.discount}%
+        </p>
+      )}
       {showDiscountModal && (
         <ModalInput
           handleSubmit={handleDiscountSubmit}
@@ -51,32 +57,44 @@ const CampgroundListItem = ({
           onAgree={() => deleteCampground(campground._id)}
         />
       )}
-      <h4 className='border-b border-transparent group-hover:border-text'>
-        <Link href={`/campgrounds/${campground._id}`}>{campground.name}</Link>{' '}
-        &middot;{' '}
-        <span className='inline-flex items-center group-hover:text-brand'>
-          {campground.rating || '?'}
-          <HiStar />
-        </span>
-      </h4>
-      {showEditDeleteBtns && (
-        <div className='flex gap-6'>
-          <button
-            title='Create a discount'
-            onClick={() => setShowDiscountModal(true)}
-          >
-            <TbDiscount2 size='1.5em' className='group-hover:text-blue' />
-          </button>
-          <button
-            onClick={() => router.push(`/campgrounds/${campground._id}/edit`)}
-          >
-            <IoCreateOutline size='1.5em' className='group-hover:text-brand' />
-          </button>
-          <button onClick={() => setDeleteConfirm(true)}>
-            <IoTrashOutline size='1.5em' className='group-hover:text-red' />
-          </button>
+      <Image
+        src={campground.images[0].url}
+        alt={campground.name}
+        width={200}
+        height={200}
+        className='w-full rounded-lg sm:max-w-xs'
+      />
+      <div className='flex flex-col gap-6 sm:w-full sm:justify-between sm:p-4'>
+        <div className='flex items-center justify-between'>
+          <h4 className='font-volkhov text-xl group-hover:text-brand sm:text-3xl'>
+            <Link href={`/campgrounds/${campground._id}`}>
+              {campground.name}
+            </Link>{' '}
+          </h4>
+          <span className='inline-flex items-center text-xl group-hover:text-brand'>
+            {campground.rating || '?'}
+            <HiStar />
+          </span>
         </div>
-      )}
+        {showEditDeleteBtns && (
+          <div className='flex justify-end gap-6 sm:justify-start'>
+            <button
+              title='Create a discount'
+              onClick={() => setShowDiscountModal(true)}
+            >
+              <TbDiscount2 size='2em' className='group-hover:text-blue' />
+            </button>
+            <button
+              onClick={() => router.push(`/campgrounds/${campground._id}/edit`)}
+            >
+              <IoCreateOutline size='2em' className='group-hover:text-brand' />
+            </button>
+            <button onClick={() => setDeleteConfirm(true)}>
+              <IoTrashOutline size='2em' className='group-hover:text-red' />
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

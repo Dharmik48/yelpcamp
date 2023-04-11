@@ -9,6 +9,8 @@ import ModalInput from './ModalInput'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import Image from 'next/image'
+import dayjs from 'dayjs'
+import localizedFormat from 'dayjs/plugin/localizedFormat'
 
 const CampgroundListItem = ({
   campground,
@@ -18,6 +20,8 @@ const CampgroundListItem = ({
   const [deleteConfirm, setDeleteConfirm] = useState(false)
   const [showDiscountModal, setShowDiscountModal] = useState(false)
   const router = useRouter()
+
+  dayjs.extend(localizedFormat)
 
   const handleDiscountSubmit = async val => {
     const success = await axios.patch(
@@ -65,16 +69,21 @@ const CampgroundListItem = ({
         className='w-full rounded-lg sm:max-w-xs'
       />
       <div className='flex flex-col gap-6 sm:w-full sm:justify-between sm:p-4'>
-        <div className='flex items-center justify-between'>
-          <h4 className='font-volkhov text-xl group-hover:text-brand sm:text-3xl'>
-            <Link href={`/campgrounds/${campground._id}`}>
-              {campground.name}
-            </Link>{' '}
-          </h4>
-          <span className='inline-flex items-center text-xl group-hover:text-brand'>
-            {campground.rating || '?'}
-            <HiStar />
-          </span>
+        <div>
+          <div className='flex items-center justify-between'>
+            <h4 className='font-volkhov text-xl group-hover:text-brand sm:text-3xl'>
+              <Link href={`/campgrounds/${campground._id}`}>
+                {campground.name}
+              </Link>{' '}
+            </h4>
+            <span className='inline-flex items-center text-xl group-hover:text-brand'>
+              {campground.rating || '?'}
+              <HiStar />
+            </span>
+          </div>
+          <p className='mt-2 text-text'>
+            Hosted on {dayjs(campground.createdAt).format('LL')}
+          </p>
         </div>
         {!showEditDeleteBtns && (
           <p className='max-w-prose break-words'>{campground.desc}</p>

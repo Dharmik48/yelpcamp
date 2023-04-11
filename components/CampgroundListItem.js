@@ -76,6 +76,9 @@ const CampgroundListItem = ({
             <HiStar />
           </span>
         </div>
+        {!showEditDeleteBtns && (
+          <p className='max-w-prose break-words'>{campground.desc}</p>
+        )}
         {showEditDeleteBtns && (
           <div className='flex justify-end gap-6 sm:justify-start'>
             <button

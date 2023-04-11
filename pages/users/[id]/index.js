@@ -1,8 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { getUser, getUsers } from '../../../util/user'
-import { getCampgrounds } from '../../../util/campgrounds'
 import CampgroundWideCard from '../../../components/CampgroundWideCard'
 import { useState } from 'react'
 import Reviews from '../../../components/Reviews'
@@ -16,6 +14,8 @@ import dayjs from 'dayjs'
 import Link from 'next/link'
 import LinkButton from '../../../components/LinkButton'
 import CampgroundListItem from '../../../components/CampgroundListItem'
+import Review from '../../../models/Review'
+import User from '../../../models/User'
 
 const Campgrounds = ({ user, session }) => {
   const deleteCampground = async id => {
@@ -251,24 +251,27 @@ const Profile = ({ user, camps, allCamps }) => {
   )
 }
 
-export async function getStaticPaths() {
-  const users = await getUsers('_id')
+// export async function getStaticPaths() {
+//   const users = await getUsers('_id')
 
-  const paths = users.map(user => ({
-    params: {
-      id: user._id.toString(),
-    },
-  }))
+//   const paths = users.map(user => ({
+//     params: {
+//       id: user._id.toString(),
+//     },
+//   }))
 
-  return { paths, fallback: true }
-}
+//   return { paths, fallback: true }
+// }
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   const userId = params.id
+  await Review.find({})
 
-  const user = await getUser(userId, true, true)
+  const user = await User.findById(userId).populate(
+    'campgrounds trips.campground'
+  )
 
-  await getCampgrounds({ fields: 'name' })
+  // await getCampgrounds({ fields: 'name' })
 
   const eligibleTrips = user.trips?.filter(trip =>
     dayjs().isAfter(dayjs(trip.checkOut))
@@ -282,11 +285,10 @@ export async function getStaticProps({ params }) {
 
   return {
     props: {
-      user,
+      user: JSON.parse(JSON.stringify(user)),
       camps: JSON.parse(JSON.stringify(camps)) || [],
       allCamps: JSON.parse(JSON.stringify(allCamps)),
     },
-    revalidate: 3,
   }
 }
 

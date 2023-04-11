@@ -39,6 +39,7 @@ import connectDb from '../../../util/mongo'
 import Campground from '../../../models/Campground'
 import Review from '../../../models/Review'
 import User from '../../../models/User'
+import { MdVerified } from 'react-icons/md'
 
 const camp = {
   _id: '',
@@ -465,7 +466,15 @@ const CampgroundDetail = ({ campground = camp, user = null }) => {
             className='aspect-square rounded-full border-2 border-brand'
           />
           <div>
-            <h2 className='font-volkhov text-2xl'>{campground.owner.name}</h2>
+            <div className='flex items-center gap-2'>
+              <h2 className='font-volkhov text-2xl'>{campground.owner.name}</h2>
+              {campground.owner.premium.subscribed && (
+                <MdVerified
+                  className='text-xl text-brand'
+                  title='YelpCamp Plus member'
+                />
+              )}
+            </div>
             <p className='text-sm text-paragraph'>
               Joined in {campground.owner.createdAt.slice(0, 4)}
             </p>

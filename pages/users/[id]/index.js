@@ -16,6 +16,7 @@ import LinkButton from '../../../components/LinkButton'
 import CampgroundListItem from '../../../components/CampgroundListItem'
 import Review from '../../../models/Review'
 import User from '../../../models/User'
+import { MdVerified } from 'react-icons/md'
 
 const Campgrounds = ({ user, session }) => {
   const deleteCampground = async id => {
@@ -197,7 +198,15 @@ const Profile = ({ user, camps, allCamps }) => {
               className='aspect-square w-20 rounded-full border-2 border-brand lg:w-24'
             />
             <div>
-              <h2 className='font-volkhov text-2xl'>{user.name}</h2>
+              <div className='flex items-center gap-2'>
+                <h2 className='font-volkhov text-2xl'>{user.name}</h2>
+                {user.premium.subscribed && (
+                  <MdVerified
+                    className='inline text-xl text-brand'
+                    title='YelpCamp Plus member'
+                  />
+                )}
+              </div>
               <p className='text-sm text-paragraph'>
                 Joined in {user.createdAt.slice(0, 4)}
               </p>
@@ -251,18 +260,6 @@ const Profile = ({ user, camps, allCamps }) => {
   )
 }
 
-// export async function getStaticPaths() {
-//   const users = await getUsers('_id')
-
-//   const paths = users.map(user => ({
-//     params: {
-//       id: user._id.toString(),
-//     },
-//   }))
-
-//   return { paths, fallback: true }
-// }
-
 export async function getServerSideProps({ params }) {
   const userId = params.id
   await Review.find({})
@@ -270,8 +267,6 @@ export async function getServerSideProps({ params }) {
   const user = await User.findById(userId).populate(
     'campgrounds trips.campground'
   )
-
-  // await getCampgrounds({ fields: 'name' })
 
   const eligibleTrips = user.trips?.filter(trip =>
     dayjs().isAfter(dayjs(trip.checkOut))

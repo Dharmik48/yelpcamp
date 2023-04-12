@@ -63,7 +63,7 @@ export default async function webhookHandler(req, res) {
         checkOut,
       }
 
-      await User.findByIdAndUpdate(camp.owner, {
+      await User.findByIdAndUpdate(owner, {
         $push: { notifications: notification },
       })
     }

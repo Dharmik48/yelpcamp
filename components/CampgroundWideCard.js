@@ -58,7 +58,7 @@ const CampgroundWideCard = ({ campground, showCancel, tripDetails }) => {
               <HiStar className='text-yellow' /> {campground.rating || '?'}
             </p>
           </div>
-          <p className='break-words'>
+          <p className='max-w-prose break-words'>
             {campground.desc.split(' ').slice(0, 55).join(' ')}...
           </p>
         </div>

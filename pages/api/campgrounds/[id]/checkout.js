@@ -57,7 +57,7 @@ export default async function handler(req, res) {
           checkOut,
           user: userId,
           camp: camp._id.toString(),
-          owner: camp.owner,
+          owner: camp.owner.toString(),
         },
       })
       res.redirect(303, session.url)

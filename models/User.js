@@ -51,6 +51,18 @@ const userSchema = new Schema(
         },
       ],
     },
+    notifications: {
+      type: [
+        {
+          campground: { type: Schema.Types.ObjectId, ref: 'Campground' },
+          user: { type: Schema.Types.ObjectId, ref: 'User' },
+          dates: {
+            checkIn: String,
+            checkOut: String,
+          },
+        },
+      ],
+    },
   },
   { timestamps: true }
 )

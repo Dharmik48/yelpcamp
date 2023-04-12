@@ -47,12 +47,23 @@ export default async function webhookHandler(req, res) {
       const trip = {
         checkIn,
         checkOut,
-        campground: camp,
+        campground: camp.id,
         payment_intent: event.data.object.payment_intent,
       }
 
       await User.findByIdAndUpdate(userId, {
         $push: { trips: trip },
+      })
+
+      const notification = {
+        campground: camp.id,
+        user: userId,
+        checkIn,
+        checkOut,
+      }
+
+      const owner = await User.findByIdAndUpdate(camp.owner, {
+        $push: { notifications: notification },
       })
     }
     res.status(200).send()

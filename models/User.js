@@ -60,6 +60,7 @@ const userSchema = new Schema(
             checkIn: String,
             checkOut: String,
           },
+          read: Boolean,
         },
       ],
     },

@@ -59,8 +59,8 @@ export default async function webhookHandler(req, res) {
       const notification = {
         campground: camp,
         user: owner,
-        checkIn,
-        checkOut,
+        dates: { checkIn, checkOut },
+        read: false,
       }
 
       await User.findByIdAndUpdate(owner, {

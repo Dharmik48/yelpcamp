@@ -58,7 +58,9 @@ const CampgroundWideCard = ({ campground, showCancel, tripDetails }) => {
               <HiStar className='text-yellow' /> {campground.rating || '?'}
             </p>
           </div>
-          <p>{campground.desc.split(' ').slice(0, 55).join(' ')}...</p>
+          <p className='break-words'>
+            {campground.desc.split(' ').slice(0, 55).join(' ')}...
+          </p>
         </div>
         <div className='flex w-full items-center justify-between'>
           <p className='inline-flex items-center gap-1 text-paragraph'>

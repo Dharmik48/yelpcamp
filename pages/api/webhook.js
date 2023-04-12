@@ -42,12 +42,13 @@ export default async function webhookHandler(req, res) {
         checkIn,
         checkOut,
         camp,
+        owner,
       } = event.data.object.metadata
 
       const trip = {
         checkIn,
         checkOut,
-        campground: camp.id,
+        campground: camp,
         payment_intent: event.data.object.payment_intent,
       }
 
@@ -56,13 +57,13 @@ export default async function webhookHandler(req, res) {
       })
 
       const notification = {
-        campground: camp.id,
-        user: userId,
+        campground: camp,
+        user: owner,
         checkIn,
         checkOut,
       }
 
-      const owner = await User.findByIdAndUpdate(camp.owner, {
+      await User.findByIdAndUpdate(camp.owner, {
         $push: { notifications: notification },
       })
     }

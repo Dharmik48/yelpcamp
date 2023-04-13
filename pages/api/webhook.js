@@ -61,7 +61,7 @@ export default async function webhookHandler(req, res) {
 
       const notification = {
         campground: camp,
-        user: owner,
+        user: userId,
         dates: { checkIn, checkOut },
         read: false,
         guests: { adults, children, infants },

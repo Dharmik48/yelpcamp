@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import logo from '../public/logo.png'
-import { IoMenu, IoClose } from 'react-icons/io5'
+import { IoMenu, IoClose, IoNotifications } from 'react-icons/io5'
 import { useState, useEffect } from 'react'
 import { signOut, useSession } from 'next-auth/react'
 
@@ -104,6 +104,14 @@ const Header = () => {
           {session ? (
             <>
               <div className='relative flex items-center justify-center'>
+                <button>
+                  <Link href={`/users/${session.user.id}/notifications`}>
+                    <IoNotifications
+                      size={'1.5em'}
+                      className='mr-4 text-brand'
+                    />
+                  </Link>
+                </button>
                 <button onClick={toggleProfileDropDown}>
                   <Image
                     src={session.user.image}

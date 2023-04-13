@@ -43,6 +43,9 @@ export default async function webhookHandler(req, res) {
         checkOut,
         camp,
         owner,
+        adults,
+        children,
+        infants,
       } = event.data.object.metadata
 
       const trip = {
@@ -61,6 +64,7 @@ export default async function webhookHandler(req, res) {
         user: owner,
         dates: { checkIn, checkOut },
         read: false,
+        guests: { adults, children, infants },
       }
 
       await User.findByIdAndUpdate(owner, {

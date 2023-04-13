@@ -12,6 +12,7 @@ export default async function handler(req, res) {
       id: campId,
       adults,
       children,
+      infants,
       days,
       checkIn,
       checkOut,
@@ -58,6 +59,9 @@ export default async function handler(req, res) {
           user: userId,
           camp: camp._id.toString(),
           owner: camp.owner.toString(),
+          adults,
+          children,
+          infants,
         },
       })
       res.redirect(303, session.url)

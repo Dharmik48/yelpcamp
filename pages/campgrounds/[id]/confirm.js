@@ -23,7 +23,7 @@ const Confirm = ({ campground, premium }) => {
 
   const checkout = () => {
     router.push(
-      `/api/campgrounds/${campground?._id}/checkout?adults=${adults}&children=${children}&days=${days}&checkIn=${checkIn}&checkOut=${checkOut}&user=${session.user.id}`
+      `/api/campgrounds/${campground?._id}/checkout?adults=${adults}&children=${children}&infants=${infants}&days=${days}&checkIn=${checkIn}&checkOut=${checkOut}&user=${session.user.id}`
     )
   }
 

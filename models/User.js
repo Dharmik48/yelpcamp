@@ -61,6 +61,7 @@ const userSchema = new Schema(
             checkOut: String,
           },
           read: Boolean,
+          guests: { adults: Number, children: Number, infants: Number },
         },
       ],
     },

@@ -62,6 +62,7 @@ const userSchema = new Schema(
           },
           read: Boolean,
           guests: { adults: Number, children: Number, infants: Number },
+          createdAt: { type: Date, default: Date.now },
         },
       ],
     },

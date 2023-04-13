@@ -22,84 +22,46 @@ const Notifications = ({ notifications, autorized = false }) => {
       <h3>Notifications</h3>
       <ul className='flex flex-col gap-4'>
         {notifications.map(noti => (
-          <>
-            <li
-              key={noti._id}
-              className={`${
-                noti.read ? 'bg-lightBlue' : 'bg-lightBlue'
-              } flex flex-col gap-2 rounded-lg p-4`}
-            >
-              <p className='md:text-lg lg:text-xl'>
-                User{' '}
-                <Link
-                  href={`/users/${noti.user._id}`}
-                  className='font-volkhov text-brand'
-                >
-                  {noti.user.name}
-                </Link>{' '}
-                made a booking for{' '}
-                <Link
-                  href={`/campgrounds/${noti.campground._id}`}
-                  className='font-volkhov text-brand'
-                >
-                  {noti.campground.name}
-                </Link>
-                {dayjs().to(dayjs(noti.createdAt))}
-              </p>
-              <p>
-                Guests:{' '}
-                {`${noti.guests.adults} adults${
-                  !!noti.guests.children
-                    ? ', ' + noti.guests.children + ' children'
-                    : ''
-                } ${
-                  !!noti.guests.infants
-                    ? ', ' + noti.guests.infants + ' infants'
-                    : ''
-                }`}
-              </p>
-              <div>
-                <p>Check In: {dayjs(noti.dates.checkIn).format('LL')}</p>{' '}
-                <p>Check Out: {dayjs(noti.dates.checkOut).format('LL')}</p>
-              </div>
-            </li>
-            <li
-              key={noti._id}
-              className={`${
-                noti.read ? 'bg-lightBlue' : 'bg-lightBlue'
-              } flex flex-col gap-2 rounded-lg p-4`}
-            >
-              <p>
-                User{' '}
-                <Link href={noti.user._id} className='font-volkhov text-brand'>
-                  {noti.user.name}
-                </Link>{' '}
-                made a booking for{' '}
-                <Link
-                  href={`/campgrounds/${noti.campground._id}`}
-                  className='font-volkhov text-brand'
-                >
-                  {noti.campground.name}
-                </Link>
-              </p>
-              <p>
-                Guests:{' '}
-                {`${noti.guests.adults} adults${
-                  !!noti.guests.children
-                    ? ', ' + noti.guests.children + ' children'
-                    : ''
-                } ${
-                  !!noti.guests.infants
-                    ? ', ' + noti.guests.infants + ' infants'
-                    : ''
-                }`}
-              </p>
-              <div>
-                <p>Check In: {dayjs(noti.dates.checkIn).format('LL')}</p>{' '}
-                <p>Check Out: {dayjs(noti.dates.checkOut).format('LL')}</p>
-              </div>
-            </li>
-          </>
+          <li
+            key={noti._id}
+            className={`${
+              noti.read ? 'bg-lightBlue' : 'bg-lightBlue'
+            } flex flex-col gap-2 rounded-lg p-4`}
+          >
+            <p className='md:text-lg lg:text-xl'>
+              User{' '}
+              <Link
+                href={`/users/${noti.user._id}`}
+                className='font-volkhov text-brand'
+              >
+                {noti.user.name}
+              </Link>{' '}
+              made a booking for{' '}
+              <Link
+                href={`/campgrounds/${noti.campground._id}`}
+                className='font-volkhov text-brand'
+              >
+                {noti.campground.name}
+              </Link>
+              {dayjs().to(dayjs(noti.createdAt))}
+            </p>
+            <p>
+              Guests:{' '}
+              {`${noti.guests.adults} adults${
+                !!noti.guests.children
+                  ? ', ' + noti.guests.children + ' children'
+                  : ''
+              } ${
+                !!noti.guests.infants
+                  ? ', ' + noti.guests.infants + ' infants'
+                  : ''
+              }`}
+            </p>
+            <div>
+              <p>Check In: {dayjs(noti.dates.checkIn).format('LL')}</p>{' '}
+              <p>Check Out: {dayjs(noti.dates.checkOut).format('LL')}</p>
+            </div>
+          </li>
         ))}
       </ul>
     </section>

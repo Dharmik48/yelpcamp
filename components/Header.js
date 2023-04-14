@@ -51,26 +51,32 @@ const Header = () => {
             <Image src={logo} alt='YelpCamp' />
           </Link>
         </div>
+        <div className='flex items-center'>
+          <button className='lg:hidden'>
+            <Link href={`/users/${session.user.id}/notifications`}>
+              <IoNotifications size={'1.5em'} className='mr-4 text-brand' />
+            </Link>
+          </button>
+          <button
+            type='button'
+            className='relative inline-flex rounded-md p-2 text-dark transition-all duration-200 hover:bg-gray-100 focus:bg-gray-100 lg:hidden'
+            onClick={toggleMenu}
+          >
+            {/* <!-- Menu open: "hidden", Menu closed: "block" --> */}
+            <IoMenu
+              className={`${
+                isMenuOpen ? 'scale-0' : 'scale-100'
+              } absolute top-1/2 left-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 transition-transform`}
+            />
 
-        <button
-          type='button'
-          className='relative inline-flex rounded-md p-2 text-dark transition-all duration-200 hover:bg-gray-100 focus:bg-gray-100 lg:hidden'
-          onClick={toggleMenu}
-        >
-          {/* <!-- Menu open: "hidden", Menu closed: "block" --> */}
-          <IoMenu
-            className={`${
-              isMenuOpen ? 'scale-0' : 'scale-100'
-            } absolute top-1/2 left-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 transition-transform`}
-          />
-
-          {/* <!-- Menu open: "block", Menu closed: "hidden" --> */}
-          <IoClose
-            className={`${
-              isMenuOpen ? 'scale-100' : 'scale-0'
-            } absolute top-1/2 left-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 transition-transform`}
-          />
-        </button>
+            {/* <!-- Menu open: "block", Menu closed: "hidden" --> */}
+            <IoClose
+              className={`${
+                isMenuOpen ? 'scale-100' : 'scale-0'
+              } absolute top-1/2 left-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 transition-transform`}
+            />
+          </button>
+        </div>
 
         <div className='hidden lg:mx-auto lg:flex lg:items-center lg:space-x-10'>
           <Link

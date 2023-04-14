@@ -3,14 +3,18 @@ import Campground from '../../../models/Campground'
 import Review from '../../../models/Review'
 import User from '../../../models/User'
 import connectDB from '../../../util/mongo'
-import { useRouter } from 'next/router'
+import { Router, useRouter } from 'next/router'
 import Link from 'next/link'
 import Image from 'next/image'
 import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { FaCheck } from 'react-icons/fa'
+import { AiOutlineClear } from 'react-icons/ai'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
-const Notifications = ({ notifications, autorized = false }) => {
+const Notifications = ({ notifications, autorized = false, user }) => {
   const router = useRouter()
 
   if (!autorized) return router.push('/')
@@ -18,23 +22,53 @@ const Notifications = ({ notifications, autorized = false }) => {
   dayjs.extend(localizedFormat)
   dayjs.extend(relativeTime)
 
+  const clear = async () => {
+    try {
+      await axios.post('/api/notifications/clear', { user })
+    } catch (e) {
+      toast.error('Something went wrong')
+    }
+  }
+
+  const markAllAsRead = async () => {
+    try {
+      await axios.post('/api/notifications/markAllRead', { user })
+      router.reload()
+    } catch (e) {
+      toast.error('Something went wrong')
+    }
+  }
+
   return (
     <section className='mt-6'>
-      <h3 className='mb-6 font-volkhov text-2xl'>Notifications</h3>
+      <div className='mb-6 flex flex-col gap-2 md:flex-row md:justify-between'>
+        <h3 className='font-volkhov text-2xl'>Notifications</h3>
+        <div className='flex gap-4'>
+          <button className='flex items-center gap-1' onClick={clear}>
+            <AiOutlineClear />
+            Clear
+          </button>
+          <button className='flex items-center gap-1' onClick={markAllAsRead}>
+            <FaCheck />
+            Mark all as read
+          </button>
+        </div>
+      </div>
       <ul className='flex flex-col gap-4'>
         {notifications.map(noti => (
           <li
             key={noti._id}
             className={`${
-              noti.read ? 'bg-lightBlue' : 'bg-lightBlue'
-            } flex items-center gap-4 rounded-lg p-4`}
+              noti.read ? 'opacity-80' : 'opacity-100'
+            } flex items-center gap-4 rounded-lg bg-lightBlue p-4`}
           >
             <div className='hidden md:block'>
               <Image
                 src={noti.campground.images[0].url}
                 width='225'
                 height='100'
-                className='h-full rounded-lg'
+                className='h-full w-auto rounded-lg'
+                alt={`Image of ${noti.campground.name}`}
               />
             </div>
             <div className='flex flex-col gap-2'>
@@ -102,6 +136,7 @@ export async function getServerSideProps(context) {
     props: {
       notifications: JSON.parse(JSON.stringify(notifications)),
       autorized: true,
+      user: context.params.id,
     },
   }
 }

@@ -52,11 +52,13 @@ const Header = () => {
           </Link>
         </div>
         <div className='flex items-center'>
-          <button className='lg:hidden'>
-            <Link href={`/users/${session.user.id}/notifications`}>
-              <IoNotifications size={'1.5em'} className='mr-4 text-brand' />
-            </Link>
-          </button>
+          {!!session?.user && (
+            <button className='lg:hidden'>
+              <Link href={`/users/${session.user.id}/notifications`}>
+                <IoNotifications size={'1.5em'} className='mr-4 text-brand' />
+              </Link>
+            </button>
+          )}
           <button
             type='button'
             className='relative inline-flex rounded-md p-2 text-dark transition-all duration-200 hover:bg-gray-100 focus:bg-gray-100 lg:hidden'

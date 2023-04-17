@@ -434,7 +434,7 @@ export async function getServerSideProps(context) {
             (b.price.adults * (100 - b.price.discount)) / 100
         )
         break
-      case 'sort-rating-desc':
+      case 'sort-price-desc':
         filteredCamps = filteredCamps.sort(
           (a, b) =>
             (b.price.adults * (100 - b.price.discount)) / 100 -

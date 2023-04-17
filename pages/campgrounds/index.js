@@ -24,6 +24,7 @@ import { useRouter } from 'next/router'
 const Campgrounds = ({
   campgrounds,
   filters = { location: '', price_min: '', price_max: '' },
+  sortBy = '',
   numOfFilters,
 }) => {
   const router = useRouter()
@@ -33,6 +34,7 @@ const Campgrounds = ({
   const [location, setLocation] = useState(filters.location)
   const [minPrice, setMinPrice] = useState(filters.price_min)
   const [maxPrice, setMaxPrice] = useState(filters.price_max)
+  const [sort, setSort] = useState(sortBy)
 
   const countries = getNames().map(country => ({
     text: country,
@@ -61,7 +63,9 @@ const Campgrounds = ({
 
   const handleFilterSubmit = () => {
     router.push(
-      `/campgrounds?location=${location.text}&price_min=${minPrice}&price_max=${maxPrice}`
+      `/campgrounds?location=${
+        !!location.text ? location.text : ''
+      }&price_min=${minPrice}&price_max=${maxPrice}&sort=${sort}`
     )
   }
 
@@ -94,7 +98,7 @@ const Campgrounds = ({
                 <div>
                   <label htmlFor='location'>Location: </label>
                   <ComboBox
-                    listStyles='right-0'
+                    listStyles='right-0 '
                     list={[{ text: 'Select', disable: true }, ...countries]}
                     selected={location}
                     styles={'p-2'}
@@ -124,6 +128,46 @@ const Campgrounds = ({
                     className='w-36 rounded-lg p-2'
                     value={maxPrice}
                   />
+                </div>
+                <div className='flex items-center gap-2'>
+                  <label htmlFor='sort' className='flex-1'>
+                    Sort:{' '}
+                  </label>
+                  <select
+                    id='sort'
+                    className='rounded-lg bg-primaryBg p-2'
+                    name='sort'
+                    value={sort}
+                    onChange={e => setSort(e.target.value)}
+                  >
+                    <option value='' disabled selected={!sort}>
+                      Select
+                    </option>
+                    <option
+                      selected={sort === 'sort-rating-asc'}
+                      value='sort-rating-asc'
+                    >
+                      Rating Asc
+                    </option>
+                    <option
+                      selected={sort === 'sort-rating-desc'}
+                      value='sort-rating-desc'
+                    >
+                      Rating Desc
+                    </option>
+                    <option
+                      selected={sort === 'sort-price-asc'}
+                      value='sort-price-asc'
+                    >
+                      Price Asc
+                    </option>
+                    <option
+                      selected={sort === 'sort-price-desc'}
+                      value='sort-price-desc'
+                    >
+                      Price Desc
+                    </option>
+                  </select>
                 </div>
                 <div className='mt-2 flex items-center justify-between'>
                   <button
@@ -181,7 +225,7 @@ const Campgrounds = ({
                   <div>
                     <label htmlFor='location'>Location: </label>
                     <ComboBox
-                      listStyles='right-0'
+                      listStyles='right-0 '
                       list={[{ text: 'Select', disable: true }, ...countries]}
                       selected={location}
                       styles={'p-2'}
@@ -213,6 +257,46 @@ const Campgrounds = ({
                       min='0'
                       value={maxPrice}
                     />
+                  </div>
+                  <div className='flex items-center gap-2'>
+                    <label htmlFor='sort' className='flex-1'>
+                      Sort:{' '}
+                    </label>
+                    <select
+                      id='sort'
+                      className='rounded-lg bg-primaryBg p-2'
+                      name='sort'
+                      value={sort}
+                      onChange={e => setSort(e.target.value)}
+                    >
+                      <option value='' disabled selected={!sort}>
+                        Select
+                      </option>
+                      <option
+                        selected={sort === 'sort-rating-asc'}
+                        value='sort-rating-asc'
+                      >
+                        Rating Asc
+                      </option>
+                      <option
+                        selected={sort === 'sort-rating-desc'}
+                        value='sort-rating-desc'
+                      >
+                        Rating Desc
+                      </option>
+                      <option
+                        selected={sort === 'sort-price-asc'}
+                        value='sort-price-asc'
+                      >
+                        Price Asc
+                      </option>
+                      <option
+                        selected={sort === 'sort-price-desc'}
+                        value='sort-price-desc'
+                      >
+                        Price Desc
+                      </option>
+                    </select>
                   </div>
                   <div className='mt-2 flex items-center justify-between'>
                     <button
@@ -286,13 +370,18 @@ export async function getServerSideProps(context) {
   await Review.find({})
   await User.find({})
 
-  const { location = null, price_min = null, price_max = null } = context.query
+  const {
+    location = null,
+    price_min = null,
+    price_max = null,
+    sort = null,
+  } = context.query
 
   // Fetch campground data
   const campgrounds = await Campground.find({})
   const camps = JSON.parse(JSON.stringify(campgrounds))
 
-  if (!location && !price_min && !price_max)
+  if (!location && !price_min && !price_max && !sort)
     return {
       props: { campgrounds: camps, location, numOfFilters: 0 },
     }
@@ -325,6 +414,38 @@ export async function getServerSideProps(context) {
     )
   }
 
+  if (sort) {
+    numOfFilters += 1
+    switch (sort) {
+      case 'sort-rating-asc':
+        filteredCamps = filteredCamps.sort(
+          (a, b) => (a.rating || 0) - (b.rating || 0)
+        )
+        break
+      case 'sort-rating-desc':
+        filteredCamps = filteredCamps.sort(
+          (a, b) => (b.rating || 0) - (a.rating || 0)
+        )
+        break
+      case 'sort-price-asc':
+        filteredCamps = filteredCamps.sort(
+          (a, b) =>
+            ((a.price.adults * (100 - a.price.discount)) / 100 || 0) -
+            ((b.price.adults * (100 - b.price.discount)) / 100 || 0)
+        )
+        break
+      case 'sort-rating-desc':
+        filteredCamps = filteredCamps.sort(
+          (a, b) =>
+            ((b.price.adults * (100 - b.price.discount)) / 100 || 0) -
+            ((a.price.adults * (100 - a.price.discount)) / 100 || 0)
+        )
+        break
+      default:
+        break
+    }
+  }
+
   return {
     props: {
       campgrounds: filteredCamps,
@@ -333,6 +454,7 @@ export async function getServerSideProps(context) {
         price_min,
         price_max,
       },
+      sortBy: sort,
       numOfFilters,
     },
   }

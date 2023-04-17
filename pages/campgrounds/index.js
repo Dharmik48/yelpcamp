@@ -430,15 +430,15 @@ export async function getServerSideProps(context) {
       case 'sort-price-asc':
         filteredCamps = filteredCamps.sort(
           (a, b) =>
-            ((a.price.adults * (100 - a.price.discount)) / 100 || 0) -
-            ((b.price.adults * (100 - b.price.discount)) / 100 || 0)
+            (a.price.adults * (100 - a.price.discount)) / 100 -
+            (b.price.adults * (100 - b.price.discount)) / 100
         )
         break
       case 'sort-rating-desc':
         filteredCamps = filteredCamps.sort(
           (a, b) =>
-            ((b.price.adults * (100 - b.price.discount)) / 100 || 0) -
-            ((a.price.adults * (100 - a.price.discount)) / 100 || 0)
+            (b.price.adults * (100 - b.price.discount)) / 100 -
+            (a.price.adults * (100 - a.price.discount)) / 100
         )
         break
       default:

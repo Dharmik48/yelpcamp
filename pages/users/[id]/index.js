@@ -200,7 +200,7 @@ const Earnings = ({ user }) => {
       <h5 className='mb-5 mt-5 font-volkhov text-xl lg:text-2xl'>Summary</h5>
       <ul className='flex flex-col gap-2'>
         {user.campgrounds.map(camp => (
-          <li className='md:text-xl'>
+          <li className='md:text-xl' key={camp.campground._id}>
             <span>{camp.campground.name}</span> -{' '}
             <span className='inline-flex items-center'>
               <FaRupeeSign className='text-brand' />

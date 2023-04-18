@@ -153,7 +153,11 @@ const PastTrips = ({ camps, user }) => {
 }
 
 const Earnings = ({ user }) => {
-  return user.name
+  const sum = user.campgrounds
+    .map(camp => camp.earnings)
+    .reduce((acc, curr) => acc + curr, 0)
+
+  return sum
 }
 
 const Profile = ({ user, camps, allCamps }) => {

@@ -7,7 +7,7 @@ import Reviews from '../../../components/Reviews'
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
-import { FaCheck } from 'react-icons/fa'
+import { FaCheck, FaRupeeSign } from 'react-icons/fa'
 import ReviewForm from '../../../components/ReviewForm'
 import Campground from '../../../models/Campground'
 import dayjs from 'dayjs'
@@ -17,6 +17,7 @@ import CampgroundListItem from '../../../components/CampgroundListItem'
 import Review from '../../../models/Review'
 import User from '../../../models/User'
 import { MdVerified } from 'react-icons/md'
+import Modal from '../../../components/Modal'
 
 const Campgrounds = ({ user, session }) => {
   const deleteCampground = async id => {
@@ -153,11 +154,75 @@ const PastTrips = ({ camps, user }) => {
 }
 
 const Earnings = ({ user }) => {
-  const sum = user.campgrounds
+  const [showConfirm, setShowConfirm] = useState(false)
+  const router = useRouter()
+
+  if (!user.campgrounds.length)
+    return (
+      <p>
+        You have not hosted any campground on YelpCamp!{' '}
+        <Link href={'/campgrounds/new'} className='text-blue'>
+          Host
+        </Link>{' '}
+        now and start earning!
+      </p>
+    )
+
+  const amount = user.campgrounds
     .map(camp => camp.earnings)
     .reduce((acc, curr) => acc + curr, 0)
 
-  return sum
+  const handleWithdraw = async () => {
+    try {
+      await axios.post('/api/withdraw', { user: user._id })
+      router.push(`/users/${user._id}`)
+      toast.success('Withdraw request success')
+    } catch (e) {
+      toast.error('Something went wrong')
+    }
+  }
+
+  return (
+    <div>
+      <Modal
+        text={
+          'Are you sure want to widthdraw all the balance from your account? After you withdraw it may take upto 5 business days for the funds to be transferred to your account.'
+        }
+        title={`Are you sure want to withdraw ₹${amount}`}
+        open={showConfirm}
+        setOpen={setShowConfirm}
+        onAgree={handleWithdraw}
+      />
+      <h5 className='mb-5 font-volkhov text-xl lg:text-2xl'>Balance</h5>
+      <p className='flex items-center font-volkhov text-3xl'>
+        <FaRupeeSign className='text-brand' /> {amount}
+      </p>
+      <h5 className='mb-5 mt-5 font-volkhov text-xl lg:text-2xl'>Summary</h5>
+      <ul className='flex flex-col gap-2'>
+        {user.campgrounds.map(camp => (
+          <li className='md:text-xl'>
+            <span>{camp.campground.name}</span> -{' '}
+            <span className='inline-flex items-center'>
+              <FaRupeeSign className='text-brand' />
+              {camp.earnings}
+            </span>
+          </li>
+        ))}
+      </ul>
+      <div className='mt-10'>
+        {amount > 500 ? (
+          <button
+            className='rounded-lg bg-brand p-3 text-primaryBg shadow-lightRed transition-all hover:scale-110 hover:shadow-lg lg:p-4 lg:text-lg'
+            onClick={() => setShowConfirm(true)}
+          >
+            Withdraw
+          </button>
+        ) : (
+          <p>Earn atleast ₹5000 to withdraw</p>
+        )}
+      </div>
+    </div>
+  )
 }
 
 const Profile = ({ user, camps, allCamps }) => {

@@ -49,9 +49,9 @@ const Campgrounds = ({ user, session }) => {
 
   const renderCamps = () =>
     user.campgrounds.map(campground => (
-      <li key={campground._id}>
+      <li key={campground.campground._id}>
         <CampgroundListItem
-          campground={campground}
+          campground={campground.campground}
           deleteCampground={deleteCampground}
           showEditDeleteBtns={session?.user.id === user._id}
         />
@@ -152,6 +152,10 @@ const PastTrips = ({ camps, user }) => {
   )
 }
 
+const Earnings = ({ user }) => {
+  return user.name
+}
+
 const Profile = ({ user, camps, allCamps }) => {
   const { data: session } = useSession()
   const router = useRouter()
@@ -170,6 +174,11 @@ const Profile = ({ user, camps, allCamps }) => {
     {
       title: 'trips',
       component: <PastTrips camps={allCamps} user={user} />,
+      restricted: true,
+    },
+    {
+      title: 'earnings',
+      component: <Earnings user={user} />,
       restricted: true,
     },
   ]
@@ -265,7 +274,7 @@ export async function getServerSideProps({ params }) {
   await Review.find({})
 
   const user = await User.findById(userId).populate(
-    'campgrounds trips.campground'
+    'campgrounds.campground trips.campground'
   )
 
   const eligibleTrips = user.trips?.filter(trip =>

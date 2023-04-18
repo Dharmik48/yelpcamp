@@ -30,7 +30,12 @@ const userSchema = new Schema(
       required: true,
     },
     campgrounds: {
-      type: [Schema.Types.ObjectId],
+      type: [
+        {
+          earnings: Number,
+          campground: { type: Schema.Types.ObjectId, ref: 'Campground' },
+        },
+      ],
       ref: 'Campground',
     },
     reviews: {

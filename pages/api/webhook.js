@@ -59,6 +59,16 @@ export default async function webhookHandler(req, res) {
         $push: { trips: trip },
       })
 
+      await User.updateOne(
+        { 'campgrounds.campground': camp },
+        {
+          $inc: {
+            'campgrounds.$.earnings':
+              (event.data.object.amount_total / 100) * 0.65,
+          },
+        }
+      )
+
       const notification = {
         campground: camp,
         user: userId,

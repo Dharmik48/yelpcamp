@@ -36,7 +36,6 @@ const userSchema = new Schema(
           campground: { type: Schema.Types.ObjectId, ref: 'Campground' },
         },
       ],
-      ref: 'Campground',
     },
     reviews: {
       type: [Schema.Types.ObjectId],

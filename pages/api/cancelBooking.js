@@ -24,6 +24,17 @@ export default async function handler(req, res) {
       $pull: { trips: { campground: tripDetails.campground } },
     })
 
+    await User.updateOne(
+      { 'campgrounds.campground': tripDetails.campground._id },
+      {
+        $inc: {
+          'campgrounds.$.earnings': amount * 0.65 * -1,
+        },
+      }
+    )
+
+    User.updateOne({})
+
     return res.status(200).send(refund)
   }
 }

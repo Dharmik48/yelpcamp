@@ -53,6 +53,7 @@ export default async function webhookHandler(req, res) {
         checkOut,
         campground: camp,
         payment_intent: event.data.object.payment_intent,
+        charge: event.data.object.amount_total / 100,
       }
 
       await User.findByIdAndUpdate(userId, {

@@ -1,6 +1,8 @@
 import axios from 'axios'
 import Image from 'next/image'
 import Link from 'next/link'
+import dayjs from 'dayjs'
+import localizedFormat from 'dayjs/plugin/localizedFormat'
 
 const Reviews = ({ data, onProfilePage = false }) => {
   if (!data.length) {
@@ -10,6 +12,8 @@ const Reviews = ({ data, onProfilePage = false }) => {
       <p>This campground has no reviews yet.</p>
     )
   }
+
+  dayjs.extend(localizedFormat)
 
   const renderReviews = () =>
     data.map(review => (
@@ -47,7 +51,7 @@ const Review = ({ onProfilePage, data }) => {
               <Link href={`/users/${data.user}`}>{data.user.name}</Link>
             )}
           </h5>
-          <p className='text-sm'>{data.createdAt.slice(0, 10)}</p>
+          <p className='text-sm'>{dayjs(data.createdAt).format('ll')}</p>
         </div>
       </div>
       <p>{data.text}</p>

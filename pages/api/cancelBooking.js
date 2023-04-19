@@ -33,8 +33,6 @@ export default async function handler(req, res) {
       }
     )
 
-    User.updateOne({})
-
     return res.status(200).send(refund)
   }
 }

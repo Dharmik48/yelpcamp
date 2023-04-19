@@ -538,6 +538,8 @@ export async function getServerSideProps(context) {
     'reviews owner'
   )
 
+  await campground.populate('reviews.user')
+
   if (!session)
     return {
       props: {

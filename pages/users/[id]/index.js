@@ -346,6 +346,9 @@ export async function getServerSideProps({ params }) {
     'campgrounds.campground trips.campground reviews'
   )
 
+  await user.populate('reviews.campground', 'name')
+  await user.populate('reviews.user', 'name')
+
   const eligibleTrips = user.trips?.filter(trip =>
     dayjs().isAfter(dayjs(trip.checkOut))
   )

@@ -343,7 +343,7 @@ export async function getServerSideProps({ params }) {
   await Review.find({})
 
   const user = await User.findById(userId).populate(
-    'campgrounds.campground trips.campground'
+    'campgrounds.campground trips.campground reviews'
   )
 
   const eligibleTrips = user.trips?.filter(trip =>

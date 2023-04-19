@@ -55,6 +55,13 @@ const userSchema = new Schema(
         },
       ],
     },
+    bank: {
+      type: {
+        acc_no: Number,
+        ifsc_no: Number,
+        acc_holder_name: String,
+      },
+    },
     notifications: {
       type: [
         {

@@ -183,7 +183,7 @@ const Earnings = ({ user }) => {
   }
 
   return (
-    <div>
+    <div className='flex flex-col gap-8 lg:flex-row'>
       <Modal
         text={
           'Are you sure want to widthdraw all the balance from your account? After you withdraw it may take upto 5 business days for the funds to be transferred to your account.'
@@ -193,32 +193,50 @@ const Earnings = ({ user }) => {
         setOpen={setShowConfirm}
         onAgree={handleWithdraw}
       />
-      <h5 className='mb-5 font-volkhov text-xl lg:text-2xl'>Balance</h5>
-      <p className='flex items-center font-volkhov text-3xl'>
-        <FaRupeeSign className='text-brand' /> {amount}
-      </p>
-      <h5 className='mb-5 mt-5 font-volkhov text-xl lg:text-2xl'>Summary</h5>
-      <ul className='flex flex-col gap-2'>
-        {user.campgrounds.map(camp => (
-          <li className='md:text-xl' key={camp.campground._id}>
-            <span>{camp.campground.name}</span> -{' '}
-            <span className='inline-flex items-center'>
-              <FaRupeeSign className='text-brand' />
-              {camp.earnings}
-            </span>
-          </li>
-        ))}
-      </ul>
-      <div className='mt-10'>
-        {amount > 500 ? (
-          <button
-            className='rounded-lg bg-brand p-3 text-primaryBg shadow-lightRed transition-all hover:scale-110 hover:shadow-lg lg:p-4 lg:text-lg'
-            onClick={() => setShowConfirm(true)}
-          >
-            Withdraw
-          </button>
+      <div>
+        <h5 className='mb-5 font-volkhov text-xl lg:text-2xl'>Balance</h5>
+        <p className='flex items-center font-volkhov text-3xl'>
+          <FaRupeeSign className='text-brand' /> {amount}
+        </p>
+        <h5 className='mb-5 mt-5 font-volkhov text-xl lg:text-2xl'>Summary</h5>
+        <ul className='flex flex-col gap-2'>
+          {user.campgrounds.map(camp => (
+            <li className='md:text-xl' key={camp.campground._id}>
+              <span>{camp.campground.name}</span> -{' '}
+              <span className='inline-flex items-center'>
+                <FaRupeeSign className='text-brand' />
+                {camp.earnings}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <div className='mt-10'>
+          {amount > 500 ? (
+            <button
+              className='rounded-lg bg-brand p-3 text-primaryBg shadow-lightRed transition-all hover:scale-110 hover:shadow-lg lg:p-4 lg:text-lg'
+              onClick={() => setShowConfirm(true)}
+            >
+              Withdraw
+            </button>
+          ) : (
+            <p>Earn atleast ₹5000 to withdraw</p>
+          )}
+        </div>
+      </div>
+      <div>
+        <h5 className='mb-5 font-volkhov text-xl lg:text-2xl'>
+          Account Details
+        </h5>
+        {user?.bank?.acc_no ? (
+          ''
         ) : (
-          <p>Earn atleast ₹5000 to withdraw</p>
+          <p>
+            You have not yet entered your account details. Please do so{' '}
+            <Link href={'/users/account_details'} className='text-blue'>
+              here
+            </Link>{' '}
+            in order to withdraw future payments.
+          </p>
         )}
       </div>
     </div>

@@ -346,13 +346,20 @@ export async function getServerSideProps({ params }) {
     'campgrounds.campground trips.campground'
   )
 
+  const eligibleTrips = user.trips?.filter(trip =>
+    dayjs().isAfter(dayjs(trip.checkOut))
+  )
+
+  const campIds = eligibleTrips.map(trip => trip.campground)
+  const camps = await Campground.find({ _id: { $in: campIds } })
+
   const allTrips = user.trips?.map(trip => trip.campground)
   const allCamps = await Campground.find({ _id: { $in: allTrips } })
 
   return {
     props: {
       user: JSON.parse(JSON.stringify(user)),
-      camps: JSON.parse(JSON.stringify(allCamps)) || [],
+      camps: JSON.parse(JSON.stringify(camps)) || [],
       allCamps: JSON.parse(JSON.stringify(allCamps)),
     },
   }

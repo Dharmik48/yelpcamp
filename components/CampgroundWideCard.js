@@ -7,10 +7,14 @@ import { useState } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { useSession } from 'next-auth/react'
+import dayjs from 'dayjs'
+import localizedFormat from 'dayjs/plugin/localizedFormat'
 
 const CampgroundWideCard = ({ campground, showCancel, tripDetails }) => {
   const [showRefundConfirm, setShowRefundConfirm] = useState(false)
   const { data: session } = useSession()
+
+  dayjs.extend(localizedFormat)
 
   const refund = async () => {
     const res = await axios.post('/api/cancelBooking', {
@@ -58,8 +62,19 @@ const CampgroundWideCard = ({ campground, showCancel, tripDetails }) => {
               <HiStar className='text-yellow' /> {campground.rating || '?'}
             </p>
           </div>
-          <p className='max-w-prose break-words'>
+          {/* <p className='max-w-prose break-words'>
             {campground.desc.split(' ').slice(0, 55).join(' ')}...
+          </p> */}
+          <div>
+            <p>Check In: {dayjs(tripDetails.checkIn).format('LL')}</p>
+            <p>Check Out: {dayjs(tripDetails.checkOut).format('LL')}</p>
+          </div>
+          <p className='mt-4'>
+            You will stay for{' '}
+            {dayjs(tripDetails.checkOut)
+              .add(1, 'day')
+              .diff(tripDetails.checkIn, 'days')}{' '}
+            days
           </p>
         </div>
         <div className='flex w-full items-center justify-between'>
@@ -69,7 +84,7 @@ const CampgroundWideCard = ({ campground, showCancel, tripDetails }) => {
           </p>
           <p className='w-fit rounded-md bg-[#FFE7DB] py-1 px-2 font-medium text-brand'>
             <FaRupeeSign className='inline' />
-            {campground.price.adults}
+            {tripDetails.charge}
           </p>
         </div>
         <div className='flex justify-between'>

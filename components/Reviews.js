@@ -48,7 +48,7 @@ const Review = ({ onProfilePage, data }) => {
                 {data.campground.name}
               </Link>
             ) : (
-              <Link href={`/users/${data.user}`}>{data.user.name}</Link>
+              <Link href={`/users/${data.user._id}`}>{data.user.name}</Link>
             )}
           </h5>
           <p className='text-sm'>{dayjs(data.createdAt).format('ll')}</p>

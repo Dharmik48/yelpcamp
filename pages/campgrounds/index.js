@@ -27,7 +27,7 @@ const Campgrounds = ({
     location: '',
     price_min: '',
     price_max: '',
-    plusExclusive: false,
+    plus_exclusive: false,
   },
   sortBy = '',
   numOfFilters,
@@ -40,7 +40,7 @@ const Campgrounds = ({
   const [minPrice, setMinPrice] = useState(filters.price_min)
   const [maxPrice, setMaxPrice] = useState(filters.price_max)
   const [sort, setSort] = useState(sortBy)
-  const [plusExclusive, setPlusExclusive] = useState(filters.plusExclusive)
+  const [plusExclusive, setPlusExclusive] = useState(filters.plus_exclusive)
 
   const countries = getNames().map(country => ({
     text: country,
@@ -178,7 +178,7 @@ const Campgrounds = ({
                 <div className='flex items-center gap-1'>
                   <input
                     type='checkbox'
-                    value={plusExclusive}
+                    checked={plusExclusive}
                     id='plus_exclusive'
                     onChange={e => setPlusExclusive(e.target.checked)}
                   />
@@ -318,7 +318,7 @@ const Campgrounds = ({
                   <div className='flex items-center gap-1'>
                     <input
                       type='checkbox'
-                      value={plusExclusive}
+                      checked={plusExclusive}
                       id='plus_exclusive'
                       onChange={e => setPlusExclusive(e.target.checked)}
                     />
@@ -475,7 +475,7 @@ export async function getServerSideProps(context) {
     }
   }
 
-  if (plus_exclusive) {
+  if (plus_exclusive === 'true') {
     numOfFilters += 1
     filteredCamps = filteredCamps.filter(camp => camp.plusExclusive)
   }

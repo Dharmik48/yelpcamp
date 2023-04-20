@@ -65,7 +65,7 @@ const Notifications = ({ notifications, autorized = false, user }) => {
               } flex items-center gap-4 rounded-lg bg-lightBlue p-4`}
             >
               {!noti.read && (
-                <div className='absolute top-0 right-0 h-1 w-1 translate-x-1/2 -translate-y-1/2 bg-brand'></div>
+                <div className='absolute top-0 right-0 h-3 w-3 translate-x-1/2 -translate-y-1/2 rounded-full bg-brand'></div>
               )}
               <div className='hidden md:block'>
                 <Image

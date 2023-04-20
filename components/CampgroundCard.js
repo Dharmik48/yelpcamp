@@ -10,9 +10,14 @@ const CampgroundCard = ({ campground }) => {
       key={campground._id}
       className='group relative flex flex-col gap-3 rounded-xl border border-lightBlue shadow-lg shadow-lightBlue hover:shadow-lg hover:shadow-lightRed'
     >
-      {campground.price.discount > 0 && (
+      {(campground.price.discount > 0 || campground.plusExclusive) && (
         <p className='absolute top-0 right-0 z-[2] w-fit -translate-x-1/3 translate-y-1/2 rounded-md bg-lightRed py-1 px-2 font-medium text-brand'>
-          -{campground.price.discount}%
+          {campground.price.discount > 0 && (
+            <span>-{campground.price.discount}%</span>
+          )}
+          {campground.plusExclusive && (
+            <span> {campground.price.discount > 0 && <>&middot;</>} Plus</span>
+          )}
         </p>
       )}
       <div className='relative'>

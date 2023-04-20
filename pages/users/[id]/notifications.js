@@ -60,10 +60,13 @@ const Notifications = ({ notifications, autorized = false, user }) => {
           notifications.map(noti => (
             <li
               key={noti._id}
-              className={`${
+              className={`relative ${
                 noti.read ? 'opacity-80' : 'opacity-100'
               } flex items-center gap-4 rounded-lg bg-lightBlue p-4`}
             >
+              {!noti.read && (
+                <div className='absolute top-0 right-0 h-1 w-1 translate-x-1/2 -translate-y-1/2 bg-brand'></div>
+              )}
               <div className='hidden md:block'>
                 <Image
                   src={noti.campground.images[0].url}

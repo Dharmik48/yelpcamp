@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     const campground = await Campground.create(req.body)
     // Add campground id to user
     const user = await User.findById(req.body.owner)
-    await user.campgrounds.push({ earning: 0, campground: campground._id })
+    await user.campgrounds.push({ earnings: 0, campground: campground._id })
     user.save()
     // Send the data back with status 200
     return res.status(200).json('campground')

@@ -18,6 +18,11 @@ import Review from '../../../models/Review'
 import User from '../../../models/User'
 import { MdVerified } from 'react-icons/md'
 import Modal from '../../../components/Modal'
+import {
+  IoEyeOffOutline,
+  IoEyeOutline,
+  IoWarningOutline,
+} from 'react-icons/io5'
 
 const Campgrounds = ({ user, session }) => {
   const deleteCampground = async id => {
@@ -156,6 +161,7 @@ const PastTrips = ({ camps, user }) => {
 const Earnings = ({ user }) => {
   const [showConfirm, setShowConfirm] = useState(false)
   const router = useRouter()
+  const [showCardDetails, setShowCardDetails] = useState(false)
 
   if (!user.campgrounds.length)
     return (
@@ -183,7 +189,7 @@ const Earnings = ({ user }) => {
   }
 
   return (
-    <div className='flex flex-col gap-8 lg:flex-row'>
+    <div className='flex flex-col gap-8 md:flex-row'>
       <Modal
         text={
           'Are you sure want to widthdraw all the balance from your account? After you withdraw it may take upto 5 business days for the funds to be transferred to your account.'
@@ -193,7 +199,7 @@ const Earnings = ({ user }) => {
         setOpen={setShowConfirm}
         onAgree={handleWithdraw}
       />
-      <div>
+      <div className='flex-1'>
         <h5 className='mb-5 font-volkhov text-xl lg:text-2xl'>Balance</h5>
         <p className='flex items-center font-volkhov text-3xl'>
           <FaRupeeSign className='text-brand' /> {amount}
@@ -211,24 +217,74 @@ const Earnings = ({ user }) => {
           ))}
         </ul>
         <div className='mt-10'>
-          {amount > 500 ? (
-            <button
-              className='rounded-lg bg-brand p-3 text-primaryBg shadow-lightRed transition-all hover:scale-110 hover:shadow-lg lg:p-4 lg:text-lg'
-              onClick={() => setShowConfirm(true)}
-            >
-              Withdraw
-            </button>
+          {amount >= 5000 ? (
+            user?.bank?.acc_no ? (
+              <button
+                className='rounded-lg bg-brand p-3 text-primaryBg shadow-lightRed transition-all hover:scale-110 hover:shadow-lg lg:p-4 lg:text-lg'
+                onClick={() => setShowConfirm(true)}
+              >
+                Withdraw
+              </button>
+            ) : (
+              <p className='flex items-center gap-1'>
+                <IoWarningOutline />
+                Please enter your bank details in order to withdraw
+              </p>
+            )
           ) : (
-            <p>Earn atleast ₹5000 to withdraw</p>
+            <p className='flex items-center gap-1'>
+              <IoWarningOutline />
+              Earn atleast ₹5000 to withdraw
+            </p>
           )}
         </div>
       </div>
-      <div>
-        <h5 className='mb-5 font-volkhov text-xl lg:text-2xl'>
-          Account Details
+      <div className='flex-1'>
+        <h5 className='mb-5 flex items-center gap-2 font-volkhov text-xl lg:text-2xl'>
+          Account Details{' '}
+          {user?.bank?.acc_no && (
+            <div
+              className='cursor-pointer'
+              onClick={() => setShowCardDetails(prev => !prev)}
+              title={`${showCardDetails ? 'Hide details' : 'Show details'}`}
+            >
+              {showCardDetails ? <IoEyeOffOutline /> : <IoEyeOutline />}
+            </div>
+          )}
         </h5>
         {user?.bank?.acc_no ? (
-          ''
+          <div className='flex flex-col gap-3'>
+            <p className='text-lg'>
+              <span className='font-volkhov'>Card Number:</span>{' '}
+              <span
+                className={`${
+                  showCardDetails ? 'blur-none' : 'blur-sm'
+                } transition-all`}
+              >
+                {user?.bank?.acc_no}
+              </span>
+            </p>
+            <p className='text-lg'>
+              <span className='font-volkhov'>IFSC Number:</span>{' '}
+              <span
+                className={`${
+                  showCardDetails ? 'blur-none' : 'blur-sm'
+                } transition-all`}
+              >
+                {user?.bank?.ifsc_no}
+              </span>
+            </p>
+            <p className='text-lg'>
+              <span className='font-volkhov'>Card Holder Name:</span>{' '}
+              <span
+                className={`${
+                  showCardDetails ? 'blur-none' : 'blur-sm'
+                } transition-all`}
+              >
+                {user?.bank?.acc_holder_name}
+              </span>
+            </p>
+          </div>
         ) : (
           <p>
             You have not yet entered your account details. Please do so{' '}

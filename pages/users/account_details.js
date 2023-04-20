@@ -4,8 +4,14 @@ import valid from 'card-validator'
 import { FaExclamationCircle } from 'react-icons/fa'
 import Button from '../../components/Button'
 import { useState } from 'react'
+import { useSession } from 'next-auth/react'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/router'
 
 const AccountDetails = () => {
+  const { data: session } = useSession()
+  const router = useRouter()
   const [loading, setLoading] = useState(false)
 
   const formik = useFormik({
@@ -27,7 +33,19 @@ const AccountDetails = () => {
         .required('Please enter IFSC number'),
       acc_holder_name: Yup.string().required('Please enter card holder name'),
     }),
-    onSubmit: values => {},
+    onSubmit: async values => {
+      setLoading(true)
+      const res = await axios.post('/api/card-details', {
+        ...values,
+        user: session.user.id,
+      })
+
+      if (!res) return toast.error('Somethings went wrong!')
+
+      setLoading(false)
+      router.push(`/users/${session.user.id}?tab=earnings`)
+      toast.success('Card details successfully saved')
+    },
   })
 
   return (
@@ -35,7 +53,7 @@ const AccountDetails = () => {
       <h3 className='font-volkhov text-2xl lg:text-3xl'>
         Enter the card details
       </h3>
-      <form className='flex flex-col gap-4'>
+      <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
         <input
           type='text'
           name='acc_no'
@@ -80,7 +98,7 @@ const AccountDetails = () => {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.acc_holder_name}
-          placeholder='Enter Card Number'
+          placeholder='Enter Card Holder Name'
           className={`w-full rounded-xl bg-lightBlue p-5 focus:outline focus:outline-2 focus:outline-brand ${
             !!formik.touched.acc_holder_name &&
             !!formik.errors.acc_holder_name &&

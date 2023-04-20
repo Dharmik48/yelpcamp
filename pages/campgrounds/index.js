@@ -23,7 +23,12 @@ import { useRouter } from 'next/router'
 
 const Campgrounds = ({
   campgrounds,
-  filters = { location: '', price_min: '', price_max: '' },
+  filters = {
+    location: '',
+    price_min: '',
+    price_max: '',
+    plusExclusive: false,
+  },
   sortBy = '',
   numOfFilters,
 }) => {
@@ -35,6 +40,7 @@ const Campgrounds = ({
   const [minPrice, setMinPrice] = useState(filters.price_min)
   const [maxPrice, setMaxPrice] = useState(filters.price_max)
   const [sort, setSort] = useState(sortBy)
+  const [plusExclusive, setPlusExclusive] = useState(filters.plusExclusive)
 
   const countries = getNames().map(country => ({
     text: country,
@@ -65,7 +71,7 @@ const Campgrounds = ({
     router.push(
       `/campgrounds?location=${
         !!location.text ? location.text : ''
-      }&price_min=${minPrice}&price_max=${maxPrice}&sort=${sort}`
+      }&price_min=${minPrice}&price_max=${maxPrice}&sort=${sort}&plus_exclusive=${plusExclusive}`
     )
   }
 
@@ -168,6 +174,17 @@ const Campgrounds = ({
                       Price Desc
                     </option>
                   </select>
+                </div>
+                <div className='flex items-center gap-1'>
+                  <input
+                    type='checkbox'
+                    value={plusExclusive}
+                    id='plus_exclusive'
+                    onChange={e => setPlusExclusive(e.target.checked)}
+                  />
+                  <label htmlFor='plus_exclusive'>
+                    YelpCamp Plus Exclusive
+                  </label>
                 </div>
                 <div className='mt-2 flex items-center justify-between'>
                   <button
@@ -298,6 +315,17 @@ const Campgrounds = ({
                       </option>
                     </select>
                   </div>
+                  <div className='flex items-center gap-1'>
+                    <input
+                      type='checkbox'
+                      value={plusExclusive}
+                      id='plus_exclusive'
+                      onChange={e => setPlusExclusive(e.target.checked)}
+                    />
+                    <label htmlFor='plus_exclusive'>
+                      YelpCamp Plus Exclusive
+                    </label>
+                  </div>
                   <div className='mt-2 flex items-center justify-between'>
                     <button
                       type='button'
@@ -375,13 +403,14 @@ export async function getServerSideProps(context) {
     price_min = null,
     price_max = null,
     sort = null,
+    plus_exclusive = null,
   } = context.query
 
   // Fetch campground data
   const campgrounds = await Campground.find({})
   const camps = JSON.parse(JSON.stringify(campgrounds))
 
-  if (!location && !price_min && !price_max && !sort)
+  if (!location && !price_min && !price_max && !sort && !plus_exclusive)
     return {
       props: { campgrounds: camps, location, numOfFilters: 0 },
     }
@@ -446,6 +475,11 @@ export async function getServerSideProps(context) {
     }
   }
 
+  if (plus_exclusive) {
+    numOfFilters += 1
+    filteredCamps = filteredCamps.filter(camp => camp.plusExclusive)
+  }
+
   return {
     props: {
       campgrounds: filteredCamps,
@@ -453,6 +487,7 @@ export async function getServerSideProps(context) {
         location: { text: location },
         price_min,
         price_max,
+        plus_exclusive,
       },
       sortBy: sort,
       numOfFilters,

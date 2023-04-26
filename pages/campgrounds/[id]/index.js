@@ -41,6 +41,7 @@ import Review from '../../../models/Review'
 import User from '../../../models/User'
 import { MdVerified } from 'react-icons/md'
 import planes from '/public/three-planes.svg'
+import trees from '/public/coconut-trees.svg'
 
 const camp = {
   _id: '',
@@ -416,7 +417,8 @@ const CampgroundDetail = ({ campground = camp, user = null }) => {
           </div>
         )}
       </section>
-      <div>
+      <div className='relative'>
+        <Image src={trees} className='absolute right-0' />
         <h3 className='mb-3 font-volkhov text-2xl lg:text-3xl'>About</h3>
         <p className='max-w-full break-words lg:text-lg'>{campground?.desc}</p>
       </div>

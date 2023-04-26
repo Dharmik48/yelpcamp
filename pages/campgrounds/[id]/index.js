@@ -40,6 +40,7 @@ import Campground from '../../../models/Campground'
 import Review from '../../../models/Review'
 import User from '../../../models/User'
 import { MdVerified } from 'react-icons/md'
+import planes from '/public/three-planes.svg'
 
 const camp = {
   _id: '',
@@ -169,7 +170,8 @@ const CampgroundDetail = ({ campground = camp, user = null }) => {
         <title>{`YelpCamp | ${campground?.name}`}</title>
       </Head>
       <section className='flex flex-col gap-4 py-10 lg:gap-6 lg:py-16'>
-        <div>
+        <div className='relative'>
+          <Image src={planes} className='absolute right-0 z-[-1]' />
           <h1 className='mb-2 font-volkhov text-3xl text-brand lg:mb-4 lg:text-4xl 2xl:text-5xl'>
             {campground?.name}
           </h1>
@@ -413,14 +415,12 @@ const CampgroundDetail = ({ campground = camp, user = null }) => {
             </div>
           </div>
         )}
-        <div>
-          <h3 className='mb-3 font-volkhov text-2xl lg:text-3xl'>About</h3>
-          <p className='max-w-full break-words lg:text-lg'>
-            {campground?.desc}
-          </p>
-        </div>
       </section>
-      <hr className='mb-10 text-paragraph' />
+      <div>
+        <h3 className='mb-3 font-volkhov text-2xl lg:text-3xl'>About</h3>
+        <p className='max-w-full break-words lg:text-lg'>{campground?.desc}</p>
+      </div>
+      <hr className='my-10 text-paragraph' />
       <h3 className='mb-3 font-volkhov text-2xl lg:text-3xl'>Location</h3>
       <div className='h-72 overflow-hidden rounded-xl lg:h-96'>
         <ReactMapGl

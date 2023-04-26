@@ -15,6 +15,7 @@ import ComboBox from '../components/ComboBox'
 import Datepicker from 'react-tailwindcss-datepicker'
 import { useState } from 'react'
 import Campground from '../models/Campground'
+import Link from 'next/link'
 
 export default function Home({ camps, discountCamps = [] }) {
   const router = useRouter()
@@ -62,7 +63,9 @@ export default function Home({ camps, discountCamps = [] }) {
               A Team of experienced tourism professionals will provide you with
               the best advice and tips for your desire place.
             </p>
-            <ButtonOutline text='Discover Now' />
+            <Link href={'/campgrounds'}>
+              <ButtonOutline text='Discover Now' />
+            </Link>
           </div>
           <div className='flex-1'>
             <Image

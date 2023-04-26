@@ -73,7 +73,7 @@ export default function Home({ camps, discountCamps = [] }) {
           <div className='relative flex-1'>
             <Image
               src={largePlanes}
-              className='absolute -top-10 z-[-1] lg:scale-150'
+              className='absolute -top-10 z-[-1] lg:scale-125'
             />
             <Image
               className='w-sm md:w-full'

@@ -16,6 +16,9 @@ import Datepicker from 'react-tailwindcss-datepicker'
 import { useState } from 'react'
 import Campground from '../models/Campground'
 import Link from 'next/link'
+import airplanes from '/public/planes.svg'
+import trees from '/public/coconut-trees.svg'
+import largePlanes from '/public/large_planes.svg'
 
 export default function Home({ camps, discountCamps = [] }) {
   const router = useRouter()
@@ -67,7 +70,11 @@ export default function Home({ camps, discountCamps = [] }) {
               <ButtonOutline text='Discover Now' />
             </Link>
           </div>
-          <div className='flex-1'>
+          <div className='relative flex-1'>
+            <Image
+              src={largePlanes}
+              className='absolute -top-10 z-[-1] lg:scale-150'
+            />
             <Image
               className='w-sm md:w-full'
               src={ladingIllustrastion}
@@ -139,7 +146,11 @@ export default function Home({ camps, discountCamps = [] }) {
           <Button text='Explore Now' />
         </form>
       </section>
-      <section className='bg-bleed bg-secondaryBg p-7 md:p-12 lg:p-16'>
+      <section className='bg-bleed relative bg-secondaryBg p-7 md:p-12 lg:p-16'>
+        <Image
+          src={airplanes}
+          className='absolute right-0 z-[-1] w-36 lg:right-[10%]'
+        />
         <h3 className='mb-2 text-center font-volkhov text-2xl font-extrabold md:mb-4 md:text-3xl lg:mb-6 lg:text-4xl'>
           Things you need <span className='text-brand'>to do</span>
         </h3>
@@ -185,7 +196,8 @@ export default function Home({ camps, discountCamps = [] }) {
       </section>
       {/* Discount camps */}
       {!!discountCamps.length && (
-        <section className='p-7 md:p-12 lg:p-16'>
+        <section className='relative p-7 md:p-12 lg:p-16'>
+          <Image src={trees} className='absolute top-20 right-0 lg:right-36' />
           <h3 className='mb-2 text-center font-volkhov text-2xl font-extrabold md:mb-4 md:text-3xl lg:mb-6 lg:text-4xl'>
             Exclusive <span className='text-brand'>deals & discounts</span>
           </h3>

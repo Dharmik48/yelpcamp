@@ -417,7 +417,7 @@ const CampgroundDetail = ({ campground = camp, user = null }) => {
           </div>
         )}
       </section>
-      <div className='relative'>
+      <div className='relative z-[-1]'>
         <Image src={trees} className='absolute right-0' />
         <h3 className='mb-3 font-volkhov text-2xl lg:text-3xl'>About</h3>
         <p className='max-w-full break-words lg:text-lg'>{campground?.desc}</p>

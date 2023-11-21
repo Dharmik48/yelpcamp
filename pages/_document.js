@@ -25,6 +25,38 @@ export default function Document() {
           href='/favicon-dark.ico'
           media='(prefers-color-scheme: dark)'
         />
+        {/* <!-- Primary Meta Tags --> */}
+        <meta name='title' content='YelpCamp | Campgrounds' />
+        <meta
+          name='description'
+          content='With YelpCamp you can find trustworthy reviews for campgrounds around the world!'
+        />
+
+        {/* <!-- Open Graph / Facebook --> */}
+        <meta property='og:type' content='website' />
+        <meta property='og:url' content='https://yelpcamp2.vercel.app' />
+        <meta property='og:title' content='YelpCamp | Campgrounds' />
+        <meta
+          property='og:description'
+          content='With YelpCamp you can find trustworthy reviews for campgrounds around the world!'
+        />
+        <meta
+          property='og:image'
+          content='https://yelpcamp2.vercel.app/home.png'
+        />
+
+        {/* <!-- Twitter --> */}
+        <meta property='twitter:card' content='summary_large_image' />
+        <meta property='twitter:url' content='https://yelpcamp2.vercel.app' />
+        <meta property='twitter:title' content='YelpCamp | Campgrounds' />
+        <meta
+          property='twitter:description'
+          content='With YelpCamp you can find trustworthy reviews for campgrounds around the world!'
+        />
+        <meta
+          property='twitter:image'
+          content='https://yelpcamp2.vercel.app/home.png'
+        />
       </Head>
       <body className='bg-primaryBg'>
         <Main />

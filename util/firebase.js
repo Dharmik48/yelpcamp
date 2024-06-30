@@ -4,7 +4,7 @@ import { getStorage } from 'firebase/storage'
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyBlFAWBHaCQS7umTzoRGq0RT4K1EmkX-lQ',
+  apiKey: process.env.FIREBASE_KEY,
   authDomain: 'yelpcamp2-0.firebaseapp.com',
   projectId: 'yelpcamp2-0',
   storageBucket: 'yelpcamp2-0.appspot.com',

@@ -57,7 +57,6 @@ export default function Document() {
           property='twitter:image'
           content='https://yelpcamp2.vercel.app/home.png'
         />
-        <script>!function () { if (window.t4hto4) console.log("WiserNotify pixel installed multiple time in this page"); else { window.t4hto4 = !0; var t = document, e = window, n = function () { var e = t.createElement("script"); e.type = "text/javascript", e.async = !0, e.src = "https://pt.wisernotify.com/pixel.js?ti=4e5hkm5ao0wy0", document.body.appendChild(e) }; "complete" === t.readyState ? n() : window.attachEvent ? e.attachEvent("onload", n) : e.addEventListener("load", n, !1) } }();</script>
       </Head>
       <body className='bg-primaryBg'>
         <Main />

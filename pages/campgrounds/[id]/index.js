@@ -17,6 +17,7 @@ import {
   FaWifi,
   FaCampground,
 } from 'react-icons/fa'
+import { LuBadgeCheck } from "react-icons/lu"
 // import { TbCampfire } from 'react-icons/tb'
 import {
   GiWashingMachine,
@@ -173,9 +174,12 @@ const CampgroundDetail = ({ campground = camp, user = null }) => {
       <section className='flex flex-col gap-4 py-10 lg:gap-6 lg:py-16'>
         <div className='relative'>
           <Image src={planes} className='absolute right-0 z-[-1]' />
-          <h1 className='mb-2 font-volkhov text-3xl text-brand lg:mb-4 lg:text-4xl 2xl:text-5xl'>
-            {campground?.name}
-          </h1>
+          <div className="flex gap-2">
+            <h1 className='mb-2 font-volkhov text-3xl text-brand lg:mb-4 lg:text-4xl 2xl:text-5xl'>
+              {campground?.name}
+            </h1>
+            {campground.plusExclusive && <LuBadgeCheck />}
+          </div>
           <p className='text-sm'>
             {`${campground?.location.city}, ${campground?.location.state}, ${campground?.location.country}`}{' '}
             &middot;{' '}

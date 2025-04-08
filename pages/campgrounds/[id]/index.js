@@ -16,7 +16,7 @@ import {
   FaDog,
   FaWifi,
   FaCampground,
-} from 'react-icons/fa"
+} from 'react-icons/fa'
 // import { TbCampfire } from 'react-icons/tb'
 import {
   GiWashingMachine,
